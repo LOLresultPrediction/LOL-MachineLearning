@@ -9,13 +9,13 @@ request_header = {
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
     "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
     "Origin": "https://developer.riotgames.com",
-    "X-Riot-Token": "RGAPI-8cbea5e9-d29f-4e88-9bab-18310abbc7cd"
+    "X-Riot-Token": api_key
 }
 
 # 유저 puuid 가져오기
 def get_userPuuid(summonerName):
     url = f"https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summonerName}?{api_key}"
-    return requests.get(url, headers=request_header).json()
+    return requests.get(url, headers=request_header).json()['puuid']
 
 # print(get_userPuuid('청파소나타')['puuid'])
 
@@ -45,4 +45,11 @@ def get_teamKDA(matchNum):
         teamKDA['assists'] += matchInfo['info']['participants'][i]['assists']
     return teamKDA
 
-print(get_teamKDA('KR_6710383118'))
+def get_userRecord(nickName, start, count):
+    userName = get_userPuuid(nickName)
+    gameIdList = get_gameId(userName, start, count)
+    for i in gameIdList:
+        gameKDA = get_teamKDA(i)
+        print(gameKDA)
+
+get_userRecord("청파소나타", 0, 5)
