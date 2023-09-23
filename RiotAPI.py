@@ -3,7 +3,8 @@ import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-8cbea5e9-d29f-4e88-9bab-18310abbc7cd'
+# 24일 10시 20분까지
+api_key = 'RGAPI-f28f216c-c0e5-49ea-8404-17b17f631d87'
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -29,20 +30,20 @@ def get_gameId(puuid, start, count):
 
 # 게임 정보 가져오기
 def get_gameInfo(matchId):
-    url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}/timeline"
+    url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}"
     return requests.get(url, headers=request_header).json()
 
-pp.pprint(get_gameInfo("KR_6710383118"))
+# pp.pprint(get_gameInfo("KR_6710383118"))
 
 # KDA 가져오기
 def get_teamKDA(matchId):
     matchInfo = get_gameInfo(matchId)
     teamKDA = {'kills' : 0, 'deaths' : 0, 'assists' : 0}
-    for i in range(5):
-        teamKDA['kills'] += matchInfo['info']['participants'][i]['kills']
-        teamKDA['deaths'] += matchInfo['info']['participants'][i]['deaths']
-        teamKDA['assists'] += matchInfo['info']['participants'][i]['assists']
-    return teamKDA
+    # for i in range(5):
+    #     teamKDA['kills'] += matchInfo['info']['participants'][i]['kills']
+    #     teamKDA['deaths'] += matchInfo['info']['participants'][i]['deaths']
+    #     teamKDA['assists'] += matchInfo['info']['participants'][i]['assists']
+    # return teamKDA
 
 def get_userKDARecord(nickName, start, count):
     userName = get_userPuuid(nickName)
@@ -51,4 +52,7 @@ def get_userKDARecord(nickName, start, count):
         gameKDA = get_teamKDA(i)
         print(gameKDA)
 
-get_userKDARecord("청파소나타", 0, 5)
+matchInfo = get_gameInfo("KR_6710383118")
+print(matchInfo['info']['participants'][0]['kills'])
+
+# get_userKDARecord("청파소나타", 0, 5)
