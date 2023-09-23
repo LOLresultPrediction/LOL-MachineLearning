@@ -29,15 +29,14 @@ def get_gameId(puuid, start, count):
 
 # 게임 정보 가져오기
 def get_gameInfo(matchId):
-    url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}"
-    
+    url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}/timeline"
     return requests.get(url, headers=request_header).json()
 
-# pp.pprint(match_v5_get_match_history("KR_6710383118"))
+pp.pprint(get_gameInfo("KR_6710383118"))
 
 # KDA 가져오기
-def get_teamKDA(matchNum):
-    matchInfo = get_gameInfo(matchNum)
+def get_teamKDA(matchId):
+    matchInfo = get_gameInfo(matchId)
     teamKDA = {'kills' : 0, 'deaths' : 0, 'assists' : 0}
     for i in range(5):
         teamKDA['kills'] += matchInfo['info']['participants'][i]['kills']
@@ -45,11 +44,11 @@ def get_teamKDA(matchNum):
         teamKDA['assists'] += matchInfo['info']['participants'][i]['assists']
     return teamKDA
 
-def get_userRecord(nickName, start, count):
+def get_userKDARecord(nickName, start, count):
     userName = get_userPuuid(nickName)
     gameIdList = get_gameId(userName, start, count)
     for i in gameIdList:
         gameKDA = get_teamKDA(i)
         print(gameKDA)
 
-get_userRecord("청파소나타", 0, 5)
+get_userKDARecord("청파소나타", 0, 5)
