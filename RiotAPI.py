@@ -281,5 +281,6 @@ def getDataSet(matchId, frame):
 
 
 # pp.pprint(getDataSet('KR_6709531155', 10))
-pp.pprint(tempResult('KR_6709504031', 10))
-# pp.pprint(getGameInfo('KR_6709531155')['info']['teams'])
+# pp.pprint(tempResult('KR_6709504031', 10))
+pp.pprint(getGameInfo('KR_6709531155')[0]['info']['teams'])
+# pp.pprint(getGameInfo('KR_6709531155').keys())
