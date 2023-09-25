@@ -125,7 +125,8 @@ def getDataSet(matchId, frame):
                     'wardKillerId' : [],
                     'inhibitorBreakerId' : [],
                     'towerBreakerId' : [],
-                    'dragonKill' : []}
+                    'dragonKill' : [],
+                    'riftheraldKill' : []}
     loseTeamValue = {'level' : [], 
                      'minionsKilled' : [], 
                      'jungleMinionsKilled' : [], 
@@ -134,7 +135,8 @@ def getDataSet(matchId, frame):
                      'wardKillerId' : [],
                      'inhibitorBreakerId' : [],
                      'towerBreakerId' : [],
-                     'dragonKill' : []}
+                     'dragonKill' : [],
+                     'riftheraldKill' : []}
 
     # 킬, 어시스트 유저 assistingParticipantId 구하기
     for i in range(frame):
@@ -157,14 +159,14 @@ def getDataSet(matchId, frame):
                 wardCreatorId = events[j]['creatorId']
                 if wardCreatorId in winTeamMember:
                     winTeamValue['wardCreatorId'].append(wardCreatorId)
-                if wardCreatorId in loseTeamMember:
+                elif wardCreatorId in loseTeamMember:
                     loseTeamValue['wardCreatorId'].append(wardCreatorId)
             # 와드 파괴
             if  events[j]['type'] == 'WARD_KILL':
                 wardKillerId = events[j]['killerId']
                 if wardCreatorId in winTeamMember:
                     winTeamValue['wardKillerId'].append(wardKillerId)
-                if wardCreatorId in loseTeamMember:
+                elif wardCreatorId in loseTeamMember:
                     loseTeamValue['wardKillerId'].append(wardKillerId)
             # 구조물 파괴
             if events[j]['type'] == 'BUILDING_KILL':
@@ -173,26 +175,34 @@ def getDataSet(matchId, frame):
                     buildingKillerId = events[j]['killerId']
                     if buildingKillerId in winTeamMember:
                         winTeamValue['inhibitorBreakerId'].append(buildingKillerId)
-                    if buildingKillerId in loseTeamMember:
+                    elif buildingKillerId in loseTeamMember:
                         loseTeamValue['inhibitorBreakerId'].append(buildingKillerId)
                 # 타워
                 if events[j]['buildingType'] == 'TOWER_BUILDING':
                     buildingKillerId = events[j]['killerId']
                     if buildingKillerId in winTeamMember:
                         winTeamValue['towerBreakerId'].append(buildingKillerId)
-                    if buildingKillerId in loseTeamMember:
+                    elif buildingKillerId in loseTeamMember:
                         loseTeamValue['towerBreakerId'].append(buildingKillerId)
             # 엘리트 몬스터 킬
             if events[j]['type'] == 'ELITE_MONSTER_KILL':
+                # 드래곤
                 if events[j]['monsterType'] == 'DRAGON':
-                    buildingKillerId = events[j]['killerId']
+                    mosterKillerId = events[j]['killerId']
                     dragonType = events[j]['monsterSubType']
                     dragonKillTimestamp = events[j]['timestamp']
                     dragonKillInfo = [dragonKillTimestamp, dragonType]
-                    if buildingKillerId in winTeamMember:
+                    if mosterKillerId in winTeamMember:
                         winTeamValue['dragonKill'].append(dragonKillInfo)
-                    if buildingKillerId in loseTeamMember:
+                    elif mosterKillerId in loseTeamMember:
                         loseTeamValue['dragonKill'].append(dragonKillInfo)
+                if events[j]['monsterType'] == 'RIFTHERALD':
+                    mosterKillerId = events[j]['killerId']
+                    riftheraldKillTimestamp = events[j]['timestamp']
+                    if mosterKillerId in winTeamMember:
+                        winTeamValue['riftheraldKill'].append(riftheraldKillTimestamp)
+                    elif mosterKillerId in loseTeamMember:
+                        loseTeamValue['riftheraldKill'].append(riftheraldKillTimestamp)
 
 
     # 레벨, 미니언 킬, 정글몹 킬 구하기
@@ -216,7 +226,7 @@ def getDataSet(matchId, frame):
     dataSet['diffWardKillScore'] = len(winTeamValue['wardKillerId']) - len(loseTeamValue['wardKillerId'])
     dataSet['diffInhibitorBreakScore'] = len(winTeamValue['inhibitorBreakerId']) - len(loseTeamValue['inhibitorBreakerId'])
     dataSet['diffTowerBreakScore'] = len(winTeamValue['towerBreakerId']) - len(loseTeamValue['towerBreakerId'])
-    # 첫 용을 먹은 팀의 승패 여부에 따라 
+    # 첫 용을 먹은 팀
     if not loseTeamValue['dragonKill']:
         dataSet['fistDragon'] = 'winTeam'
     elif not winTeamValue['dragonKill']:
@@ -226,6 +236,16 @@ def getDataSet(matchId, frame):
             dataSet['fistDragon'] = 'winTeam'
         else:
             dataSet['fistDragon'] = 'loseTeam'
+    # 첫 전령을 먹은 팀
+    if not loseTeamValue['riftheraldKill']:
+        dataSet['firstRiftherald'] = 'winTeam'
+    elif not winTeamValue['dragonKill']:
+        dataSet['firstRiftherald'] = 'loseTeam'
+    else:
+        if winTeamValue['riftheraldKill'][0] < loseTeamValue['riftheraldKill'][0]:
+            dataSet['firstRiftherald'] = 'winTeam'
+        else:
+            dataSet['firstRiftherald'] = 'loseTeam'
 
         
     # else:
