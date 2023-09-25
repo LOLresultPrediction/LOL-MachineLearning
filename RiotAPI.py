@@ -85,31 +85,109 @@ def getTeamKDARecord(nickName, start, count):
 
 
 # 게임 정보 확인
-# matchId = 'KR_6709531155'
-# pp.pprint(getGameInfo(matchId)['info']['participants'][4]['championName'])
-# pp.pprint(getGameInfo(matchId)['info']['participants'][2]['summonerName'])
+# matchId = 'KR_6709504031'
+# pp.pprint(getGameInfo(matchId)['info']['participants'][1]['championName'])
+# pp.pprint(getGameInfo(matchId)['info']['participants'][1]['summonerName'])
 # pp.pprint(getGameInfo(matchId)['info']['participants'][0]['kills'])
 # pp.pprint(getGameInfo(matchId)['info']['participants'][0]['deaths'])
 
 
-# 게임 시작 후 10분 후 레벨 차이
-def diffLevel(matchId):
-    # matchId = 'KR_6709504031'
-    chamLevel = getGameInfoTimeline(matchId)['info']['frames'][10]['participantFrames']
-    teamId = getGameInfo(matchId)['info']['participants']
-    winTeamList = []
-    loseTeamList = []
+
+
+# --------------------------------------------------------------------10분 후 게임 데이터------------------------------------------------------------------------------------
+
+# 승리 팀, 패배 팀 participantId로 나누기
+def teamClassfication(matchId):
+    gameInfo = getGameInfo(matchId)['info']['participants']
+    winTeamMember = []
+    loseTeamMember = []
     for i in range(1, 11):
-        if teamId[i-1]['win'] == True:
-            winTeamList.append(chamLevel[str(i)]['level'])
-        elif teamId[i-1]['win'] == False:
-            loseTeamList.append(chamLevel[str(i)]['level'])
-    npWinTeamList = np.array(winTeamList)
-    npLoseTeamLsit = np.array(loseTeamList)
-    # print(winTeamList)
-    # print(loseTeamList)
-    # print("게임 시작 10분 후 레벨 차이 : ", npWinTeamList - npLoseTeamLsit)
+        if gameInfo[i-1]['win'] == True:
+            winTeamMember.append(gameInfo[i-1]['participantId'])
+        elif gameInfo[i-1]['win'] == False:
+            loseTeamMember.append(gameInfo[i-1]['participantId'])
 
-    return npWinTeamList - npLoseTeamLsit
+    return winTeamMember, loseTeamMember
 
-print(diffLevel('KR_6709504031'))
+
+# 게임 시작 10분 후의 데이터 셋 (탑, 정글, 미드, 원딜, 서폿)
+def getDataSet(matchId, frame):
+    # matchId = 'KR_6709504031'
+    gameInfo = getGameInfoTimeline(matchId)['info']['frames']
+    # gameInfo = getGameInfo(matchId)['info']['participants']
+    winTeamMember, loseTeamMember = teamClassfication(matchId)
+    dataSet = {}
+    winTeam = {'level' : [], 'minionsKilled' : [], 'jungleMinionsKilled' : [], 'killInfo' : {'killerId' : [], 'assistId' : []}}
+    loseTeam = {'level' : [], 'minionsKilled' : [], 'jungleMinionsKilled' : [], 'killInfo' : {'killerId' : [], 'assistId' : []}}
+
+    # 킬, 어시스트 유저 assistingParticipantId 구하기
+    for i in range(frame):
+        events = gameInfo[i]['events']
+        for j in range(len(events)):
+            if 'CHAMPION_KILL' in events[j]['type']:
+                killerId = events[j]['killerId']
+                assistId = None
+                if 'assistingParticipantIds' in events[j]:
+                    assistId = events[j]['assistingParticipantIds']
+                if killerId in winTeamMember:
+                    winTeam['killInfo']['killerId'].append(killerId)
+                    winTeam['killInfo']['assistId'].append(assistId)
+                elif killerId in loseTeamMember:
+                    loseTeam['killInfo']['killerId'].append(killerId)
+                    loseTeam['killInfo']['assistId'].append(assistId)
+                    
+    # level, minionsKill, jungleMinionsKill 구하기
+    for i in range(1, 11):
+        participantFrames = gameInfo[frame]['participantFrames'][str(i)]
+        if i in winTeamMember:
+            winTeam['level'].append(participantFrames['level'])
+            winTeam['minionsKilled'].append(participantFrames['minionsKilled'])
+            winTeam['jungleMinionsKilled'].append(participantFrames['jungleMinionsKilled'])
+        elif i in loseTeamMember:
+            loseTeam['level'].append(participantFrames['level'])
+            loseTeam['minionsKilled'].append(participantFrames['minionsKilled'])
+            loseTeam['jungleMinionsKilled'].append(participantFrames['jungleMinionsKilled'])
+    dataSet['diffLevel'] = np.array(winTeam['level']) - np.array(loseTeam['level'])
+    dataSet['diffMinionsKilled'] = np.array(winTeam['minionsKilled']) - np.array(loseTeam['minionsKilled'])
+    dataSet['diffJungleMinionsKilled'] = np.array(winTeam['jungleMinionsKilled']) - np.array(loseTeam['jungleMinionsKilled'])
+    dataSet['diffKillScore'] = len(winTeam['killInfo']['killerId']) - len(loseTeam['killInfo']['killerId'])
+    # winTeamAssist = sum(len(i) for i in winTeam['killInfo']['assistId'] if i != None)
+    # loseTeamAssist = sum(len(i) for i in winTeam['killInfo']['assistId'] if i != None)
+    dataSet['diffAssistScore'] = sum(len(i) for i in winTeam['killInfo']['assistId'] if i != None) - sum(len(i) for i in loseTeam['killInfo']['assistId'] if i != None)
+    print('winTeam : ', winTeam)
+    print('loseTeam : ', loseTeam)
+    return dataSet
+
+
+
+
+print(getDataSet('KR_6710383118', 10))
+
+
+# [0]['participantId']
+# teamId[1]['win']
+# pp.pprint(teamId)
+
+
+# gameInfo = getGameInfo('KR_6709531155')['info']['participants']
+# killInfo = {}
+# for i in range(11):
+#     event = getGameInfoTimeline('KR_6710383118')['info']['frames'][i]['events']
+#     for j in range(len(event)):
+#         if 'CHAMPION_KILL' in event[j]['type']:
+#             timeStamp = event[j]['timestamp']
+#             assistingParticipantIds = None
+#             if 'assistingParticipantIds' in event[j]:
+#                 assistingParticipantIds = event[j]['assistingParticipantIds']
+#             killerId = event[j]['killerId']
+#             killInfo[timeStamp, killerId] = assistingParticipantIds
+
+#             # print(assistingParticipantIds)
+# print(killInfo)
+
+            # if gameInfo[killerId]
+    # if 'killerId' in event:
+    #     pp.pprint(event['killerId'].keys())
+
+# event = getGameInfoTimeline('KR_6709504031')['info']['frames'][10]['events']
+# pp.pprint(event[10])
