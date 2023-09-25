@@ -1,10 +1,10 @@
 import requests
 import pprint
+import numpy as np
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
-# 24일 10시 20분까지
-api_key = 'RGAPI-f28f216c-c0e5-49ea-8404-17b17f631d87'
+api_key = 'RGAPI-60b643c9-a962-4629-a99c-84c1c3342849'
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -21,21 +21,32 @@ def getUserPuuid(summonerName):
 
 
 # 게임 match_id 찾기
-def getGameId(puuid, start, count):
+def getMatchId(puuid, start, count):
     url = f"https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start={start}&count={count}"
     return requests.get(url, headers=request_header).json()
-# pp.pprint(getGameId("P4Ri8HBanEdTxQeT2cQS1MIN8RFQxaSukyHtFScjRLvUlzVMReZn_Rhzgzxr_HpZjxE_ah3fy4xaiA", 0, 10))
+# pp.pprint(getMatchId("P4Ri8HBanEdTxQeT2cQS1MIN8RFQxaSukyHtFScjRLvUlzVMReZn_Rhzgzxr_HpZjxE_ah3fy4xaiA", 0, 10))
 
 # 게임 정보 가져오기
 def getGameInfo(matchId):
     url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}"
     return requests.get(url, headers=request_header).json()
-# pp.pprint(get_gameInfo("KR_6710383118"))
+# pp.pprint(getGameInfo("KR_6710383118"))
 
 # 타임라인으로 게임 정보 가져오기
 def getGameInfoTimeline(matchId):
     url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}/timeline"
     return requests.get(url, headers=request_header).json()
+
+# pp.pprint(getGameInfoTimeline('KR_6709504031')['info']['frames'][10]['participantFrames'])
+
+# pp.pprint(getGameInfoTimeline('KR_6709504031')['info']['frames'][10]['participantFrames']['1']['level'])
+
+
+# for i in range(1, 11):
+#     pp.pprint(getGameInfoTimeline('KR_6709504031')['info']['frames'][10]['participantFrames'][str(i)]['totalGold'])
+
+# pp.pprint(getGameInfoTimeline('KR_6709504031')['info'].keys())
+
 
 # KDA 가져오기
 def getTeamKDA(matchId):
@@ -58,18 +69,47 @@ def getTeamKDA(matchId):
             gameResult['lose']['assists'] += gameInfo['info']['participants'][i]['assists']
     return gameResult
 # pp.pprint(getGameInfo('KR_6709504031')['info']['participants'][0]['championName'])
-# for i in range(10):
-#     print(getGameInfo('KR_6709504031')['info']['participants'][i]['win'])
 
 # nickName의 start번째 경기부터 count개 경기의 팀 KDA 합 가져오기  (gameKDA{}에 넣을 때 역으로 반전됨)
 # 리턴값 == {게임코드 : {우리 팀}, {상대팀}}
 def getTeamKDARecord(nickName, start, count):
     userName = getUserPuuid(nickName)
-    gameIdList = getGameId(userName, start, count)
+    matchIdList = getMatchId(userName, start, count)
     gameKDA = {}
-    for i in gameIdList:
+    for i in matchIdList:
         gameKDA[i] = getTeamKDA(i)
     return gameKDA
 
 # pp.pprint(getTeamKDARecord("청파소나타", 0, 5))
-print(getTeamKDA('KR_6709504031'))
+# print(getTeamKDA('KR_6709504031'))
+
+
+# 게임 정보 확인
+# matchId = 'KR_6709531155'
+# pp.pprint(getGameInfo(matchId)['info']['participants'][4]['championName'])
+# pp.pprint(getGameInfo(matchId)['info']['participants'][2]['summonerName'])
+# pp.pprint(getGameInfo(matchId)['info']['participants'][0]['kills'])
+# pp.pprint(getGameInfo(matchId)['info']['participants'][0]['deaths'])
+
+
+# 게임 시작 후 10분 후 레벨 차이
+def diffLevel(matchId):
+    # matchId = 'KR_6709504031'
+    chamLevel = getGameInfoTimeline(matchId)['info']['frames'][10]['participantFrames']
+    teamId = getGameInfo(matchId)['info']['participants']
+    winTeamList = []
+    loseTeamList = []
+    for i in range(1, 11):
+        if teamId[i-1]['win'] == True:
+            winTeamList.append(chamLevel[str(i)]['level'])
+        elif teamId[i-1]['win'] == False:
+            loseTeamList.append(chamLevel[str(i)]['level'])
+    npWinTeamList = np.array(winTeamList)
+    npLoseTeamLsit = np.array(loseTeamList)
+    # print(winTeamList)
+    # print(loseTeamList)
+    # print("게임 시작 10분 후 레벨 차이 : ", npWinTeamList - npLoseTeamLsit)
+
+    return npWinTeamList - npLoseTeamLsit
+
+print(diffLevel('KR_6709504031'))
