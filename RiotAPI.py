@@ -4,7 +4,7 @@ import numpy as np
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-60b643c9-a962-4629-a99c-84c1c3342849'
+api_key = 'RGAPI-a09c11c3-9931-48bb-8f87-03b86e9a931f'
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -59,11 +59,57 @@ def tempResult(matchId, frame):
                     'towerBreakerId' : [],
                     'dragonKill' : [],
                     'riftheraldKill' : []}
-    loseTeamValue = {'inhibitorBreakerId' : [],
+    loseTeamValue = {'level' : [], 
+                     'minionsKilled' : [], 
+                     'jungleMinionsKilled' : [], 
+                     'killInfo' : {'killerId' : [], 'assistId' : []}, 
+                     'wardCreatorId' : [], 
+                     'wardKillerId' : [],
+                     'inhibitorBreakerId' : [],
                      'towerBreakerId' : [],
                      'dragonKill' : [],
                      'riftheraldKill' : []}
     dataSet = {}
+    for i in range(frame):
+        events = gameInfo[i]['events']
+        for j in range(len(events)):
+            # 킬/어시
+            if events[j]['type'] == 'CHAMPION_KILL':
+                killerId = events[j]['killerId']
+                assistId = None
+                if 'assistingParticipantIds' in events[j]:
+                    assistId = events[j]['assistingParticipantIds']
+                if killerId in winTeamMember:
+                    winTeamValue['killInfo']['killerId'].append(killerId)
+                    winTeamValue['killInfo']['assistId'].append(assistId)
+                elif killerId in loseTeamMember:
+                    loseTeamValue['killInfo']['killerId'].append(killerId)
+                    loseTeamValue['killInfo']['assistId'].append(assistId)
+            # 와드 설치
+            if  events[j]['type'] == 'WARD_PLACED':
+                wardCreatorId = events[j]['creatorId']
+                if wardCreatorId in winTeamMember:
+                    winTeamValue['wardCreatorId'].append(wardCreatorId)
+                elif wardCreatorId in loseTeamMember:
+                    loseTeamValue['wardCreatorId'].append(wardCreatorId)
+            # 와드 파괴
+            if  events[j]['type'] == 'WARD_KILL':
+                wardKillerId = events[j]['killerId']
+                if wardCreatorId in winTeamMember:
+                    winTeamValue['wardKillerId'].append(wardKillerId)
+                elif wardCreatorId in loseTeamMember:
+                    loseTeamValue['wardKillerId'].append(wardKillerId)
+    # 레벨, 미니언 킬, 정글몹 킬 구하기
+    for i in range(1, 11):
+        participantFrames = gameInfo[frame]['participantFrames'][str(i)]
+        if i in winTeamMember:
+            winTeamValue['level'].append(participantFrames['level'])
+            winTeamValue['minionsKilled'].append(participantFrames['minionsKilled'])
+            winTeamValue['jungleMinionsKilled'].append(participantFrames['jungleMinionsKilled'])
+        elif i in loseTeamMember:
+            loseTeamValue['level'].append(participantFrames['level'])
+            loseTeamValue['minionsKilled'].append(participantFrames['minionsKilled'])
+            loseTeamValue['jungleMinionsKilled'].append(participantFrames['jungleMinionsKilled'])
     for i in range(frame):
         events = gameInfo[i]['events']
         for j in range(len(events)):
@@ -102,6 +148,14 @@ def tempResult(matchId, frame):
                         winTeamValue['riftheraldKill'].append(riftheraldKillTimestamp)
                     elif mosterKillerId in loseTeamMember:
                         loseTeamValue['riftheraldKill'].append(riftheraldKillTimestamp)
+    dataSet['Diff_LV'] = sum(np.array(winTeamValue['level']) - np.array(loseTeamValue['level']))
+    dataSet['Diff_CS'] = sum(np.array(winTeamValue['minionsKilled']) - np.array(loseTeamValue['minionsKilled']))
+    dataSet['Diff_jglCS'] = sum(np.array(winTeamValue['jungleMinionsKilled']) - np.array(loseTeamValue['jungleMinionsKilled']))
+    # 0번 인덱스의 diffKillScore에 관한 어시스트는 diffAssistScore의 0번 인덱스임
+    dataSet['Diff-K'] = len(winTeamValue['killInfo']['killerId']) - len(loseTeamValue['killInfo']['killerId'])
+    dataSet['Diff-A'] = sum(len(i) for i in winTeamValue['killInfo']['assistId'] if i != None) - sum(len(i) for i in loseTeamValue['killInfo']['assistId'] if i != None)
+    dataSet['Diff_WARDplaced'] = len(winTeamValue['wardCreatorId']) - len(loseTeamValue['wardCreatorId'])
+    dataSet['Diff_WARDkill'] = len(winTeamValue['wardKillerId']) - len(loseTeamValue['wardKillerId'])
     dataSet['diffInhibitorBreakScore'] = len(winTeamValue['inhibitorBreakerId']) - len(loseTeamValue['inhibitorBreakerId'])
     dataSet['diffTowerBreakScore'] = len(winTeamValue['towerBreakerId']) - len(loseTeamValue['towerBreakerId'])
     # 첫 용을 먹은 팀
@@ -128,8 +182,8 @@ def tempResult(matchId, frame):
             dataSet['firstRiftherald'] = 'winTeam'
         else:
             dataSet['firstRiftherald'] = 'loseTeam'
-    pp.pprint(winTeamValue)
-    pp.pprint(loseTeamValue)
+    # pp.pprint(winTeamValue)
+    # pp.pprint(loseTeamValue)
     return dataSet
 
 # 승리 팀, 패배 팀 participantId로 나누기
@@ -255,32 +309,32 @@ def getDataSet(matchId, frame):
             loseTeamValue['minionsKilled'].append(participantFrames['minionsKilled'])
             loseTeamValue['jungleMinionsKilled'].append(participantFrames['jungleMinionsKilled'])
     
-    dataSet['diffLevel'] = sum(np.array(winTeamValue['level']) - np.array(loseTeamValue['level']))
-    dataSet['diffMinionsKilled'] = sum(np.array(winTeamValue['minionsKilled']) - np.array(loseTeamValue['minionsKilled']))
-    dataSet['diffJungleMinionsKilled'] = sum(np.array(winTeamValue['jungleMinionsKilled']) - np.array(loseTeamValue['jungleMinionsKilled']))
+    dataSet['Diff_LV'] = sum(np.array(winTeamValue['level']) - np.array(loseTeamValue['level']))
+    dataSet['Diff_CS'] = sum(np.array(winTeamValue['minionsKilled']) - np.array(loseTeamValue['minionsKilled']))
+    dataSet['Diff_jglCS'] = sum(np.array(winTeamValue['jungleMinionsKilled']) - np.array(loseTeamValue['jungleMinionsKilled']))
     # 0번 인덱스의 diffKillScore에 관한 어시스트는 diffAssistScore의 0번 인덱스임
-    dataSet['diffKillScore'] = len(winTeamValue['killInfo']['killerId']) - len(loseTeamValue['killInfo']['killerId'])
-    dataSet['diffAssistScore'] = sum(len(i) for i in winTeamValue['killInfo']['assistId'] if i != None) - sum(len(i) for i in loseTeamValue['killInfo']['assistId'] if i != None)
-    dataSet['diffWardCreateScore'] = len(winTeamValue['wardCreatorId']) - len(loseTeamValue['wardCreatorId'])
-    dataSet['diffWardKillScore'] = len(winTeamValue['wardKillerId']) - len(loseTeamValue['wardKillerId'])
-    dataSet['firstInhibitorKill'] = whoFirstGet(firstObjectInfo, 'inhibitor')
-    dataSet['firstTowerBreak'] = whoFirstGet(firstObjectInfo, 'tower')
-    dataSet['firstDragonKill'] = whoFirstGet(firstObjectInfo, 'dragon')
-    dataSet['firstRiftherald'] = whoFirstGet(firstObjectInfo, 'riftHerald')
-    dataSet['firstKill'] = whoFirstGet(firstObjectInfo, 'champion')
+    dataSet['Diff-K'] = len(winTeamValue['killInfo']['killerId']) - len(loseTeamValue['killInfo']['killerId'])
+    dataSet['Diff-A'] = sum(len(i) for i in winTeamValue['killInfo']['assistId'] if i != None) - sum(len(i) for i in loseTeamValue['killInfo']['assistId'] if i != None)
+    dataSet['Diff_WARDplaced'] = len(winTeamValue['wardCreatorId']) - len(loseTeamValue['wardCreatorId'])
+    dataSet['Diff_WARDkill'] = len(winTeamValue['wardKillerId']) - len(loseTeamValue['wardKillerId'])
+    dataSet['Diff_FirstDRAGON'] = whoFirstGet(firstObjectInfo, 'dragon')
+    dataSet['Diff_Inhibitor'] = whoFirstGet(firstObjectInfo, 'inhibitor')
+    dataSet['Diff_FirstHERALD'] = whoFirstGet(firstObjectInfo, 'riftHerald')
+    dataSet['Diff_Firsttower'] = whoFirstGet(firstObjectInfo, 'tower')
+    dataSet['Diff_FirstBLOOD'] = whoFirstGet(firstObjectInfo, 'champion')
     # dataSet['fistTower'] = whoFirstGet('riftheraldKill', winTeamValue, loseTeamValue)
     # if firstObjectInfo[0]['objectives']['dragon']:
     #     dataSet['fistDragonKill'] = firstObjectInfo[0]['win']
     # elif firstObjectInfo[1]['objectives']['dragon']:
     #     dataSet['fistDragonKill'] = firstObjectInfo[1]['win']
-    print(winTeamValue)
-    print(loseTeamValue)
+    # print(winTeamValue)
+    # print(loseTeamValue)
     
     return dataSet
 
 
 
-# pp.pprint(getDataSet('KR_6709531155', 10))
-# pp.pprint(tempResult('KR_6709504031', 10))
-pp.pprint(getGameInfo('KR_6709531155')[0]['info']['teams'])
-# pp.pprint(getGameInfo('KR_6709531155').keys())
+pp.pprint(getDataSet('KR_6708057039', 10))
+pp.pprint(tempResult('KR_6708057039', 10))
+# pp.pprint(getGameInfo('KR_6708057039')['info']['participants'][0])
+# pp.pprint(getGameInfoTimeline('KR_6709531155').keys())
