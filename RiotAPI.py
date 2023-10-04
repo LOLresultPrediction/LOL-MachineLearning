@@ -4,7 +4,7 @@ import numpy as np
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-60b643c9-a962-4629-a99c-84c1c3342849'
+api_key = 'RGAPI-887c4dda-af42-4fc1-aa2d-a14186f134cc'
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -13,12 +13,16 @@ request_header = {
     "X-Riot-Token": api_key
 }
 
-# 유저 puuid 가져오기
+# 소환사명으로 유저 puuid 가져오기
 def getUserPuuid(summonerName):
     url = f"https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summonerName}?{api_key}"
     return requests.get(url, headers=request_header).json()['puuid']
 # print(get_userPuuid('청파소나타')['puuid'])
 
+# SummonerId로 유저 puuid 가져오기
+def getUserPuuidBySummonerId(SummonerId):
+    url = f"https://kr.api.riotgames.com/lol/summoner/v4/summoners/{SummonerId}?{api_key}"
+    return requests.get(url, headers=request_header).json()['puuid']
 
 # 게임 match_id 찾기
 def getMatchId(puuid, start, count):
@@ -256,7 +260,7 @@ def getDataSet(matchId, frame):
 
 
 
-pp.pprint(getDataSet('KR_6709504031', 15))
+pp.pprint(getDataSet('KR_6710383118', 15))
 
 
 # [0]['participantId']
