@@ -21,6 +21,10 @@ def getUserPuuid(summonerName):
     return requests.get(url, headers=request_header).json()['puuid']
 # print(get_userPuuid('청파소나타')['puuid'])
 
+# SummonerId로 유저 puuid 가져오기
+def getUserPuuidBySummonerId(SummonerId):
+    url = f"https://kr.api.riotgames.com/lol/summoner/v4/summoners/{SummonerId}?{api_key}"
+    return requests.get(url, headers=request_header).json()['puuid']
 
 # 게임 match_id 찾기
 def getMatchId(puuid, start, count):
