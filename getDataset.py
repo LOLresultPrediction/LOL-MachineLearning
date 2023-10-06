@@ -4,8 +4,10 @@ import getAPI
 import etcFunction as ef
 pp = pprint.PrettyPrinter(indent=4)
 
-
-# 게임 시작 10분 후의 데이터 셋 (타워, 오브젝트 등은 게임 결과 API에서 가져옴)
+'''
+게임 시작 10분 후의 데이터 셋 (타워, 오브젝트 등은 게임 결과 API에서 가져옴)
+timestamp 100,000 = 100초
+'''
 def getDataSet(matchId, frame):
     # matchId = 'KR_6709504031'
     gameInfo = getAPI.getGameInfoTimeline(matchId)['info']['frames']
@@ -86,14 +88,17 @@ def getDataSet(matchId, frame):
             if events[j]['type'] == 'ELITE_MONSTER_KILL':
                 # 드래곤
                 if events[j]['monsterType'] == 'DRAGON':
-                    mosterKillerId = events[j]['killerId']
-                    dragonType = events[j]['monsterSubType']
+                    # mosterKillerId = events[j]['killerId']
                     dragonKillTimestamp = events[j]['timestamp']
-                    dragonKillInfo = [dragonKillTimestamp, dragonType]
-                    if mosterKillerId in winTeamMember:
-                        winTeamValue['dragonKill'].append(dragonKillInfo)
-                    elif mosterKillerId in loseTeamMember:
-                        loseTeamValue['dragonKill'].append(dragonKillInfo)
+                    dragonType = None
+                    if dragonKillTimestamp <= (frame*60000):
+                        dragonType = events[j]['monsterSubType']
+                        dataSet['DragonKind'] = dragonType
+                        # dragonKillInfo = dragonType
+                        # if mosterKillerId in winTeamMember:
+                        #     winTeamValue['dragonKill'].append(dragonKillInfo)
+                        # elif mosterKillerId in loseTeamMember:
+                        #     loseTeamValue['dragonKill'].append(dragonKillInfo)
 
     # 레벨, 미니언 킬, 정글몹 킬 구하기
     for i in range(1, 11):
@@ -121,6 +126,7 @@ def getDataSet(matchId, frame):
     dataSet['Diff_Firsttower'] = ef.whoFirstGet(firstObjectInfo, 'tower')
     dataSet['Diff_FirstBLOOD'] = ef.whoFirstGet(firstObjectInfo, 'champion')
 
+    # print(dragonKillInfo)
     # print(winTeamValue)
     # print(loseTeamValue)
     
