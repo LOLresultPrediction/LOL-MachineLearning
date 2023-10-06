@@ -7,7 +7,7 @@ challengerMatchIdSet = set()
 
 # 챌린저 소환사 정보 가져오기
 def getChallengerEntries():
-    url = f"https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key{RiotAPI.api_key}"
+    url = f"https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key{getAPI.api_key}"
     return requests.get(url, headers=getAPI.request_header).json()['entries']
 
 # 챌린저 소환사 Puuid 가져오기
