@@ -122,6 +122,8 @@ def tempResult(matchId, frame):
     dataSet['Diff_WARDkill'] = len(winTeamValue['wardKillerId']) - len(loseTeamValue['wardKillerId'])
     dataSet['Diff_Inhibitor'] = len(winTeamValue['inhibitorBreakerId']) - len(loseTeamValue['inhibitorBreakerId'])
     dataSet['Diff_Firsttower'] = len(winTeamValue['towerBreakerId']) - len(loseTeamValue['towerBreakerId'])
+    print(winTeamValue['towerBreakerId'])
+    print(loseTeamValue['towerBreakerId'])
     # 첫 용을 먹은 팀
     if not loseTeamValue['dragonKill'] and not winTeamValue['dragonKill']:
         dataSet['Diff_FirstDRAGON'] = None
