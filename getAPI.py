@@ -42,3 +42,8 @@ def getGameInfo(matchId):
 def getGameInfoTimeline(matchId):
     url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}/timeline"
     return requests.get(url, headers=request_header).json()
+
+# 챌린저 소환사 정보 가져오기
+def getChallengerEntries():
+    url = f"https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key{api_key}"
+    return requests.get(url, headers=request_header).json()['entries']
