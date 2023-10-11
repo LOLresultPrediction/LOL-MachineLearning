@@ -6,7 +6,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-7e9c3d38-30c3-4ded-9e49-e740fdce1bf6'
+api_key = 'RGAPI-52f566c1-026b-4e7c-87f7-037d212bb8b1'
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -14,6 +14,7 @@ request_header = {
     "Origin": "https://developer.riotgames.com",
     "X-Riot-Token": api_key
 }
+
 
 # 유저 puuid 가져오기
 def getUserPuuid(summonerName):
@@ -42,3 +43,6 @@ def getGameInfo(matchId):
 def getGameInfoTimeline(matchId):
     url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}/timeline"
     return requests.get(url, headers=request_header).json()
+
+
+
