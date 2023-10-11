@@ -130,4 +130,7 @@ def getDataSet(matchId, frame):
     # print(winTeamValue)
     # print(loseTeamValue)
     
+    
     return dataSet
+# dataSet = getDataSet("KR_6710383118", 10)
+# pp.pprint(dataSet)
