@@ -66,7 +66,6 @@ def tempResult(matchId, frame):
             # 자이라의 식물도 와드로 식별됨.. 아마?
             if events[j]['type'] == 'WARD_PLACED':
                 wardCreatorId = events[j]['creatorId']
-                print(wardCreatorId)
                 if wardCreatorId in winTeamMember:
                     winTeamValue['wardCreatorId'].append(wardCreatorId)
                 elif wardCreatorId in loseTeamMember:
@@ -133,8 +132,8 @@ def tempResult(matchId, frame):
     dataSet['Diff-K'] = len(winTeamValue['killInfo']['killerId']) - len(loseTeamValue['killInfo']['killerId'])
     dataSet['Diff-A'] = sum(len(i) for i in winTeamValue['killInfo']['assistId'] if i != None) - sum(len(i) for i in loseTeamValue['killInfo']['assistId'] if i != None)
     dataSet['Diff_WARDplaced'] = len(winTeamValue['wardCreatorId']) - len(loseTeamValue['wardCreatorId'])
-    print(winTeamValue['wardCreatorId'])
-    print(loseTeamValue['wardCreatorId'])
+    # print(winTeamValue['wardCreatorId'])
+    # print(loseTeamValue['wardCreatorId'])
     dataSet['Diff_WARDkill'] = len(winTeamValue['wardKillerId']) - len(loseTeamValue['wardKillerId'])
     dataSet['Diff_Inhibitor'] = len(winTeamValue['inhibitorBreakerId']) - len(loseTeamValue['inhibitorBreakerId'])
     dataSet['result'] = 1
