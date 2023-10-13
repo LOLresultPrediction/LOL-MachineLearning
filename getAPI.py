@@ -6,7 +6,11 @@ pp = pprint.PrettyPrinter(indent=4)
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
+<<<<<<< HEAD
 api_key = 'RGAPI-b36aa8d8-6b4c-41bd-8890-fcbe8c139568'
+=======
+api_key = 'RGAPI-52f566c1-026b-4e7c-87f7-037d212bb8b1'
+>>>>>>> 509dd97a7e26fe486630235a45324b6e410b9686
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -45,6 +49,7 @@ def getGameInfoTimeline(matchId):
 
 # 챌린저 소환사 정보 가져오기
 def getChallengerEntries():
+<<<<<<< HEAD
     url = f"https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key={api_key}"
     return requests.get(url, headers=request_header).json()['entries']
 
@@ -69,3 +74,12 @@ def getPlatinumEntries(tier="IV", page=1):
     url = f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/PLATINUM/{tier}?page={page}&api_key{api_key}"
     return requests.get(url, headers=request_header).json()
     
+=======
+    url = f"https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key{api_key}"
+    return requests.get(url, headers=request_header).json()['entries']
+
+# #print(getChallengerEntries())
+# print(getUserPuuid('BRO Morgan'))
+# #BRO Morgan
+# print(getMatchId('SAHqMCotWN0cg7n7pCDt4O7fLSnZAAttaN9CFhdSLvQoRk4aCCBGdC2fI2ON2WnMnMBtprwkj6mULQ',0,15))
+>>>>>>> 509dd97a7e26fe486630235a45324b6e410b9686
