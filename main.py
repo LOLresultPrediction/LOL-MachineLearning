@@ -3,6 +3,7 @@ import numpy as np
 import getAPI
 import getRealDataset
 import getDataset
+import getMatchId
 pp = pprint.PrettyPrinter(indent=4)
 
 
@@ -22,6 +23,9 @@ pp = pprint.PrettyPrinter(indent=4)
 'KR_6704954051']
 '''
 if __name__ == "__main__":
+    # 챌린저 매치 ID 가져오기
+    print(len(getMatchId.getChallengerMatchId()))
+
     pp.pprint(getRealDataset.tempResult('KR_6704954051', 16))
     # gameTimelineInfo = getAPI.getGameInfoTimeline('KR_6708057039')
     # gameInfo = getAPI.getGameInfo('KR_6709906475')
