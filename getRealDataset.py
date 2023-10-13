@@ -3,7 +3,6 @@ import numpy as np
 import getAPI
 import etcFunction as ef
 import csv
-
 pp = pprint.PrettyPrinter(indent=4)
 
 '''
@@ -13,15 +12,17 @@ pp = pprint.PrettyPrinter(indent=4)
 1분 30초 이전에 킬이 발생했는지 = bool
 
 '''
-
 def saveDataSetToCSV(matchId, frame):
-    dataset = tempResult(matchId, frame)  # Assuming you have the tempResult function defined
+    dataset = tempResult(matchId, frame) 
+    
+    dataset['matchId'] = matchId #매치 아이디 값을 불러오기 위한 작업
 
-    # Define the CSV file name
+   
     csv_file_name = f"{matchId}_frame{frame}_data.csv"
 
-    # Define the CSV fieldnames (column names) as strings
+    #딕셔너리 키, 값 형태로 엑셀에 불러옴. (키값이 엑셀의 행이되고 열이 딕셔나리의 값이 오게된다.)
     fieldnames = [
+        'matchId',
         'Diff-A',
         'Diff-K',
         'Diff_CS',
@@ -35,33 +36,16 @@ def saveDataSetToCSV(matchId, frame):
         'Diff_WARDplaced',
         'Diff_jglCS',
         'dragonType',
-        'result',
-        "level",
-        "minionsKilled",
-        "jungleMinionsKilled",
-        "killInfo",
-        "wardCreatorId",
-        "wardKillerId",
-        "inhibitorBreakerId",
-        "towerBreakerId",
-        "dragonKill",
-        "riftheraldKill"
+        'result'
     ]
 
-    # Open the CSV file for writing
+    # 저장하는 로직
     with open(csv_file_name, mode='w', newline='') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
-        # Write the header (fieldnames) to the CSV file
         writer.writeheader()
 
-        # Write the dataset to the CSV file
         writer.writerow(dataset)
-
-
-
-
-
 
 
 # 15분 후 게임 데이터 셋
@@ -193,14 +177,10 @@ def tempResult(matchId, frame):
     # pp.pprint(winTeamValue)
     # pp.pprint(loseTeamValue)
     
-    return dataSet, winTeamValue, loseTeamValue
+    return dataSet
 
-dataSet = tempResult("KR_6710383118", 15)
-# winTeamValues = tempResult("KR_6710383118", 15)['winTeamValue']
-# pp.pprint(winTeamValues)
 
 dataSet= tempResult("KR_6710383118", 15)
 pp.pprint(dataSet)
 
-# saveDataSetToCSV("KR_6710383118", 15)
-
+saveDataSetToCSV("KR_6710383118", 15)
