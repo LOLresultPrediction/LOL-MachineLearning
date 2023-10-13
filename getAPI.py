@@ -6,7 +6,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-62ff01d4-5700-4a64-ba8e-34563cf8579b'
+api_key = 'RGAPI-2a07da7a-4014-48b5-afa2-9b207a064aae'
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -45,5 +45,15 @@ def getGameInfoTimeline(matchId):
 
 # 챌린저 소환사 정보 가져오기
 def getChallengerEntries():
-    url = f"https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key{api_key}"
+    url = f"https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key={api_key}"
+    return requests.get(url, headers=request_header).json()['entries']
+
+# 그랜드마스터 소환사 정보 가져오기
+def getGrandmasterEntries():
+    url = f"https://kr.api.riotgames.com/lol/league/v4/grandmasterleagues/by-queue/RANKED_SOLO_5x5?api_key={api_key}"
+    return requests.get(url, headers=request_header).json()['entries']
+
+# 마스터 소환사 정보 가져오기
+def getMasterEntries():
+    url = f"https://kr.api.riotgames.com/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5?api_key={api_key}"
     return requests.get(url, headers=request_header).json()['entries']
