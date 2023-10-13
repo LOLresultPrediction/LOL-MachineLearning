@@ -6,7 +6,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-2a07da7a-4014-48b5-afa2-9b207a064aae'
+api_key = 'RGAPI-b36aa8d8-6b4c-41bd-8890-fcbe8c139568'
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
