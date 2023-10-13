@@ -2,6 +2,8 @@ import pprint
 import numpy as np
 import getAPI
 import etcFunction as ef
+import csv
+
 pp = pprint.PrettyPrinter(indent=4)
 
 '''
@@ -11,6 +13,57 @@ pp = pprint.PrettyPrinter(indent=4)
 1분 30초 이전에 킬이 발생했는지 = bool
 
 '''
+
+def saveDataSetToCSV(matchId, frame):
+    dataset = tempResult(matchId, frame)  # Assuming you have the tempResult function defined
+
+    # Define the CSV file name
+    csv_file_name = f"{matchId}_frame{frame}_data.csv"
+
+    # Define the CSV fieldnames (column names) as strings
+    fieldnames = [
+        'Diff-A',
+        'Diff-K',
+        'Diff_CS',
+        'Diff_FirstBLOOD',
+        'Diff_FirstDRAGON',
+        'Diff_FirstHERALD',
+        'Diff_Firsttower',
+        'Diff_Inhibitor',
+        'Diff_LV',
+        'Diff_WARDkill',
+        'Diff_WARDplaced',
+        'Diff_jglCS',
+        'dragonType',
+        'result',
+        "level",
+        "minionsKilled",
+        "jungleMinionsKilled",
+        "killInfo",
+        "wardCreatorId",
+        "wardKillerId",
+        "inhibitorBreakerId",
+        "towerBreakerId",
+        "dragonKill",
+        "riftheraldKill"
+    ]
+
+    # Open the CSV file for writing
+    with open(csv_file_name, mode='w', newline='') as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+        # Write the header (fieldnames) to the CSV file
+        writer.writeheader()
+
+        # Write the dataset to the CSV file
+        writer.writerow(dataset)
+
+
+
+
+
+
+
 # 15분 후 게임 데이터 셋
 def tempResult(matchId, frame):
     gameTimelineInfo = getAPI.getGameInfoTimeline(matchId)['info']['frames']
@@ -66,7 +119,6 @@ def tempResult(matchId, frame):
             # 자이라의 식물도 와드로 식별됨.. 아마?
             if events[j]['type'] == 'WARD_PLACED':
                 wardCreatorId = events[j]['creatorId']
-                print(wardCreatorId)
                 if wardCreatorId in winTeamMember:
                     winTeamValue['wardCreatorId'].append(wardCreatorId)
                 elif wardCreatorId in loseTeamMember:
@@ -133,14 +185,22 @@ def tempResult(matchId, frame):
     dataSet['Diff-K'] = len(winTeamValue['killInfo']['killerId']) - len(loseTeamValue['killInfo']['killerId'])
     dataSet['Diff-A'] = sum(len(i) for i in winTeamValue['killInfo']['assistId'] if i != None) - sum(len(i) for i in loseTeamValue['killInfo']['assistId'] if i != None)
     dataSet['Diff_WARDplaced'] = len(winTeamValue['wardCreatorId']) - len(loseTeamValue['wardCreatorId'])
-    print(winTeamValue['wardCreatorId'])
-    print(loseTeamValue['wardCreatorId'])
+    # print(winTeamValue['wardCreatorId'])
+    # print(loseTeamValue['wardCreatorId'])
     dataSet['Diff_WARDkill'] = len(winTeamValue['wardKillerId']) - len(loseTeamValue['wardKillerId'])
     dataSet['Diff_Inhibitor'] = len(winTeamValue['inhibitorBreakerId']) - len(loseTeamValue['inhibitorBreakerId'])
     dataSet['result'] = 1
     # pp.pprint(winTeamValue)
     # pp.pprint(loseTeamValue)
     
-    return dataSet
+    return dataSet, winTeamValue, loseTeamValue
+
 dataSet = tempResult("KR_6710383118", 15)
+# winTeamValues = tempResult("KR_6710383118", 15)['winTeamValue']
+# pp.pprint(winTeamValues)
+
+dataSet= tempResult("KR_6710383118", 15)
 pp.pprint(dataSet)
+
+# saveDataSetToCSV("KR_6710383118", 15)
+
