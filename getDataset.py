@@ -46,6 +46,7 @@ def tempResult(matchId, frame):
     dataSet['Diff_Firsttower'] = None
     dataSet['dragonType'] = None
     # frame을 '분' 단위로 치환하기 위해 +1
+    # 15분 이전 예외처리
     for i in range(frame+1):
         events = gameTimelineInfo[i]['events']
         for j in range(len(events)):
