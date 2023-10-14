@@ -50,10 +50,12 @@ if __name__ == "__main__":
 
 
 
-    saveDataSet.saveDataSetToCSV(chanllengerMatchId, 'chanllenger.csv', 15)
+    # saveDataSet.saveDataSetToCSV(chanllengerMatchId, 'chanllenger.csv', 15)
 
     # gameTimelineInfo = getAPI.getGameInfoTimeline('KR_6708057039')
-    # gameInfo = getAPI.getGameInfo('KR_6709906475')
+    gameInfo = getAPI.getGameInfo('KR_6710383118')
+    print(((gameInfo['info']['gameEndTimestamp'])-(gameInfo['info']['gameStartTimestamp']))/60000)
+    print(gameInfo['info']['gameDuration']/60)
     # for i in range(10):
     #     pp.pprint(gameInfo['info']['participants'][i]['participantId'])
     #     pp.pprint(gameInfo['info']['participants'][i]['summonerName'])
