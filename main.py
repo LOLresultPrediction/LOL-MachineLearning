@@ -23,12 +23,6 @@ pp = pprint.PrettyPrinter(indent=4)
 'KR_6707425375',
 'KR_6707289771',
 'KR_6704954051']
-'''
-if __name__ == "__main__":
-    # 챌린저 매치 ID 가져오기
-    # print(len(getMatchId.getChallengerMatchId()))
-
-
     chanllengerMatchId = ["KR_6744942072",
     "KR_6736181136",
     "KR_6736161812",
@@ -49,20 +43,14 @@ if __name__ == "__main__":
     "KR_6716115458",
     "KR_6716019516",
     "KR_6714278507"]
+'''
+if __name__ == "__main__":
+    # 챌린저 매치 ID 가져오기
+    # print(len(getMatchId.getChallengerMatchId()))
+
+
+
     saveDataSet.saveDataSetToCSV(chanllengerMatchId, 'chanllenger.csv', 15)
-    # for i in chanllengerMatchId:
-    #     saveDataSet.saveDataSetToCSV(dic_data, f"Challenger.csv")
-    #     print(i)
-    # fieldnames = getDataset.tempResult('KR_6714278507', 15)
-    # # print(len(dic_data.keys()))
-    # with open('challenger.csv','w', newline='') as f:
-    #     w = csv.DictWriter(f, fieldnames.keys())
-    #     w.writeheader()
-    #     for i in chanllengerMatchId:
-    #         dic_data = getDataset.tempResult(i, 15)
-    #         w.writerow(dic_data)
-    #         print(i)
-    # print(dic_data)
 
     # gameTimelineInfo = getAPI.getGameInfoTimeline('KR_6708057039')
     # gameInfo = getAPI.getGameInfo('KR_6709906475')
