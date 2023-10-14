@@ -6,7 +6,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-ae5ba42c-57ce-4e57-aad3-84c7fbb3ce75'
+api_key = 'RGAPI-cd732a36-5a04-43b9-a842-2329193f48c6'
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -57,7 +57,7 @@ def getGrandmasterEntries():
 # 마스터 소환사 정보 가져오기
 def getMasterEntries():
     url = f"https://kr.api.riotgames.com/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5?api_key={api_key}"
-    return requests.get(url, headers=request_header).json()['entries']
+    return requests.get(url, headers=request_header).json()['entries'][:600]
 
 # 플래티넘 티어별/페이지별 소환사 정보 가져오기
 def getPlatinumEntries(tier="IV", page=1):
@@ -70,7 +70,7 @@ def getPlatinumEntries(tier="IV", page=1):
     url = f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/PLATINUM/{tier}?page={page}&api_key{api_key}"
     return requests.get(url, headers=request_header).json()
     
-# #print(getChallengerEntries())
+# print(getChallengerEntries())
 # print(getUserPuuid('BRO Morgan'))
 # #BRO Morgan
 # print(getMatchId('SAHqMCotWN0cg7n7pCDt4O7fLSnZAAttaN9CFhdSLvQoRk4aCCBGdC2fI2ON2WnMnMBtprwkj6mULQ',0,15))
