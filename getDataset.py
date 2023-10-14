@@ -39,6 +39,7 @@ def tempResult(matchId, frame):
                      'dragonKill' : [],
                      'riftheraldKill' : []}
     dataSet = {}
+    dataSet['matchId'] = matchId
     dataSet['Diff_FirstBLOOD'] = None
     dataSet['Diff_FirstDRAGON'] = None
     dataSet['Diff_FirstHERALD'] = None
