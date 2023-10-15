@@ -48,22 +48,27 @@ pp = pprint.PrettyPrinter(indent=4)
 #     "KR_6714278507"]
 
 if __name__ == "__main__":
-    chanllengerMatchId = pd.read_csv('ChanllengerMatchId.csv')
-    saveDataSet.saveDataSetToCSV(chanllengerMatchId, 'chanllenger.csv', 15)
+    # 불러온 matchId로 데이터셋 csv로 저장
+    # chanllengerMatchId = pd.read_csv('ChanllengerMatchId.csv')
+    # saveDataSet.saveDataSetToCSV(chanllengerMatchId, 'Chanllenger.csv', 15)
 
-    # 챌린저 매치 ID 가져오기
+    # 챌린저 매치 ID csv로 저장
     # chanllengerMatchId = getMatchId.getChallengerMatchId()
     # with open('ChanllengerMatchId.csv','w', newline='') as f:
     #     w = csv.writer(f)
     #     w.writerow(chanllengerMatchId)
-    # pp.pprint(getDataset.getResult('KR_6745998846', 15))
-    # gameTimelineInfo = getAPI.getGameInfoTimeline('KR_6708057039')
-    gameInfo = getAPI.getGameInfo('KR_6746411016')['info']
-    # for i in range(10):
-    #     pp.pprint(gameInfo['info']['participants'][i]['participantId'])
-    #     pp.pprint(gameInfo['info']['participants'][i]['summonerName'])
-    #     pp.pprint(gameInfo['info']['participants'][i]['championName'])
-    # pp.pprint(gameInfo['gameDuration'])
 
-    # pp.pprint(getDataset.getResult('KR_6708057039', 15))
-    # pp.pprint(getAPI.getGameInfo('KR_6708057039')['info']['teams'])
+
+    '''
+    pp.pprint(getDataset.getResult('KR_6745998846', 15))
+    gameTimelineInfo = getAPI.getGameInfoTimeline('KR_6708057039')
+    gameInfo = getAPI.getGameInfo('KR_6746411016')['info']
+    for i in range(10):
+        pp.pprint(gameInfo['info']['participants'][i]['participantId'])
+        pp.pprint(gameInfo['info']['participants'][i]['summonerName'])
+        pp.pprint(gameInfo['info']['participants'][i]['championName'])
+    pp.pprint(gameInfo['gameDuration'])
+
+    pp.pprint(getDataset.getResult('KR_6708057039', 15))
+    pp.pprint(getAPI.getGameInfo('KR_6708057039')['info']['teams'])
+    '''
