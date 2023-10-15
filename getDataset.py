@@ -13,10 +13,12 @@ pp = pprint.PrettyPrinter(indent=4)
 '''
 
 # 15분 후 게임 데이터 셋
-def tempResult(matchId, frame):
+def getResult(matchId, frame):
+    print(f'{matchId}의 데이터 가져오는 중...')
+    gameInfo = getAPI.getGameInfo(matchId)['info']
+    if (gameInfo['gameDuration']/60) < frame:
+        return 0
     gameTimelineInfo = getAPI.getGameInfoTimeline(matchId)['info']['frames']
-    gameInfo = getAPI.getGameInfo(matchId)['info']['teams']
-
     winTeamMember, loseTeamMember = ef.teamClassfication(matchId)
     winTeamValue = {'level' : [], 
                     'minionsKilled' : [], 
@@ -53,8 +55,8 @@ def tempResult(matchId, frame):
             # 킬/어시
             if events[j]['type'] == 'CHAMPION_KILL':
                 for k in range(2):
-                    if gameInfo[k]['win']:
-                        dataSet['Diff_FirstBLOOD'] = 1 if gameInfo[k]['objectives']['champion']['first'] else -1
+                    if gameInfo['teams'][k]['win']:
+                        dataSet['Diff_FirstBLOOD'] = 1 if gameInfo['teams'][k]['objectives']['champion']['first'] else -1
                 killerId = events[j]['killerId']
                 assistId = None
                 if 'assistingParticipantIds' in events[j]:
@@ -94,8 +96,8 @@ def tempResult(matchId, frame):
                 # 타워
                 if events[j]['buildingType'] == 'TOWER_BUILDING':
                     for k in range(2):
-                        if gameInfo[k]['win']:
-                            dataSet['Diff_Firsttower'] = 1 if gameInfo[k]['objectives']['tower']['first'] else -1
+                        if gameInfo['teams'][k]['win']:
+                            dataSet['Diff_Firsttower'] = 1 if gameInfo['teams'][k]['objectives']['tower']['first'] else -1
                     buildingKillerId = events[j]['killerId']
                     if buildingKillerId in winTeamMember:
                         winTeamValue['towerBreakerId'].append(buildingKillerId)
@@ -109,13 +111,13 @@ def tempResult(matchId, frame):
                     if dataSet['dragonType'] == None:
                         dataSet['dragonType'] = events[j]['monsterSubType']
                     for k in range(2):
-                        if gameInfo[k]['win']:
-                            dataSet['Diff_FirstDRAGON'] = 1 if gameInfo[k]['objectives']['dragon']['first'] else -1
+                        if gameInfo['teams'][k]['win']:
+                            dataSet['Diff_FirstDRAGON'] = 1 if gameInfo['teams'][k]['objectives']['dragon']['first'] else -1
                 # 전령
                 if events[j]['monsterType'] == 'RIFTHERALD':
                     for k in range(2):
-                        if gameInfo[k]['win']:
-                            dataSet['Diff_FirstHERALD'] = 1 if gameInfo[k]['objectives']['riftHerald']['first'] else -1
+                        if gameInfo['teams'][k]['win']:
+                            dataSet['Diff_FirstHERALD'] = 1 if gameInfo['teams'][k]['objectives']['riftHerald']['first'] else -1
     # 레벨, 미니언 킬, 정글몹 킬 구하기
     for i in range(1, 11):
         participantFrames = gameTimelineInfo[frame]['participantFrames'][str(i)]
