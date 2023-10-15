@@ -57,7 +57,7 @@ def getGrandmasterEntries():
 # 마스터 소환사 정보 가져오기
 def getMasterEntries():
     url = f"https://kr.api.riotgames.com/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5?api_key={api_key}"
-    return requests.get(url, headers=request_header).json()['entries']
+    return requests.get(url, headers=request_header).json()['entries'][:600]
 
 # 플래티넘 티어별/페이지별 소환사 정보 가져오기
 def getPlatinumEntries(tier="IV", page=1):
@@ -70,7 +70,7 @@ def getPlatinumEntries(tier="IV", page=1):
     url = f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/PLATINUM/{tier}?page={page}&api_key{api_key}"
     return requests.get(url, headers=request_header).json()
     
-# #print(getChallengerEntries())
+# print(getChallengerEntries())
 # print(getUserPuuid('BRO Morgan'))
 # #BRO Morgan
 # print(getMatchId('SAHqMCotWN0cg7n7pCDt4O7fLSnZAAttaN9CFhdSLvQoRk4aCCBGdC2fI2ON2WnMnMBtprwkj6mULQ',0,15))
