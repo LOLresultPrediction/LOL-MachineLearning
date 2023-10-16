@@ -1,18 +1,26 @@
 import requests
 import pprint
 import numpy as np
-pp = pprint.PrettyPrinter(indent=4)
 
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
 api_key = 'RGAPI-2b20e588-ce1b-44b4-91e1-68403ba8af60'
+api_key2 = 'RGAPI-8ecaf29e-ed54-43fc-9be4-0b0341c34338'
+
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
     "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
     "Origin": "https://developer.riotgames.com",
     "X-Riot-Token": api_key
+}
+request_header2 = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
+    "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+    "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
+    "Origin": "https://developer.riotgames.com",
+    "X-Riot-Token": api_key2
 }
 
 # 유저 puuid 가져오기
@@ -38,10 +46,18 @@ def getGameInfo(matchId):
     return requests.get(url, headers=request_header).json()
 # pp.pprint(getGameInfo("KR_6710383118"))
 
+def secondGetGameInfo(matchId):
+    url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}"
+    return requests.get(url, headers=request_header2).json()
+
 # 타임라인으로 게임 정보 가져오기
 def getGameInfoTimeline(matchId):
     url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}/timeline"
     return requests.get(url, headers=request_header).json()
+
+def secondGetGameInfoTimeline(matchId):
+    url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}/timeline"
+    return requests.get(url, headers=request_header2).json()
 
 # 챌린저 소환사 정보 가져오기
 def getChallengerEntries():

@@ -2,6 +2,7 @@ import pprint
 import numpy as np
 import getAPI
 import etcFunction as ef
+
 pp = pprint.PrettyPrinter(indent=4)
 
 '''
@@ -13,16 +14,20 @@ pp = pprint.PrettyPrinter(indent=4)
 '''
 
 # 15분 후 게임 데이터 셋
-def getResult(matchId, frame):
+def getResult(matchId, frame, countAPI):
     print(f'{matchId}의 데이터 가져오는 중...')
-    gameInfo = getAPI.getGameInfo(matchId)['info']
+    if countAPI == 1:
+        gameInfo = getAPI.getGameInfo(matchId)['info']
+        gameTimelineInfo = getAPI.getGameInfoTimeline(matchId)['info']['frames']
+    elif countAPI == 2:
+        gameInfo = getAPI.secondGetGameInfo(matchId)['info']
+        gameTimelineInfo = getAPI.secondGetGameInfoTimeline(matchId)['info']['frames']
     if gameInfo['queueId'] != 420 and gameInfo['queueId'] != 440:
         print('솔로랭크 또는 자유랭크가 아닙니다.')
         return 0
     elif (gameInfo['gameDuration']/60) < frame:
         print(f'{int(gameInfo["gameDuration"]/60)}분 만에 끝난 게임이어서 데이터 셋에 추가되지 않음')
         return 0
-    gameTimelineInfo = getAPI.getGameInfoTimeline(matchId)['info']['frames']
     winTeamMember, loseTeamMember = ef.teamClassfication(matchId)
     winTeamValue = {'level' : [], 
                     'minionsKilled' : [], 
