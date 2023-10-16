@@ -27,7 +27,6 @@ def getGrandmasterMatchId():
 # 마스터 matchId 가져오기(약 30분(?) / 11,000 데이터)
 def getMasterMatchId():
     masterMatchIdSet = set()
-
     # 마스터 소환사 Puuid 가져오기(중복제거)
     for entry in getAPI.getMasterEntries():
         masterMatchIdSet.update(getAPI.getMatchId(getAPI.getUserPuuidBySummonerId(entry['summonerId']), 0, 20))

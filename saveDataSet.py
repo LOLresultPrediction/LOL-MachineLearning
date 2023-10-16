@@ -35,7 +35,6 @@ def saveDataSetToCSV(matchIdSet, fileName, frame):
             print(f'{i} : {matchId}의 데이터 추가')
             time.sleep(2.5)
 
-
 # 데이터 수집하다가 중간에 끊겼을 때 사용 (th에 최종 출력된 인덱스 번호 넣으면 됨)
 def append_saveDataSetToCSV(matchIdSet, fileName, frame, th):
     with open(fileName, 'a', newline='') as f:
