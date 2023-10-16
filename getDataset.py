@@ -108,7 +108,7 @@ def getResult(matchId, frame):
                 # 드래곤
                 if events[j]['monsterType'] == 'DRAGON':
                     mosterKillerId = events[j]['killerId']
-                    if dataSet['dragonType'] == None:
+                    if dataSet['dragonType'] == 0:
                         if events[j]['monsterSubType'] == 'AIR_DRAGON':
                             dataSet['dragonType'] = 1
                         elif events[j]['monsterSubType'] == 'EARTH_DRAGON':
