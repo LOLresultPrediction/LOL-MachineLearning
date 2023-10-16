@@ -49,11 +49,11 @@ pp = pprint.PrettyPrinter(indent=4)
 
 if __name__ == "__main__":
     # 1st. matchId csv로 저장 (2번 코드 주석 처리하고 돌리기)
-    GrandmasterMatchId = getMatchId.getGrandmasterMatchId()
-    with open('MatchId/GrandmasterMatchId.csv','w', newline='') as f:
-        w = csv.writer(f)
-        w.writerow(GrandmasterMatchId)
+    # GrandmasterMatchId = getMatchId.getGrandmasterMatchId()
+    # with open('MatchId/GrandmasterMatchId.csv','w', newline='') as f:
+    #     w = csv.writer(f)
+    #     w.writerow(GrandmasterMatchId)
     
     # 2nd. 불러온 matchId로 데이터셋 csv로 저장 (1번 코드 주석 처리하고 돌리기)
-    GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
-    saveDataSet.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15)
+    ChanllengerMatchId = pd.read_csv('MatchId/ChanllengerMatchId.csv')
+    saveDataSet.saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15)
