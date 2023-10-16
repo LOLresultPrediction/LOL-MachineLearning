@@ -55,5 +55,10 @@ if __name__ == "__main__":
     #     w.writerow(GrandmasterMatchId)
     
     # 2nd. 불러온 matchId로 데이터셋 csv로 저장 (1번 코드 주석 처리하고 돌리기)
-    ChanllengerMatchId = pd.read_csv('MatchId/ChanllengerMatchId.csv')
-    saveDataSet.saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15)
+    GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
+    # saveDataSet.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15)
+
+    # 1694 : KR_6752574126의 데이터 추가
+    GrandmasterMatchId = GrandmasterMatchId.iloc[:, 1694:]
+    print(GrandmasterMatchId)
+    # saveDataSet.append_saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15, 298)
