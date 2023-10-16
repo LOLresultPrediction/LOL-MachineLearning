@@ -48,15 +48,16 @@ pp = pprint.PrettyPrinter(indent=4)
 #     "KR_6714278507"]
 
 if __name__ == "__main__":
-    # 불러온 matchId로 데이터셋 csv로 저장
-    # chanllengerMatchId = pd.read_csv('ChanllengerMatchId.csv')
-    # saveDataSet.saveDataSetToCSV(chanllengerMatchId, 'Chanllenger.csv', 15)
-
     # 챌린저 매치 ID csv로 저장
-    # chanllengerMatchId = getMatchId.getChallengerMatchId()
-    # with open('ChanllengerMatchId.csv','w', newline='') as f:
+    # MasterMatchId = getMatchId.getMasterMatchId()
+    # with open('MatchId/MasterMatchId.csv','w', newline='') as f:
     #     w = csv.writer(f)
-    #     w.writerow(chanllengerMatchId)
+    #     w.writerow(MasterMatchId)
+    
+    # 불러온 matchId로 데이터셋 csv로 저장
+    GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
+    saveDataSet.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15)
+
 
 
     '''
