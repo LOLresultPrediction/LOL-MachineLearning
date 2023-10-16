@@ -48,28 +48,12 @@ pp = pprint.PrettyPrinter(indent=4)
 #     "KR_6714278507"]
 
 if __name__ == "__main__":
-    # 챌린저 매치 ID csv로 저장
-    # MasterMatchId = getMatchId.getMasterMatchId()
-    # with open('MatchId/MasterMatchId.csv','w', newline='') as f:
-    #     w = csv.writer(f)
-    #     w.writerow(MasterMatchId)
+    # 1st. matchId csv로 저장 (2번 코드 주석 처리하고 돌리기)
+    GrandmasterMatchId = getMatchId.getGrandmasterMatchId()
+    with open('MatchId/GrandmasterMatchId.csv','w', newline='') as f:
+        w = csv.writer(f)
+        w.writerow(GrandmasterMatchId)
     
-    # 불러온 matchId로 데이터셋 csv로 저장
+    # 2nd. 불러온 matchId로 데이터셋 csv로 저장 (1번 코드 주석 처리하고 돌리기)
     GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
     saveDataSet.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15)
-
-
-
-    '''
-    pp.pprint(getDataset.getResult('KR_6745998846', 15))
-    gameTimelineInfo = getAPI.getGameInfoTimeline('KR_6708057039')
-    gameInfo = getAPI.getGameInfo('KR_6746411016')['info']
-    for i in range(10):
-        pp.pprint(gameInfo['info']['participants'][i]['participantId'])
-        pp.pprint(gameInfo['info']['participants'][i]['summonerName'])
-        pp.pprint(gameInfo['info']['participants'][i]['championName'])
-    pp.pprint(gameInfo['gameDuration'])
-
-    pp.pprint(getDataset.getResult('KR_6708057039', 15))
-    pp.pprint(getAPI.getGameInfo('KR_6708057039')['info']['teams'])
-    '''
