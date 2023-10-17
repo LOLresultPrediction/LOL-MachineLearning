@@ -33,3 +33,18 @@ def getMasterMatchId():
         time.sleep(0.7)
 
     return masterMatchIdSet
+
+
+def getMatchIdByTierAndRank(tier, rank, start_page, end_page):
+    matchIdSet = set()
+
+    for page in range(start_page, end_page + 1): 
+        for entry in getAPI.getEntries(tier, rank, page):  
+            matchIdSet.update(getAPI.getMatchId(getAPI.getUserPuuidBySummonerId(entry['summonerId']), 0, 20))
+            time.sleep(0.7)
+
+    return matchIdSet
+
+if __name__ == "__main__":
+    match_ids = getMatchIdByTierAndRank("BRONZE", "I", 1, 1)  #원하는 티어, 랭크, 페이지 시작, 페이지 종료 값 입력
+    print(match_ids)
