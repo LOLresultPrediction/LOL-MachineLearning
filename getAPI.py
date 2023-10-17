@@ -5,7 +5,7 @@ import numpy as np
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-82e17331-2215-4fc3-9b9c-e0071acd4362'
+api_key = 'RGAPI-5369a276-c038-49ea-95d9-fb8b2ffb6112'
 api_key2 = 'RGAPI-291e4e6e-4894-4c9d-a19b-1ff66fb91b80'
 
 request_header = {
@@ -76,15 +76,22 @@ def getMasterEntries():
     return requests.get(url, headers=request_header).json()['entries'][:600]
 
 # 플래티넘 티어별/페이지별 소환사 정보 가져오기
-def getPlatinumEntries(tier="IV", page=1):
-    valid_tiers = ["IV", "III", "II", "I"]
+def getEntries(tier="PLATINUM", rank="IV", page=1):
+    valid_tiers = ["IRON", "BRONZE", "SILVER", "GOLD", "PLATINUM", "EMERALD", "DIAMOND"]
+    valid_ranks = ["IV", "III", "II", "I"]
 
     # 유효확인
     if tier not in valid_tiers:
         raise ValueError("재입력")
+    
+    if rank not in valid_ranks:
+        raise ValueError("재입력")
 
-    url = f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/PLATINUM/{tier}?page={page}&api_key{api_key}"
+    url = f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/{tier}/{rank}?page={page}&api_key{api_key}"
     return requests.get(url, headers=request_header).json()
+
+entries = getEntries("IRON", "I", 1)
+print(entries)
     
 # print(getChallengerEntries())
 # print(getUserPuuid('BRO Morgan'))
