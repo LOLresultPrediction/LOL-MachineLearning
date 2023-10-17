@@ -33,16 +33,16 @@ def saveDataSetToCSV(matchIdSet, fileName, frame):
                 else:
                     dic_data = getDataset.getResult(matchId, frame, 2)
             except KeyError:
-                print("KeyError발생.. 1차 재시도.. 15초 대기")
-                time.sleep(15)
+                print("KeyError발생.. 1차 재시도.. 20초 대기")
+                time.sleep(20)
                 try:
                     if i%2 == 0:
                         dic_data = getDataset.getResult(matchId, frame, 1)
                     else:
                         dic_data = getDataset.getResult(matchId, frame, 2)
                 except KeyError:
-                    print("KeyError발생.. 2차 재시도.. 20초 대기")
-                    time.sleep(20)
+                    print("KeyError발생.. 2차 재시도.. 10초 대기")
+                    time.sleep(10)
                     try:
                         if i%2 == 0:
                             dic_data = getDataset.getResult(matchId, frame, 1)
@@ -75,31 +75,31 @@ def append_saveDataSetToCSV(matchIdSet, fileName, frame, th):
                 else:
                     dic_data = getDataset.getResult(matchId, frame, 2)
             except KeyError:
-                print("KeyError발생.. 1차 재시도.. 15초 대기")
-                time.sleep(15)
+                print("KeyError발생.. 1차 재시도.. 20초 대기")
+                time.sleep(20)
                 try:
                     if i%2 == 0:
                         dic_data = getDataset.getResult(matchId, frame, 1)
                     else:
                         dic_data = getDataset.getResult(matchId, frame, 2)
                 except KeyError:
-                    print("KeyError발생.. 2차 재시도.. 20초 대기")
-                    time.sleep(20)
+                    print("KeyError발생.. 2차 재시도.. 10초 대기")
+                    time.sleep(10)
                     try:
                         if i%2 == 0:
                             dic_data = getDataset.getResult(matchId, frame, 1)
                         else:
                             dic_data = getDataset.getResult(matchId, frame, 2)
                     except:
-                        print("KeyError발생.. 3차 재시도.. 20초 대기")
-                        time.sleep(20)
+                        print("KeyError발생.. 3차 재시도.. 10초 대기")
+                        time.sleep(10)
                         if i%2 == 0:
                             dic_data = getDataset.getResult(matchId, frame, 1)
                         else:
                             dic_data = getDataset.getResult(matchId, frame, 2)
             if dic_data == 0:
-                time.sleep(0.7)
+                time.sleep(1.2)
                 continue
             w.writerow(dic_data)
             print(f'{i} : {matchId}의 데이터 추가')
-            time.sleep(0.7)
+            time.sleep(1.2)
