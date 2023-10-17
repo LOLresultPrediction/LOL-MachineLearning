@@ -89,9 +89,6 @@ def getEntries(tier="PLATINUM", rank="IV", page=1):
 
     url = f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/{tier}/{rank}?page={page}&api_key{api_key}"
     return requests.get(url, headers=request_header).json()
-
-entries = getEntries("IRON", "I", 1)
-print(entries)
     
 # print(getChallengerEntries())
 # print(getUserPuuid('BRO Morgan'))
