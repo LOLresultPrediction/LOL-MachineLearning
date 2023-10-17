@@ -23,6 +23,5 @@ if __name__ == "__main__":
     # saveDataSet.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15)
 
     # API 두 개 사용해서 데이터 수집
-    GrandmasterMatchId = GrandmasterMatchId.iloc[:, 5962:]
-    # print(GrandmasterMatchId)
-    secondSaveDataset.append_saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15, 5962)
+    GrandmasterMatchId = GrandmasterMatchId.iloc[:, 7720:]
+    secondSaveDataset.append_saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15, 7720)
