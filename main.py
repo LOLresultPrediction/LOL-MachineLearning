@@ -50,21 +50,22 @@ pp = pprint.PrettyPrinter(indent=4)
 
 if __name__ == "__main__":
     # 1st. matchId csv로 저장 (2번 코드 주석 처리하고 돌리기)
-    # GrandmasterMatchId = getMatchId.getGrandmasterMatchId()
-    # with open('MatchId/GrandmasterMatchId.csv','w', newline='') as f:
-    #     w = csv.writer(f)
-    #     w.writerow(GrandmasterMatchId)
+    GrandmasterMatchId = getMatchId.getGrandmasterMatchId()
+    with open('MatchId/GrandmasterMatchId.csv','w', newline='') as f:
+        w = csv.writer(f)
+        w.writerow(GrandmasterMatchId)
     
     # 2nd. 불러온 matchId로 데이터셋 csv로 저장 (1번 코드 주석 처리하고 돌리기)
-    # GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
-    # saveDataSet.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15)
+    GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
+    saveDataSet.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15)
 
 
 
     # API 2개 사용할 때
-    ChanllengerMatchId = pd.read_csv('MatchId/ChanllengerMatchId.csv')
-    secondSaveDataset.saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15)
+    # ChanllengerMatchId = pd.read_csv('MatchId/ChanllengerMatchId.csv')
+    # secondSaveDataset.saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15)
 
     # 데이터 수집 중단되면 중단된 matchId의 인덱스 번호 넣고 이어서 수집
-    # ChanllengerMatchId = ChanllengerMatchId.iloc[:, 1869:]
-    # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, 1869)
+    # stopIndex = 1869
+    # ChanllengerMatchId = ChanllengerMatchId.iloc[:, stopIndex:]
+    # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, stopIndex)

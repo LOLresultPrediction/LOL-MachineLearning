@@ -5,7 +5,7 @@ import numpy as np
 
 pp = pprint.PrettyPrinter(indent=4)
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-82e17331-2215-4fc3-9b9c-e0071acd4362'
+api_key = 'RGAPI-122afe5e-4129-4640-b65d-badb91f85bbf'
 api_key2 = 'RGAPI-291e4e6e-4894-4c9d-a19b-1ff66fb91b80'
 
 request_header = {
@@ -82,8 +82,7 @@ def getPlatinumEntries(tier="IV", page=1):
     # 유효확인
     if tier not in valid_tiers:
         raise ValueError("재입력")
-
-    url = f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/PLATINUM/{tier}?page={page}&api_key{api_key}"
+    url = f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/PLATINUM/{tier}?page={page}&api_key={api_key}"
     return requests.get(url, headers=request_header).json()
     
 # print(getChallengerEntries())
