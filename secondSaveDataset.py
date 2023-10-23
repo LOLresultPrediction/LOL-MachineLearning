@@ -5,18 +5,38 @@ import time
 fieldnames = [
         'matchId',
         'queueId',
-        'Diff-A',
-        'Diff-K',
+        'Diff_LV',
         'Diff_CS',
-        'Diff_FirstBLOOD',
+        'Diff_jglCS',
+        'Diff-K',
+        'Diff-K-top',
+        'K-WIN-top',
+        'K-LOSE-top',
+        'Diff-K-jug',
+        'K-WIN-jug',
+        'K-LOSE-jug',
+        'Diff-K-mid',
+        'K-WIN-mid',
+        'K-LOSE-mid',
+        'Diff-K-ad',
+        'K-WIN-ad',
+        'K-LOSE-ad',
+        'Diff-K-sup',
+        'K-WIN-sup',
+        'K-LOSE-sup',
+        'invadeKill',
+        'Diff-A',
+        'Diff_WARDplaced',
+        'Diff-ControlWARDplaced',
+        'LOSE_controlWARDPlaced',
+        'WIN_controlWARDPlaced',
+        'Diff_WARDkill',
+        'Diff_Inhibitor',
+        'Diff_TOWERkill',
         'Diff_FirstDRAGON',
         'Diff_FirstHERALD',
         'Diff_Firsttower',
-        'Diff_Inhibitor',
-        'Diff_LV',
-        'Diff_WARDkill',
-        'Diff_WARDplaced',
-        'Diff_jglCS',
+        'Diff_FirstBLOOD',
         'dragonType',
         'result'
     ]
@@ -35,10 +55,13 @@ def saveDataSetToCSV(matchIdSet, fileName, frame):
             except KeyError:
                 print("KeyError발생.. 20초 대기 후 재시도.. ")
                 time.sleep(20)
-                if i%2 == 0:
-                    dic_data = getDataset.getResult(matchId, frame, 1)
-                else:
-                    dic_data = getDataset.getResult(matchId, frame, 2)
+                try:
+                    if i%2 == 0:
+                        dic_data = getDataset.getResult(matchId, frame, 1)
+                    else:
+                        dic_data = getDataset.getResult(matchId, frame, 2)
+                except KeyError:
+                    continue
             if dic_data == 0:
                 time.sleep(1.2)
                 continue
@@ -61,10 +84,13 @@ def append_saveDataSetToCSV(matchIdSet, fileName, frame, th):
             except KeyError:
                 print("KeyError발생.. 20초 대기 후 재시도.. ")
                 time.sleep(20)
-                if i%2 == 0:
-                    dic_data = getDataset.getResult(matchId, frame, 1)
-                else:
-                    dic_data = getDataset.getResult(matchId, frame, 2)
+                try:
+                    if i%2 == 0:
+                        dic_data = getDataset.getResult(matchId, frame, 1)
+                    else:
+                        dic_data = getDataset.getResult(matchId, frame, 2)
+                except KeyError:
+                    continue
             if dic_data == 0:
                 time.sleep(1.2)
                 continue
