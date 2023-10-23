@@ -2,6 +2,7 @@ import pprint
 import numpy as np
 import getAPI
 import etcFunction as ef
+
 pp = pprint.PrettyPrinter(indent=4)
 
 '''
@@ -13,10 +14,20 @@ pp = pprint.PrettyPrinter(indent=4)
 '''
 
 # 15분 후 게임 데이터 셋
-def tempResult(matchId, frame):
-    gameTimelineInfo = getAPI.getGameInfoTimeline(matchId)['info']['frames']
-    gameInfo = getAPI.getGameInfo(matchId)['info']['teams']
-
+def getResult(matchId, frame, countAPI):
+    print(f'{matchId}의 데이터 가져오는 중...')
+    if countAPI == 1:
+        gameInfo = getAPI.getGameInfo(matchId)['info']
+        gameTimelineInfo = getAPI.getGameInfoTimeline(matchId)['info']['frames']
+    elif countAPI == 2:
+        gameInfo = getAPI.secondGetGameInfo(matchId)['info']
+        gameTimelineInfo = getAPI.secondGetGameInfoTimeline(matchId)['info']['frames']
+    if gameInfo['queueId'] != 420 and gameInfo['queueId'] != 440:
+        print('솔로랭크 또는 자유랭크가 아닙니다.')
+        return 0
+    elif (gameInfo['gameDuration']/60) < frame:
+        print(f'{int(gameInfo["gameDuration"]/60)}분 만에 끝난 게임이어서 데이터 셋에 추가되지 않음')
+        return 0
     winTeamMember, loseTeamMember = ef.teamClassfication(matchId)
     winTeamValue = {'level' : [], 
                     'minionsKilled' : [], 
@@ -39,21 +50,23 @@ def tempResult(matchId, frame):
                      'dragonKill' : [],
                      'riftheraldKill' : []}
     dataSet = {}
+    dataSet['queueId'] = gameInfo['queueId']
     dataSet['matchId'] = matchId
-    dataSet['Diff_FirstBLOOD'] = None
-    dataSet['Diff_FirstDRAGON'] = None
-    dataSet['Diff_FirstHERALD'] = None
-    dataSet['Diff_Firsttower'] = None
-    dataSet['dragonType'] = None
+    dataSet['Diff_FirstBLOOD'] = 0
+    dataSet['Diff_FirstDRAGON'] = 0
+    dataSet['Diff_FirstHERALD'] = 0
+    dataSet['Diff_Firsttower'] = 0
+    dataSet['dragonType'] = 0
     # frame을 '분' 단위로 치환하기 위해 +1
+    # 15분 이전 예외처리
     for i in range(frame+1):
         events = gameTimelineInfo[i]['events']
         for j in range(len(events)):
             # 킬/어시
             if events[j]['type'] == 'CHAMPION_KILL':
                 for k in range(2):
-                    if gameInfo[k]['win']:
-                        dataSet['Diff_FirstBLOOD'] = 1 if gameInfo[k]['objectives']['champion']['first'] else -1
+                    if gameInfo['teams'][k]['win']:
+                        dataSet['Diff_FirstBLOOD'] = 1 if gameInfo['teams'][k]['objectives']['champion']['first'] else -1
                 killerId = events[j]['killerId']
                 assistId = None
                 if 'assistingParticipantIds' in events[j]:
@@ -93,8 +106,8 @@ def tempResult(matchId, frame):
                 # 타워
                 if events[j]['buildingType'] == 'TOWER_BUILDING':
                     for k in range(2):
-                        if gameInfo[k]['win']:
-                            dataSet['Diff_Firsttower'] = 1 if gameInfo[k]['objectives']['tower']['first'] else -1
+                        if gameInfo['teams'][k]['win']:
+                            dataSet['Diff_Firsttower'] = 1 if gameInfo['teams'][k]['objectives']['tower']['first'] else -1
                     buildingKillerId = events[j]['killerId']
                     if buildingKillerId in winTeamMember:
                         winTeamValue['towerBreakerId'].append(buildingKillerId)
@@ -105,16 +118,27 @@ def tempResult(matchId, frame):
                 # 드래곤
                 if events[j]['monsterType'] == 'DRAGON':
                     mosterKillerId = events[j]['killerId']
-                    if dataSet['dragonType'] == None:
-                        dataSet['dragonType'] = events[j]['monsterSubType']
+                    if dataSet['dragonType'] == 0:
+                        if events[j]['monsterSubType'] == 'AIR_DRAGON':
+                            dataSet['dragonType'] = 1
+                        elif events[j]['monsterSubType'] == 'EARTH_DRAGON':
+                            dataSet['dragonType'] = 2
+                        elif events[j]['monsterSubType'] == 'FIRE_DRAGON':
+                            dataSet['dragonType'] = 3
+                        elif events[j]['monsterSubType'] == 'WATER_DRAGON':
+                            dataSet['dragonType'] = 4
+                        elif events[j]['monsterSubType'] == 'HEXTECH_DRAGON':
+                            dataSet['dragonType'] = 5
+                        elif events[j]['monsterSubType'] == 'CHEMTECH_DRAGON':
+                            dataSet['dragonType'] = 6
                     for k in range(2):
-                        if gameInfo[k]['win']:
-                            dataSet['Diff_FirstDRAGON'] = 1 if gameInfo[k]['objectives']['dragon']['first'] else -1
+                        if gameInfo['teams'][k]['win']:
+                            dataSet['Diff_FirstDRAGON'] = 1 if gameInfo['teams'][k]['objectives']['dragon']['first'] else -1
                 # 전령
                 if events[j]['monsterType'] == 'RIFTHERALD':
                     for k in range(2):
-                        if gameInfo[k]['win']:
-                            dataSet['Diff_FirstHERALD'] = 1 if gameInfo[k]['objectives']['riftHerald']['first'] else -1
+                        if gameInfo['teams'][k]['win']:
+                            dataSet['Diff_FirstHERALD'] = 1 if gameInfo['teams'][k]['objectives']['riftHerald']['first'] else -1
     # 레벨, 미니언 킬, 정글몹 킬 구하기
     for i in range(1, 11):
         participantFrames = gameTimelineInfo[frame]['participantFrames'][str(i)]
