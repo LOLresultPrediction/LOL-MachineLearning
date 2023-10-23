@@ -1,18 +1,26 @@
 import requests
 import pprint
 import numpy as np
-pp = pprint.PrettyPrinter(indent=4)
 
 
 pp = pprint.PrettyPrinter(indent=4)
+
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-0b6b70ef-5be1-430d-8efa-cd4fc621843b'
+api_key = 'RGAPI-12f56543-b6ae-409c-99f8-86b3d4df9f12'
+api_key2 = 'RGAPI-513c9828-0a59-4500-9ce0-a33b8e220d68'
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
     "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
     "Origin": "https://developer.riotgames.com",
     "X-Riot-Token": api_key
+}
+request_header2 = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
+    "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+    "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
+    "Origin": "https://developer.riotgames.com",
+    "X-Riot-Token": api_key2
 }
 
 # 유저 puuid 가져오기
@@ -38,10 +46,18 @@ def getGameInfo(matchId):
     return requests.get(url, headers=request_header).json()
 # pp.pprint(getGameInfo("KR_6710383118"))
 
+def secondGetGameInfo(matchId):
+    url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}"
+    return requests.get(url, headers=request_header2).json()
+
 # 타임라인으로 게임 정보 가져오기
 def getGameInfoTimeline(matchId):
     url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}/timeline"
     return requests.get(url, headers=request_header).json()
+
+def secondGetGameInfoTimeline(matchId):
+    url = f"https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}/timeline"
+    return requests.get(url, headers=request_header2).json()
 
 # 챌린저 소환사 정보 가져오기
 def getChallengerEntries():
@@ -57,20 +73,25 @@ def getGrandmasterEntries():
 # 마스터 소환사 정보 가져오기
 def getMasterEntries():
     url = f"https://kr.api.riotgames.com/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5?api_key={api_key}"
-    return requests.get(url, headers=request_header).json()['entries']
+    return requests.get(url, headers=request_header).json()['entries'][:600]
 
 # 플래티넘 티어별/페이지별 소환사 정보 가져오기
-def getPlatinumEntries(tier="IV", page=1):
-    valid_tiers = ["IV", "III", "II", "I"]
+def getEntries(tier="PLATINUM", rank="IV", page=1):
+    valid_tiers = ["IRON", "BRONZE", "SILVER", "GOLD", "PLATINUM", "EMERALD", "DIAMOND"]
+    valid_ranks = ["IV", "III", "II", "I"]
 
     # 유효확인
     if tier not in valid_tiers:
         raise ValueError("재입력")
+    url = f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/PLATINUM/{tier}?page={page}&api_key={api_key}"
+    
+    if rank not in valid_ranks:
+        raise ValueError("재입력")
 
-    url = f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/PLATINUM/{tier}?page={page}&api_key{api_key}"
+    url = f"https://kr.api.riotgames.com/lol/league/v4/entries/RANKED_SOLO_5x5/{tier}/{rank}?page={page}&api_key{api_key}"
     return requests.get(url, headers=request_header).json()
     
-# #print(getChallengerEntries())
+# print(getChallengerEntries())
 # print(getUserPuuid('BRO Morgan'))
 # #BRO Morgan
 # print(getMatchId('SAHqMCotWN0cg7n7pCDt4O7fLSnZAAttaN9CFhdSLvQoRk4aCCBGdC2fI2ON2WnMnMBtprwkj6mULQ',0,15))

@@ -5,6 +5,8 @@ import getDataset
 import getMatchId
 import csv
 import saveDataSet
+import pandas as pd
+import secondSaveDataset
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -24,53 +26,47 @@ pp = pprint.PrettyPrinter(indent=4)
 'KR_6707289771',
 'KR_6704954051']
 '''
+
+# chanllengerMatchId = ["KR_6744942072",
+#     "KR_6736181136",
+#     "KR_6736161812",
+#     "KR_6736141671",
+#     "KR_6731035930",
+#     "KR_6730988464",
+#     "KR_6730964771",
+#     "KR_6725142042",
+#     "KR_6725118502",
+#     "KR_6725110264",
+#     "KR_6725094605",
+#     "KR_6721548861",
+#     "KR_6721532590",
+#     "KR_6718691525",
+#     "KR_6718685608",
+#     "KR_6717456435",
+#     "KR_6717394821",
+#     "KR_6716115458",
+#     "KR_6716019516",
+#     "KR_6714278507"]
+
 if __name__ == "__main__":
-    # 챌린저 매치 ID 가져오기
-    # print(len(getMatchId.getChallengerMatchId()))
+    # 1st. matchId csv로 저장 (주석 해제)
+    # SilverMatchId = getMatchId.getMatchIdByTierAndRank("SILVER", "I", 1, 1)
+    # with open('MatchId/SilverMatchId.csv', 'w', newline='') as f:
+    #     w = csv.writer(f)
+    #     w.writerow(SilverMatchId)
+    
+    # 2nd. 불러온 matchId로 데이터셋 csv로 저장 (주석 처리)
+    # SilverMatchId = pd.read_csv('MatchId/SilverMatchId.csv')
+    # saveDataSet.saveDataSetToCSV(SilverMatchId, 'Dataset/Silver.csv', 15)
+    # print(getAPI.getGameInfo('KR_6714278507'))
 
 
-    chanllengerMatchId = ["KR_6744942072",
-    "KR_6736181136",
-    "KR_6736161812",
-    "KR_6736141671",
-    "KR_6731035930",
-    "KR_6730988464",
-    "KR_6730964771",
-    "KR_6725142042",
-    "KR_6725118502",
-    "KR_6725110264",
-    "KR_6725094605",
-    "KR_6721548861",
-    "KR_6721532590",
-    "KR_6718691525",
-    "KR_6718685608",
-    "KR_6717456435",
-    "KR_6717394821",
-    "KR_6716115458",
-    "KR_6716019516",
-    "KR_6714278507"]
-    saveDataSet.saveDataSetToCSV(chanllengerMatchId, 'chanllenger.csv', 15)
-    # for i in chanllengerMatchId:
-    #     saveDataSet.saveDataSetToCSV(dic_data, f"Challenger.csv")
-    #     print(i)
-    # fieldnames = getDataset.tempResult('KR_6714278507', 15)
-    # # print(len(dic_data.keys()))
-    # with open('challenger.csv','w', newline='') as f:
-    #     w = csv.DictWriter(f, fieldnames.keys())
-    #     w.writeheader()
-    #     for i in chanllengerMatchId:
-    #         dic_data = getDataset.tempResult(i, 15)
-    #         w.writerow(dic_data)
-    #         print(i)
-    # print(dic_data)
 
-    # gameTimelineInfo = getAPI.getGameInfoTimeline('KR_6708057039')
-    # gameInfo = getAPI.getGameInfo('KR_6709906475')
-    # for i in range(10):
-    #     pp.pprint(gameInfo['info']['participants'][i]['participantId'])
-    #     pp.pprint(gameInfo['info']['participants'][i]['summonerName'])
-    #     pp.pprint(gameInfo['info']['participants'][i]['championName'])
-    # pp.pprint(gameInfo['info']['teams'][1]['objectives'])
+    #API 2개 사용할 때
+    SilverMatchId = pd.read_csv('MatchId/SilverMatchId.csv')
+    secondSaveDataset.saveDataSetToCSV(SilverMatchId, 'Dataset/Silver.csv', 15)
 
-    # pp.pprint(getDataset.getDataSet('KR_6708057039', 15))
-    # pp.pprint(getAPI.getGameInfo('KR_6708057039')['info']['teams'])
+    #데이터 수집 중단되면 중단된 matchId의 인덱스 번호 넣고 이어서 수집
+    # stopIndex = 1869
+    # ChanllengerMatchId = ChanllengerMatchId.iloc[:, stopIndex:]
+    # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, stopIndex)
