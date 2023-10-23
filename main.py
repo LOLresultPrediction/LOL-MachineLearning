@@ -55,15 +55,16 @@ if __name__ == "__main__":
     #     w = csv.writer(f)
     #     w.writerow(GrandmasterMatchId)
     
-    # # 2nd. 불러온 matchId로 데이터셋 csv로 저장 (1번 코드 주석 처리하고 돌리기)
+    # 2nd. 불러온 matchId로 데이터셋 csv로 저장 (1번 코드 주석 처리하고 돌리기)
     # GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
     # saveDataSet.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15)
-    print(getAPI.getGameInfo('KR_6714278507'))
 
-
+    # GrandmasterMatchId = pd.read_csv('MatchId/IronMatchId4.csv')
+    # gameTimelineInfo = getAPI.getGameInfoTimeline('KR_6744935310')['info']['frames']
+    # pp.pprint(getDataset.getResult('KR_6731860093', 15, 1))
     # API 2개 사용할 때
-    # ChanllengerMatchId = pd.read_csv('MatchId/ChanllengerMatchId.csv')
-    # secondSaveDataset.saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15)
+    ChanllengerMatchId = pd.read_csv('MatchId/ChanllengerMatchId.csv')
+    secondSaveDataset.saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15)
 
     # 데이터 수집 중단되면 중단된 matchId의 인덱스 번호 넣고 이어서 수집
     # stopIndex = 1869
