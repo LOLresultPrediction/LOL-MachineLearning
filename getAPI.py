@@ -76,7 +76,7 @@ def getMasterEntries():
     url = f"https://kr.api.riotgames.com/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5?api_key={api_key}"
     return requests.get(url, headers=request_header).json()['entries'][:600]
 
-# 플래티넘 티어별/페이지별 소환사 정보 가져오기
+# 티어별/페이지별 소환사 정보 가져오기
 def getEntries(tier="PLATINUM", rank="IV", page=1):
     valid_tiers = ["IRON", "BRONZE", "SILVER", "GOLD", "PLATINUM", "EMERALD", "DIAMOND"]
     valid_ranks = ["IV", "III", "II", "I"]
