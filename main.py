@@ -1,12 +1,13 @@
 import pprint
 import numpy as np
 import getAPI
-import getDataset
+import getLoseDataset
 import getMatchId
 import csv
-import saveDataSet
+import saveDataset
 import pandas as pd
 import secondSaveDataset
+import saveLoseDataset
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -59,14 +60,17 @@ if __name__ == "__main__":
     # GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
     # saveDataSet.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15)
 
-    # GrandmasterMatchId = pd.read_csv('MatchId/IronMatchId4.csv')
-    # gameTimelineInfo = getAPI.getGameInfoTimeline('KR_6744935310')['info']['frames']
-    # pp.pprint(getDataset.getResult('KR_6731860093', 15, 1))
     # API 2개 사용할 때
-    ChanllengerMatchId = pd.read_csv('MatchId/ChanllengerMatchId.csv')
-    secondSaveDataset.saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15)
+    # GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
+    # secondSaveDataset.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15)
 
     # 데이터 수집 중단되면 중단된 matchId의 인덱스 번호 넣고 이어서 수집
     # stopIndex = 1869
     # ChanllengerMatchId = ChanllengerMatchId.iloc[:, stopIndex:]
     # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, stopIndex)
+
+    # 패배 데이터셋 수집
+    # GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
+    GrandmasterMatchId = pd.read_csv('Dataset/win/Grandmaster.csv')
+    # saveLoseDataset.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/lose/Grandmaster.csv', 15)
+    print(GrandmasterMatchId.shape)
