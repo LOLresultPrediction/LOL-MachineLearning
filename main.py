@@ -1,12 +1,13 @@
 import pprint
 import numpy as np
 import getAPI
-import getDataset
+import getLoseDataset
 import getMatchId
 import csv
-import saveDataSet
+#import saveDataset
 import pandas as pd
-import secondSaveDataset
+#import secondSaveDataset
+import saveLoseDataset
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -64,24 +65,21 @@ if __name__ == "__main__":
 
 
     # API 2개 사용할 때
-    #SilverMatchId = pd.read_csv('MatchId/SilverMatchId_IV.csv')
-    # secondSaveDataset.saveDataSetToCSV(SilverMatchId, 'Dataset/Silver_IV.csv', 15)
+    # ChanllengerMatchId = pd.read_csv('MatchId/ChanllengerMatchId.csv')
+    # secondSaveDataset.saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15)
 
-    #데이터 수집 중단되면 중단된 matchId의 인덱스 번호 넣고 이어서 수집
-    # stopIndex = 2930 
-    # SilverMatchId = SilverMatchId.iloc[:, stopIndex:]
-    # secondSaveDataset.append_saveDataSetToCSV(SilverMatchId, 'Dataset/Silver_IV.csv', 15, stopIndex)
+    # 데이터 수집 중단되면 중단된 matchId의 인덱스 번호 넣고 이어서 수집
+    # stopIndex = 1869
+    # ChanllengerMatchId = ChanllengerMatchId.iloc[:, stopIndex:]
+    # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, stopIndex)
     
-    #패배팀 Dataset생성
-    # def save_dataframe_to_csv(dataframe, filename):
-    #     dataframe.to_csv(filename, index=False)
-        
-    # Loseteam = pd.read_csv('Dataset/SilverI.csv')
-    # df = pd.DataFrame(Loseteam)
-    # columns_to_drop = [0, 1, 7, 8, 10, 11, 13, 14, 16, 17, 19, 22, 26, 27]
-    # df = df.drop(df.columns[columns_to_drop], axis=1)
-    # df = df * -1
-    # df['dragonType'] = df['dragonType'] * -1
-    # save_dataframe_to_csv(df,'Dataset/SilverI_Loseteam.csv')
-    
-    
+    # 패배팀 Dataset 생성
+    def save_dataframe_to_csv(dataframe, filename):
+        dataframe.to_csv(filename, index=False)
+    Loseteam = pd.read_csv("Dataset/win/SilverI.csv")
+    df = pd.DataFrame(Loseteam)
+    columns_to_drop = [0, 1, 7, 8, 10, 11, 13, 14, 16, 17, 19, 22, 26, 27]
+    df = df.drop(df.columns[columns_to_drop], axis=1)
+    df = df * -1
+    df['dragonType'] = df['dragonType'] * -1
+    save_dataframe_to_csv(df,'Dataset/Lose/SilverI.csv')

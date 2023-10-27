@@ -6,8 +6,8 @@ import numpy as np
 pp = pprint.PrettyPrinter(indent=4)
 
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-329c1e30-0707-4fc6-a7cd-ab3d69d23019'
-api_key2 = 'RGAPI-dbf56c4e-f875-4e1b-a9a5-1e28752c91fd'
+api_key = 'RGAPI-451b201a-a7ec-4587-af9d-de218aa8ef4f'
+api_key2 = 'RGAPI-edf2c42b-e5fb-4bec-af91-eb5c136d2946'
 
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
@@ -76,7 +76,7 @@ def getMasterEntries():
     url = f"https://kr.api.riotgames.com/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5?api_key={api_key}"
     return requests.get(url, headers=request_header).json()['entries'][:600]
 
-# 플래티넘 티어별/페이지별 소환사 정보 가져오기
+# 티어별/페이지별 소환사 정보 가져오기
 def getEntries(tier="PLATINUM", rank="IV", page=1):
     valid_tiers = ["IRON", "BRONZE", "SILVER", "GOLD", "PLATINUM", "EMERALD", "DIAMOND"]
     valid_ranks = ["IV", "III", "II", "I"]
