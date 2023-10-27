@@ -48,3 +48,6 @@ def getMatchIdByTierAndRank(tier, rank, start_page, end_page):
 if __name__ == "__main__":
     match_ids = getMatchIdByTierAndRank("BRONZE", "I", 1, 1)  #원하는 티어, 랭크, 페이지 시작, 페이지 종료 값 입력
     print(match_ids)
+    
+    
+
