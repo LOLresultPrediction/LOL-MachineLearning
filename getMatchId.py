@@ -38,8 +38,8 @@ def getMasterMatchId():
 def getMatchIdByTierAndRank(tier, rank, start_page, end_page):
     matchIdSet = set()
 
-    for page in range(start_page, end_page + 1): 
-        for entry in getAPI.getEntries(tier, rank, page):  
+    for page in range(start_page, end_page + 1):
+        for entry in getAPI.getEntries(tier, rank, page):
             matchIdSet.update(getAPI.getMatchId(getAPI.getUserPuuidBySummonerId(entry['summonerId']), 0, 20))
             time.sleep(0.7)
 
