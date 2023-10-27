@@ -7,11 +7,10 @@ import pandas as pd
 
 def save_dataframe_to_csv(dataframe, filename):
     df = pd.DataFrame(dataframe)
-    columns_to_drop = [0, 1, 7, 8, 10, 11, 13, 14, 16, 17, 19, 22, 26, 27]
-    df = df.drop(df.columns[columns_to_drop], axis=1)
-    df = df * -1
-    df['dragonType'] = df['dragonType'] * -1
-    dataframe.to_csv(filename, index=False)
+    columns_to_exclude_index = [0, 1, 7, 8, 10, 11, 13, 14, 16, 17, 19, 22, 26, 27, 34]  
+    columns_to_multiply_by_minus_1_index = [col_idx for col_idx in range(len(df.columns)) if col_idx not in columns_to_exclude_index]
+    df.iloc[:, columns_to_multiply_by_minus_1_index] = df.iloc[:, columns_to_multiply_by_minus_1_index] * -1
+    df.to_csv(filename, index=False)
 
 
 fieldnames = [

@@ -35,4 +35,4 @@ if __name__ == "__main__":
     # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, stopIndex)
     
     Grandmaster = pd.read_csv('Dataset/win/Grandmaster.csv')
-    saveLoseDataset.save_dataframe_to_csv(Grandmaster,'Dataset/Lose/Grandmaster.csv')
+    saveLoseDataset.save_dataframe_to_csv(Grandmaster,'Dataset/lose/Grandmaster.csv')
