@@ -2,6 +2,17 @@ import getDataset
 import csv
 import time
 import getLoseDataset
+import pandas as pd
+
+
+def save_dataframe_to_csv(dataframe, filename):
+    df = pd.DataFrame(dataframe)
+    columns_to_drop = [0, 1, 7, 8, 10, 11, 13, 14, 16, 17, 19, 22, 26, 27]
+    df = df.drop(df.columns[columns_to_drop], axis=1)
+    df = df * -1
+    df['dragonType'] = df['dragonType'] * -1
+    dataframe.to_csv(filename, index=False)
+
 
 fieldnames = [
         'matchId',
