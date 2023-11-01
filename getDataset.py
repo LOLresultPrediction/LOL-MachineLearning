@@ -14,12 +14,12 @@ pp = pprint.PrettyPrinter(indent=4)
 '''
 
 # 15분 후 게임 데이터 셋
-def getResult(matchId, frame, countAPI):
+def getResult(matchId, frame, count):
     print(f'{matchId}의 데이터 가져오는 중...')
-    if countAPI == 1:
+    if count == 1:
         gameInfo = getAPI.getGameInfo(matchId)['info']
         gameTimelineInfo = getAPI.getGameInfoTimeline(matchId)['info']
-    elif countAPI == 2:
+    elif count == 2:
         gameInfo = getAPI.secondGetGameInfo(matchId)['info']
         gameTimelineInfo = getAPI.secondGetGameInfoTimeline(matchId)['info']
     if gameInfo['queueId'] != 420 and gameInfo['queueId'] != 440:
