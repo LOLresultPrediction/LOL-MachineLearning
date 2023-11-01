@@ -27,12 +27,13 @@ if __name__ == "__main__":
 
     # API 2개 사용할 때
     # GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
-    # secondSaveDataset.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/Grandmaster.csv', 15)
+    # saveWinDataset.saveDataSetToCSV(GrandmasterMatchId, 'Dataset/10_win_Grandmaster.csv', 10)
 
     # 데이터 수집 중단되면 중단된 matchId의 인덱스 번호 넣고 이어서 수집
-    # stopIndex = 1869
-    # ChanllengerMatchId = ChanllengerMatchId.iloc[:, stopIndex:]
-    # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, stopIndex)
+    # stopIndex = 2049
+    # GrandmasterMatchId = GrandmasterMatchId.iloc[:, stopIndex:]
+    # saveWinDataset.append_saveDataSetToCSV(GrandmasterMatchId, 'Dataset/10_win_Grandmaster.csv', 10, stopIndex)
     
-    Silver_I = pd.read_csv('Dataset/win/Silver_I.csv')
-    saveLoseDataset.save_dataframe_to_csv(Silver_I,'Dataset/lose/Silver_I.csv')
+    # 패배 데이터셋 만들기
+    Silver_I = pd.read_csv('Dataset/10_win_Grandmaster.csv')
+    saveLoseDataset.save_dataframe_to_csv(Silver_I,'Dataset/10_lose_Grandmaster.csv')
