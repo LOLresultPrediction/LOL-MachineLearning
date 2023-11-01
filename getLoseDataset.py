@@ -138,7 +138,7 @@ def getResult(matchId, frame, countAPI):
                 # 타워
                 if events[j]['buildingType'] == 'TOWER_BUILDING':
                     for k in range(2):
-                        if gameInfo['teams'][k]['win']:
+                        if gameInfo['teams'][k]['win'] == False:
                             dataSet['Diff_Firsttower'] = 1 if gameInfo['teams'][k]['objectives']['tower']['first'] else -1
                     buildingKillerId = events[j]['killerId']
                     if buildingKillerId in winTeamMember:
@@ -183,7 +183,7 @@ def getResult(matchId, frame, countAPI):
             loseTeamValue['minionsKilled'].append(participantFrames['minionsKilled'])
             loseTeamValue['jungleMinionsKilled'].append(participantFrames['jungleMinionsKilled'])
 
-    dataSet['Diff_LV'] = sum(np.array(winTeamValue['level']) - np.array(loseTeamValue['level']))
+    dataSet['Diff_LV'] = sum(np.array(loseTeamValue['level']) - np.array(winTeamValue['level']))
     dataSet['Diff_CS'] = sum(np.array(loseTeamValue['minionsKilled']) - np.array(winTeamValue['minionsKilled']))
     dataSet['Diff_jglCS'] = sum(np.array(loseTeamValue['jungleMinionsKilled']) - np.array(winTeamValue['jungleMinionsKilled']))
     # 0번 인덱스의 diffKillScore에 관한 어시스트는 diffAssistScore의 0번 인덱스임
