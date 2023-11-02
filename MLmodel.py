@@ -43,11 +43,14 @@ X = data.iloc[:, :21]
 y = data.iloc[:, 21:]
 
 # # features/target, train/test dataset 분리
-train_x, test_x, train_y, test_y = train_test_split(X, y, test_size = 0.3, random_state = 42) # 학습데이터와 평가데이터의 비율을 8:2 로 분할| 
-
+train_x, test_x, train_y, test_y = train_test_split(X, y, test_size = 0.2, random_state = 42) # 학습데이터와 평가데이터의 비율을 8:2 로 분할| 
+print('********************')
+train_y = train_y.values.ravel()
+print(train_y.shape)
+print('********************')
 # #기본적인 randomforest모형
 
-rf = RandomForestClassifier(n_estimators=100, max_depth=20,random_state=0)
+rf = RandomForestClassifier(n_estimators=1000, max_depth=100,random_state=0)
 rf.fit(train_x,train_y)
 
 lgbm = LGBMClassifier(n_estimators=100)
