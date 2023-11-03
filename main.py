@@ -40,9 +40,9 @@ if __name__ == "__main__":
     # 패배팀 Dataset 생성
     import pandas as pd
     
-    dataframe = pd.read_csv("Dataset/win/Gold_I.csv")
+    dataframe = pd.read_csv("Dataset/win/Chanllenger.csv")
     
-    saveLoseDataset.save_dataframe_to_csv(dataframe,"Dataset/lose/Gold_I_lose.csv")
+    saveLoseDataset.save_dataframe_to_csv(dataframe,"Dataset/lose/Chanllenger_lose_new.csv")
 
 # def process_and_save_dataframe(input_filename, output_filename):
 #     Loseteam = pd.read_csv(input_filename)
