@@ -38,12 +38,21 @@ if __name__ == "__main__":
     # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, stopIndex)
     
     # 패배팀 Dataset 생성
-    def save_dataframe_to_csv(dataframe, filename):
-        dataframe.to_csv(filename, index=False)
-    Loseteam = pd.read_csv("Dataset/win/SilverI.csv")
-    df = pd.DataFrame(Loseteam)
-    columns_to_drop = [0, 1, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20, 26, 34]
-    df = df.drop(df.columns[columns_to_drop], axis=1)
-    df = df * -1
-    df['dragonType'] = df['dragonType'] * -1
-    save_dataframe_to_csv(df,'Dataset/Lose/SilverI.csv')
+    import pandas as pd
+    
+    dataframe = pd.read_csv("Dataset/win/Gold_I.csv")
+    
+    saveLoseDataset.save_dataframe_to_csv(dataframe,"Dataset/lose/Gold_I_lose.csv")
+
+# def process_and_save_dataframe(input_filename, output_filename):
+#     Loseteam = pd.read_csv(input_filename)
+#     df = pd.DataFrame(Loseteam)
+
+#     columns_to_exclude_index = [0, 1, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20, 26, 34]
+#     columns_to_multiply_by_minus_1_index = [col_idx for col_idx in range(len(df.columns)) if col_idx not in columns_to_exclude_index]
+#     df.iloc[:, columns_to_multiply_by_minus_1_index] = df.iloc[:, columns_to_multiply_by_minus_1_index] * -1
+
+#     df.to_csv(output_filename, index=False)
+
+# process_and_save_dataframe("Dataset/win/Silver_I.csv", "Dataset/lose/Silver_I_lose_new.csv")
+    
