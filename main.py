@@ -39,4 +39,4 @@ if __name__ == "__main__":
     
     # 패배 데이터셋 만들기
     Chanllenger_ver2 = pd.read_csv('Dataset/win/Master.csv')
-    saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose/Master.csv')    
+    saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose/Master_lose.csv')    
