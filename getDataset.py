@@ -231,3 +231,5 @@ def getResult(matchId, frame, count):
     dataSet['result'] = 1
     
     return dataSet
+
+pp.pprint(getResult('KR_6779185833', 15, 1))
