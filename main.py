@@ -9,6 +9,8 @@ import pandas as pd
 #import secondSaveDataset
 import saveLoseDataset
 import pandas as pd
+import saveDatasetTemp
+import getDatasetTemp
 
 
 
@@ -38,8 +40,10 @@ if __name__ == "__main__":
     # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, stopIndex)
     
     # 패배 데이터셋 만들기
-    # Chanllenger_ver2 = pd.read_csv('Dataset/win_10/10_Chanllenger_ver2.csv')
-    # saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose_10/10_Chanllenger_ver2_lose.csv')    
+    # Chanllenger_ver2 = pd.read_csv('Dataset/win/Master.csv')
+    # saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose/Master_lose.csv')    
 
-    Chanllenger_ver2 = pd.read_csv('Dataset/win_10/10_Grandmaster.csv')
-    saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose_10/be_10_Grandmaster.csv')
+
+    #분별 데이터셋 만들기
+    getMinuteData = pd.read_csv('MatchId/MasterMatchId_test.csv')
+    saveDatasetTemp.saveDataSetToCSV(getMinuteData,'Dataset/Master_8.csv', 15,8) #끝에 숫자를 변경하여 데이터 수집, 예로 8을 삽입시 1~7분59초까지의 데이터 수집됨
