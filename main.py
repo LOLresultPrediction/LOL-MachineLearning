@@ -38,5 +38,8 @@ if __name__ == "__main__":
     # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, stopIndex)
     
     # 패배 데이터셋 만들기
-    Chanllenger_ver2 = pd.read_csv('Dataset/win/Master.csv')
-    saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose/Master_lose.csv')    
+    # Chanllenger_ver2 = pd.read_csv('Dataset/win_10/10_Chanllenger_ver2.csv')
+    # saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose_10/10_Chanllenger_ver2_lose.csv')    
+
+    Chanllenger_ver2 = pd.read_csv('Dataset/win_10/10_Grandmaster.csv')
+    saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose_10/be_10_Grandmaster.csv')

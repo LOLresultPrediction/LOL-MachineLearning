@@ -3,8 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-win_10_Chanllenger = pd.read_csv('Dataset/win_10/win_10_Chanllenger.csv')
-lose_10_Chanllenger = pd.read_csv('Dataset/lose_10/lose_10_Chanllenger.csv')
+# win_10_Chanllenger = pd.read_csv('Dataset/win_10/10_Chanllenger.csv')
+# lose_10_Chanllenger = pd.read_csv('Dataset/lose_10/10_Chanllenger_lose.csv')
+
+win_10_Chanllenger = pd.read_csv('Dataset/win_10/10_Grandmaster.csv')
+lose_10_Chanllenger = pd.read_csv('Dataset/lose_10/10_Grandmaster.csv')
+
+# win_10_Chanllenger = pd.read_csv('Dataset/win/Bronze_I.csv')
+# lose_10_Chanllenger = pd.read_csv('Dataset/lose/Bronze_I_lose.csv')
 
 df = pd.concat([win_10_Chanllenger, lose_10_Chanllenger], ignore_index=True)
 df= df.drop(['matchId'],axis=1)
