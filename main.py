@@ -9,13 +9,25 @@ import pandas as pd
 #import secondSaveDataset
 import saveLoseDataset
 import pandas as pd
+import getDatasetConcat
 
 
 
 pp = pprint.PrettyPrinter(indent=4)
 
 
-if __name__ == "__main__":
+data1 = pd.read_csv("Dataset/win/Platinum_I.csv")
+data2 = pd.read_csv("Dataset/win/Platinum_II.csv")
+data3 = pd.read_csv("Dataset/win/Platinum_III.csv")
+data4 = pd.read_csv("Dataset/win/Platinum_IV.csv")
+
+getDatasetConcat.Win_Lose_DataSet_Create(data1,data2,data3,data4,'Platinum')
+
+
+#if __name__ == "__main__":
+    
+    
+    
     #1st. matchId csv로 저장 (주석 해제)
     # ChallengerMatchId = getMatchId.getChallengerMatchId()
     # with open('MatchId/ChallengerMatchId_ver2.csv', 'w', newline='') as f:
@@ -38,5 +50,7 @@ if __name__ == "__main__":
     # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, stopIndex)
     
     # 패배 데이터셋 만들기
-    Chanllenger_ver2 = pd.read_csv('Dataset/win/Master.csv')
-    saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose/Master_lose.csv')    
+    # Chanllenger_ver2 = pd.read_csv('Dataset/win/Master.csv')
+    # saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose/Master_lose.csv')    
+
+    
