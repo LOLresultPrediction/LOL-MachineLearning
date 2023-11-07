@@ -232,4 +232,4 @@ def getResult(matchId, frame, count):
     
     return dataSet
 
-pp.pprint(getResult('KR_6779185833', 15, 1))
+#pp.pprint(getResult('KR_6779185833', 15, 1))
