@@ -21,6 +21,14 @@ def teamClassfication(matchId):
     #     loseTeamValue['wardCreatorId'].append(wardCreatorId)
     return winTeamMember, loseTeamMember
 
+# 게임 내의 participantId와 champion name 가져오기
+def getParticipantId_ChampionName(matchId):
+    gameInfo = getAPI.getGameInfo(matchId)['info']
+    for i in range(10):
+        print(gameInfo['participants'][i]['participantId'])
+        print(gameInfo['participants'][i]['summonerName'])
+        print(gameInfo['participants'][i]['championName'])
+
 # 처음 오브젝트 획득 한 팀
 def whoFirstGet(firstObjectInfo, object):
     if firstObjectInfo[0]['objectives'][object]['first']:

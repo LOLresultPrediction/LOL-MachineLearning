@@ -11,23 +11,12 @@ import saveLoseDataset
 import pandas as pd
 import getDatasetConcat
 import getDatasetTemp
-
-
+import etcFunction
 
 pp = pprint.PrettyPrinter(indent=4)
 
 
-data1 = pd.read_csv("Dataset/win/Platinum_I.csv")
-data2 = pd.read_csv("Dataset/win/Platinum_II.csv")
-data3 = pd.read_csv("Dataset/win/Platinum_III.csv")
-data4 = pd.read_csv("Dataset/win/Platinum_IV.csv")
-
-getDatasetConcat.Win_Lose_DataSet_Create(data1,data2,data3,data4,'Platinum')
-
-
 if __name__ == "__main__":
-    
-    
     
     #1st. matchId csv로 저장 (주석 해제)
     # ChallengerMatchId = getMatchId.getChallengerMatchId()
@@ -54,26 +43,21 @@ if __name__ == "__main__":
     # Chanllenger_ver2 = pd.read_csv('Dataset/win_10/10_Grandmaster.csv')
     # saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose_10/LvKA_10_Grandmaster.csv')
 
+    # data 중복 제거, 10000개로 슬라이싱 후 저장
+    # data1 = pd.read_csv("Dataset/win/Platinum_I.csv")
+    # data2 = pd.read_csv("Dataset/win/Platinum_II.csv")
+    # data3 = pd.read_csv("Dataset/win/Platinum_III.csv")
+    # data4 = pd.read_csv("Dataset/win/Platinum_IV.csv")
+    # getDatasetConcat.Win_Lose_DataSet_Create(data1,data2,data3,data4,'Platinum')
 
+    # 5분부터 15분까지의 데이터 저장
     # getDatasetTemp.getResult('KR_6710383118', 15, 1)
-    # a = pd.read_csv('Dataset/0_min/test_10_m.csv')
-    # b = pd.read_csv('Dataset/0_min/test_11_m.csv')
-    # c = pd.read_csv('Dataset/0_min/test_12_m.csv')
-    # d = pd.read_csv('Dataset/0_min/test_13_m.csv')
-    # e = pd.read_csv('Dataset/0_min/test_14_m.csv')
-    # print(a['Diff_CS'])
-    # print(b['Diff_CS'])
-    # print(c['Diff_CS'])
-    # print(d['Diff_CS'])
-    # print(e['Diff_CS'])
-    # print(e['Diff_jglCS'])
+
+    # 게임 내의 participantId와 champion name 가져오기
     id = 6709531155
     gameTimelineInfo = getAPI.getGameInfoTimeline(f'KR_{id}')['info']
-    gameInfo = getAPI.getGameInfo(f'KR_{id}')['info']
-    
-    # for i in range(1, 11):
-    for i in range(0, 3):
-        participantFrames = gameTimelineInfo['frames'][i]['participantFrames']['2']
-        # print(participantFrames['minionsKilled'])
-        print(i, ' ', participantFrames['minionsKilled'])
+    etcFunction.getParticipantId_ChampionName('KR_6709531155')
+    # for i in range(0, 30):
+    #     participantFrames = gameTimelineInfo['frames'][i]['participantFrames']['2']
+    #     print(i, ' ', participantFrames['minionsKilled'])
     
