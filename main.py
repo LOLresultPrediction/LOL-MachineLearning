@@ -9,6 +9,7 @@ import pandas as pd
 #import secondSaveDataset
 import saveLoseDataset
 import pandas as pd
+import getDatasetConcat
 import getDatasetTemp
 
 
@@ -16,7 +17,18 @@ import getDatasetTemp
 pp = pprint.PrettyPrinter(indent=4)
 
 
+data1 = pd.read_csv("Dataset/win/Platinum_I.csv")
+data2 = pd.read_csv("Dataset/win/Platinum_II.csv")
+data3 = pd.read_csv("Dataset/win/Platinum_III.csv")
+data4 = pd.read_csv("Dataset/win/Platinum_IV.csv")
+
+getDatasetConcat.Win_Lose_DataSet_Create(data1,data2,data3,data4,'Platinum')
+
+
 if __name__ == "__main__":
+    
+    
+    
     #1st. matchId csv로 저장 (주석 해제)
     # ChallengerMatchId = getMatchId.getChallengerMatchId()
     # with open('MatchId/ChallengerMatchId_ver2.csv', 'w', newline='') as f:
