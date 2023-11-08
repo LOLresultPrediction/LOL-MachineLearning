@@ -9,6 +9,7 @@ import pandas as pd
 #import secondSaveDataset
 import saveLoseDataset
 import pandas as pd
+import getDatasetTemp
 
 
 
@@ -38,5 +39,29 @@ if __name__ == "__main__":
     # secondSaveDataset.append_saveDataSetToCSV(ChanllengerMatchId, 'Dataset/Chanllenger.csv', 15, stopIndex)
     
     # 패배 데이터셋 만들기
-    Chanllenger_ver2 = pd.read_csv('Dataset/win/Master.csv')
-    saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose/Master_lose.csv')    
+    # Chanllenger_ver2 = pd.read_csv('Dataset/win_10/10_Grandmaster.csv')
+    # saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose_10/LvKA_10_Grandmaster.csv')
+
+
+    # getDatasetTemp.getResult('KR_6710383118', 15, 1)
+    # a = pd.read_csv('Dataset/0_min/test_10_m.csv')
+    # b = pd.read_csv('Dataset/0_min/test_11_m.csv')
+    # c = pd.read_csv('Dataset/0_min/test_12_m.csv')
+    # d = pd.read_csv('Dataset/0_min/test_13_m.csv')
+    # e = pd.read_csv('Dataset/0_min/test_14_m.csv')
+    # print(a['Diff_CS'])
+    # print(b['Diff_CS'])
+    # print(c['Diff_CS'])
+    # print(d['Diff_CS'])
+    # print(e['Diff_CS'])
+    # print(e['Diff_jglCS'])
+    id = 6709531155
+    gameTimelineInfo = getAPI.getGameInfoTimeline(f'KR_{id}')['info']
+    gameInfo = getAPI.getGameInfo(f'KR_{id}')['info']
+    
+    # for i in range(1, 11):
+    for i in range(0, 3):
+        participantFrames = gameTimelineInfo['frames'][i]['participantFrames']['2']
+        # print(participantFrames['minionsKilled'])
+        print(i, ' ', participantFrames['minionsKilled'])
+    

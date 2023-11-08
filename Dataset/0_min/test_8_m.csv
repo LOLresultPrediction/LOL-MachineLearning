@@ -1,0 +1,2 @@
+matchId,queueId,Diff_LV,Diff_CS,Diff_jglCS,Diff-K,Diff-K-top,K-WIN-top,K-LOSE-top,Diff-K-jug,K-WIN-jug,K-LOSE-jug,Diff-K-mid,K-WIN-mid,K-LOSE-mid,Diff-K-ad,K-WIN-ad,K-LOSE-ad,Diff-K-sup,K-WIN-sup,K-LOSE-sup,invadeKill,Diff-A,Diff_WARDplaced,Diff-ControlWARDplaced,LOSE_controlWARDPlaced,WIN_controlWARDPlaced,Diff_WARDkill,Diff_Inhibitor,Diff_TOWERkill,Diff_FirstDRAGON,Diff_FirstHERALD,Diff_Firsttower,Diff_FirstBLOOD,dragonType,result
+KR_6710383118,420,6,20,26,0,-1,0,1,2,2,0,2,2,0,-3,0,3,0,0,0,-2,-2,-5,-1,2,1,3,0,0,0,0,0,-1,0,1
