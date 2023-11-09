@@ -13,9 +13,8 @@ import getDatasetConcat
 import getDatasetTemp
 import etcFunction
 import requests
-import pandas as pd
-import requests
-from urllib import parse
+
+
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -68,23 +67,3 @@ if __name__ == "__main__":
     #getDatasetTemp.getResult("KR_6709531155",10,2,'Bronze')
 
 
-    apiKey = 'R016GAPI-61c2d-9539-4a00-93ea-ff882aad8fb0'
-    username = '우리집정글' # 유저아이디
-    champ = 'Udyr' # 원하는 챔프(머신러닝결과값)
-
-    id = parse.quote(username) # 아이디를 URL 인코딩
-
-    url = 'https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/' + id +'?api_key=' + apiKey #puuid값을 가져오기 위한 주소
-    r = requests.get(url)
-    r = r.json()
-    puuid = r['puuid'] # 해당 유저의 puuid 값 가져오기
-
-    # 랭크 n경기 매치아이디 가져오기
-    n = str(10)
-    rankUrl = 'https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/' + puuid + '/ids?queue=420&type=ranked&start=0&count='+n+'&api_key='+ apiKey
-    r = requests.get(rankUrl)
-    r = r.json()
-
-    rankId = r
-    print(rankId)
-        
