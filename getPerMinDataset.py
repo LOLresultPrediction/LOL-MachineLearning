@@ -16,7 +16,7 @@ pp = pprint.PrettyPrinter(indent=4)
 '''
 
 # 15분 후 게임 데이터 셋
-def getResult(matchId, frame, count):
+def getResult(matchId, frame, count, tier):
     print(f'{matchId}의 데이터 가져오는 중...')
     if count == 1:
         gameInfo = getAPI.getGameInfo(matchId)['info']
@@ -33,7 +33,7 @@ def getResult(matchId, frame, count):
     winTeamMember = []
     loseTeamMember = []
     for i in range(1, 11):
-        if gameInfo['participants'][i-1]['win'] == True:
+        if gameInfo['participants'][i-1]['win'] == True: #participants은 참가자들. (player 10명 이니깐 for문으로 10번 진행)
             winTeamMember.append(gameInfo['participants'][i-1]['participantId'])
         elif gameInfo['participants'][i-1]['win'] == False:
             loseTeamMember.append(gameInfo['participants'][i-1]['participantId'])
@@ -192,57 +192,57 @@ def getResult(matchId, frame, count):
                             dataSet['Diff_FirstHERALD'] = 1 if gameInfo['teams'][k]['objectives']['riftHerald']['first'] else -1
         if i == 5: # 4분 59초까지
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = 'Dataset/0_min/test_5_m.csv'
+            fileName = f'Dataset/0_min/{tier}_5_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 6:
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = 'Dataset/0_min/test_6_m.csv'
+            fileName = f'Dataset/0_min/{tier}_6_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 7:
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = 'Dataset/0_min/test_7_m.csv'
+            fileName = f'Dataset/0_min/{tier}_7_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 8:
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = 'Dataset/0_min/test_8_m.csv'
+            fileName = f'Dataset/0_min/{tier}_8_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 9:
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = 'Dataset/0_min/test_9_m.csv'
+            fileName = f'Dataset/0_min/{tier}_9_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 10:
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = 'Dataset/0_min/test_10_m.csv'
+            fileName = f'Dataset/0_min/{tier}_10_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 11:
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = 'Dataset/0_min/test_11_m.csv'
+            fileName = f'Dataset/0_min/{tier}_11_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 12:
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = 'Dataset/0_min/test_12_m.csv'
+            fileName = f'Dataset/0_min/{tier}_12_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 13:
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = 'Dataset/0_min/test_13_m.csv'
+            fileName = f'Dataset/0_min/{tier}_13_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 14:
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = 'Dataset/0_min/test_14_m.csv'
+            fileName = f'Dataset/0_min/{tier}_14_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 15:
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = 'Dataset/0_min/test_15_m.csv'
+            fileName = f'Dataset/0_min/{tier}_15_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
 
