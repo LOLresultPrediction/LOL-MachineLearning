@@ -12,18 +12,20 @@ import pandas as pd
 import getDatasetConcat
 import getPerMinDataset
 import etcFunction
+import saveWinDataset
 
 pp = pprint.PrettyPrinter(indent=4)
 
 
 if __name__ == "__main__":
-    
     #1st. matchId csv로 저장 (주석 해제)
-    # ChallengerMatchId = getMatchId.getChallengerMatchId()
-    # with open('MatchId/ChallengerMatchId_ver2.csv', 'w', newline='') as f:
-    #     w = csv.writer(f)
-    #     w.writerow(ChallengerMatchId)
-
+    tier = "PLATINUM" # 대문자 풀네임으로 작성
+    ranks = ["I", "II", "III", "IV"]
+    for rank in ranks:
+        matchId = getMatchId.getMatchIdByTierAndRank(tier, rank, 1, 2)
+        with open(f'MatchId/{tier}_{rank}.csv', 'w', newline='') as f:
+            w = csv.writer(f)
+            w.writerow(matchId)
     
     # # 2nd. 불러온 matchId로 데이터셋 csv로 저장 (1번 코드 주석 처리하고 돌리기)
     # GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
@@ -31,8 +33,9 @@ if __name__ == "__main__":
 
 
     # API 2개 사용할 때
-    # ChanllengerMatchId_ver2 = pd.read_csv('MatchId/ChanllengerMatchId_ver2.csv')
-    # saveWinDataset.saveDataSetToCSV(ChanllengerMatchId_ver2, 'Dataset/ChanllengerMatchId_ver2.csv', 10)
+    for rank in ranks:
+        matchId = pd.read_csv(f'MatchId/{tier}_{rank}.csv')
+        saveWinDataset.saveDataSetToCSV(matchId, 15, tier)
 
     # 데이터 수집 중단되면 중단된 matchId의 인덱스 번호 넣고 이어서 수집
     # stopIndex = 1869
@@ -51,7 +54,7 @@ if __name__ == "__main__":
     # getDatasetConcat.Win_Lose_DataSet_Create(data1,data2,data3,data4,'Platinum')
 
     # 5분부터 15분까지의 데이터 저장
-    getPerMinDataset.getResult('KR_6710383118', 15, 1, 'dia')
+    # getPerMinDataset.getResult('KR_6710383118', 15, 1, 'DIAMOND')
 
 
     # 게임 내의 participantId와 champion name 가져오기
