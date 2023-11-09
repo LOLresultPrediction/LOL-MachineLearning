@@ -10,7 +10,7 @@ import pandas as pd
 import saveLoseDataset
 import pandas as pd
 import getDatasetConcat
-import getDatasetTemp
+import getPerMinDataset
 import etcFunction
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -51,13 +51,10 @@ if __name__ == "__main__":
     # getDatasetConcat.Win_Lose_DataSet_Create(data1,data2,data3,data4,'Platinum')
 
     # 5분부터 15분까지의 데이터 저장
-    # getDatasetTemp.getResult('KR_6710383118', 15, 1)
+    getPerMinDataset.getResult('KR_6710383118', 15, 1)
+
 
     # 게임 내의 participantId와 champion name 가져오기
-    id = 6709531155
-    gameTimelineInfo = getAPI.getGameInfoTimeline(f'KR_{id}')['info']
-    etcFunction.getParticipantId_ChampionName('KR_6709531155')
-    # for i in range(0, 30):
-    #     participantFrames = gameTimelineInfo['frames'][i]['participantFrames']['2']
-    #     print(i, ' ', participantFrames['minionsKilled'])
-    
+    # id = 6709531155
+    # gameTimelineInfo = getAPI.getGameInfoTimeline(f'KR_{id}')['info']
+    # etcFunction.getParticipantId_ChampionName('KR_6709531155')

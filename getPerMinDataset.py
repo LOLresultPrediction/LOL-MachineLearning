@@ -65,21 +65,34 @@ def getResult(matchId, frame, count):
     dataSet['Diff_FirstHERALD'] = 0
     dataSet['Diff_Firsttower'] = 0
     dataSet['dragonType'] = 0
-    dataSet['invadeKill'] = 0
+    dataSet['WIN_invadeKill'] = 0
+    dataSet['LOSE_invadeDeath'] = 0
+    dataSet['LOSE_invadeKill'] = 0
+    dataSet['WIN_invadeDeath'] = 0
     dataSet['WIN_controlWARDPlaced'] = 0
     dataSet['LOSE_controlWARDPlaced'] = 0
-    dataSet['Diff-ControlWARDplaced'] = 0
-    dataSet['K-WIN-top'] = 0
-    dataSet['K-WIN-jug'] = 0
-    dataSet['K-WIN-mid'] = 0
-    dataSet['K-WIN-ad'] = 0
-    dataSet['K-WIN-sup'] = 0
-    dataSet['K-LOSE-top'] = 0
-    dataSet['K-LOSE-jug'] = 0
-    dataSet['K-LOSE-mid'] = 0
-    dataSet['K-LOSE-ad'] = 0
-    dataSet['K-LOSE-sup'] = 0
-    KillerIdList = []
+    dataSet['WIN_Kill_top'] = 0
+    dataSet['WIN_Kill_jgl'] = 0
+    dataSet['WIN_Kill_mid'] = 0
+    dataSet['WIN_Kill_ad'] = 0
+    dataSet['WIN_Kill_sup'] = 0
+    dataSet['LOSE_Kill_top'] = 0
+    dataSet['LOSE_Kill_jgl'] = 0
+    dataSet['LOSE_Kill_mid'] = 0
+    dataSet['LOSE_Kill_ad'] = 0
+    dataSet['LOSE_Kill_sup'] = 0
+    dataSet['WIN_Asisst_top'] = 0
+    dataSet['WIN_Asisst_jgl'] = 0
+    dataSet['WIN_Asisst_mid'] = 0
+    dataSet['WIN_Asisst_ad'] = 0
+    dataSet['WIN_Asisst_sup'] = 0
+    dataSet['LOSE_Asisst_top'] = 0
+    dataSet['LOSE_Asisst_jgl'] = 0
+    dataSet['LOSE_Asisst_mid'] = 0
+    dataSet['LOSE_Asisst_ad'] = 0
+    dataSet['LOSE_Asisst_sup'] = 0
+    killerIdList = []
+    victimIdList = []
     # frame을 '분' 단위로 치환하기 위해 +1
     # 15분 이전 예외처리
     for i in range(frame+1):
@@ -88,13 +101,17 @@ def getResult(matchId, frame, count):
             # 킬/어시
             if events[j]['type'] == 'CHAMPION_KILL':
                 killerId = events[j]['killerId']
+                victimId = events[j]['victimId']
                 assistId = None
-                KillerIdList.append(killerId)
+                killerIdList.append(killerId)
+                victimIdList.append(victimId)
                 if events[j]['timestamp'] < 125000:
                     if killerId in winTeamMember:
-                        dataSet['invadeKill'] += 1
+                        dataSet['WIN_invadeKill'] += 1
+                        dataSet['LOSE_invadeDeath'] += 1
                     elif killerId in loseTeamMember:
-                        dataSet['invadeKill'] += -1
+                        dataSet['LOSE_invadeKill'] += 1
+                        dataSet['WIN_invadeDeath'] += 1
                 if dataSet['Diff_FirstBLOOD'] == 0:
                     for k in range(2):
                         if gameInfo['teams'][k]['win']:
@@ -174,60 +191,60 @@ def getResult(matchId, frame, count):
                         if gameInfo['teams'][k]['win']:
                             dataSet['Diff_FirstHERALD'] = 1 if gameInfo['teams'][k]['objectives']['riftHerald']['first'] else -1
         if i == 5: # 4분 59초까지
-            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList)
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
             fileName = 'Dataset/0_min/test_5_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 6:
-            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList)
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
             fileName = 'Dataset/0_min/test_6_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 7:
-            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList)
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
             fileName = 'Dataset/0_min/test_7_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 8:
-            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList)
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
             fileName = 'Dataset/0_min/test_8_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 9:
-            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList)
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
             fileName = 'Dataset/0_min/test_9_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 10:
-            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList)
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
             fileName = 'Dataset/0_min/test_10_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 11:
-            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList)
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
             fileName = 'Dataset/0_min/test_11_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 12:
-            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList)
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
             fileName = 'Dataset/0_min/test_12_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 13:
-            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList)
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
             fileName = 'Dataset/0_min/test_13_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 14:
-            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList)
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
             fileName = 'Dataset/0_min/test_14_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
         if i == 15:
-            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList)
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
             fileName = 'Dataset/0_min/test_15_m.csv'
             saveWinDataset.tempSaveDataset(dataSet, fileName)
             print(f'{i}분 : {matchId}의 데이터 추가')
 
-    
+
     return dataSet
