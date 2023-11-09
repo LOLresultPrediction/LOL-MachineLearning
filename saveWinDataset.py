@@ -97,3 +97,11 @@ def append_saveDataSetToCSV(matchIdSet, fileName, frame, th):
             w.writerow(dic_data)
             print(f'{i} : {matchId}의 데이터 추가')
             time.sleep(1.2)
+
+
+fileName = 'Dataset/0_min/test_5_m.csv'
+def tempSaveDataset(dataset, fileName):
+        with open(fileName, 'w', newline='') as f:
+            w = csv.DictWriter(f, fieldnames=fieldnames)
+            w.writeheader()
+            w.writerow(dataset)
