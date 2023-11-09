@@ -54,8 +54,8 @@ if __name__ == "__main__":
     # getDatasetConcat.Win_Lose_DataSet_Create(data1,data2,data3,data4,'Platinum')
 
     # 5분부터 15분까지의 데이터 저장
-    #GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
-    getPerMinDataset.getResult('KR_6709531155', 10, 2, 'grand')
+    GrandmasterMatchId = pd.read_csv('MatchId/GrandmasterMatchId.csv')
+    getPerMinDataset.getResult(GrandmasterMatchId, 10, 2, 'grand')
 
 
     # 게임 내의 participantId와 champion name 가져오기
