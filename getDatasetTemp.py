@@ -46,7 +46,8 @@ def getResult(matchId, frame, count, tier):
                     'inhibitorBreakerId' : [],
                     'towerBreakerId' : [],
                     'dragonKill' : [],
-                    'riftheraldKill' : []}
+                    'riftheraldKill' : [],
+                    'deaths' : []}
     loseTeamValue = {'level' : [], 
                      'minionsKilled' : [], 
                      'jungleMinionsKilled' : [], 
@@ -56,7 +57,8 @@ def getResult(matchId, frame, count, tier):
                      'inhibitorBreakerId' : [],
                      'towerBreakerId' : [],
                      'dragonKill' : [],
-                     'riftheraldKill' : []}
+                     'riftheraldKill' : [],
+                     'deaths' : []}
     dataSet = {}
     dataSet['queueId'] = gameInfo['queueId']
     dataSet['matchId'] = matchId
