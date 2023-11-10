@@ -9,15 +9,25 @@ import pandas as pd
 #import secondSaveDataset
 import saveLoseDataset
 import pandas as pd
-import saveDatasetTemp
-import getDatasetTemp
+import getDatasetConcat
 
 
 
 pp = pprint.PrettyPrinter(indent=4)
 
 
-if __name__ == "__main__":
+data1 = pd.read_csv("Dataset/win/Platinum_I.csv")
+data2 = pd.read_csv("Dataset/win/Platinum_II.csv")
+data3 = pd.read_csv("Dataset/win/Platinum_III.csv")
+data4 = pd.read_csv("Dataset/win/Platinum_IV.csv")
+
+getDatasetConcat.Win_Lose_DataSet_Create(data1,data2,data3,data4,'Platinum')
+
+
+#if __name__ == "__main__":
+    
+    
+    
     #1st. matchId csv로 저장 (주석 해제)
     # ChallengerMatchId = getMatchId.getChallengerMatchId()
     # with open('MatchId/ChallengerMatchId_ver2.csv', 'w', newline='') as f:
@@ -43,7 +53,4 @@ if __name__ == "__main__":
     # Chanllenger_ver2 = pd.read_csv('Dataset/win/Master.csv')
     # saveLoseDataset.save_dataframe_to_csv(Chanllenger_ver2,'Dataset/lose/Master_lose.csv')    
 
-
-    #분별 데이터셋 만들기
-    getMinuteData = pd.read_csv('MatchId/MasterMatchId_test.csv')
-    saveDatasetTemp.saveDataSetToCSV(getMinuteData,'Dataset/Master_8.csv', 15,8) #끝에 숫자를 변경하여 데이터 수집, 예로 8을 삽입시 1~7분59초까지의 데이터 수집됨
+    
