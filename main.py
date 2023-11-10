@@ -19,10 +19,10 @@ pp = pprint.PrettyPrinter(indent=4)
 
 if __name__ == "__main__":
     #1st. matchId csv로 저장 (주석 해제)
-    tier = "GOLD" # 대문자 풀네임으로 작성
-    ranks = ["II"]
+    tier = "SILVER" # 대문자 풀네임으로 작성
+    ranks = ["I", "II", "III", "IV"]
     for rank in ranks:
-        matchId = getMatchId.getMatchIdByTierAndRank(tier, rank, 1, 1)
+        matchId = getMatchId.getMatchIdByTierAndRank(tier, rank, 1, 2)
         with open(f'MatchId/{tier}_{rank}.csv', 'w', newline='') as f:
             w = csv.writer(f)
             w.writerow(matchId)
