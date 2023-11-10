@@ -26,29 +26,40 @@ fieldnames = [
     'WIN_TOWERkill', 'LOSE_TOWERkill',
     'WIN_WARDplaced', 'LOSE_WARDplaced'
     ]
-def saveDataSetToCSV(matchIdSet, frame, tier):
+def saveDataSetToCSV(matchIdSet, frame, tier, idx):
     i = 0
     for matchId in matchIdSet:
         i += 1
         try:
             if i%2 == 0:
-                dic_data = getPerMinDataset.getResult(matchId, frame, 1, tier)
+                dic_data = getPerMinDataset.getResult(matchId, frame, 1, tier, idx)
             else:
-                dic_data = getPerMinDataset.getResult(matchId, frame, 2, tier)
+                dic_data = getPerMinDataset.getResult(matchId, frame, 2, tier, idx)
         except KeyError:
             print("KeyError발생.. 20초 대기 후 재시도.. ")
             time.sleep(20)
             try:
                 if i%2 == 0:
-                    dic_data = getPerMinDataset.getResult(matchId, frame, 1, tier)
+                    dic_data = getPerMinDataset.getResult(matchId, frame, 1, tier, idx)
                 else:
-                    dic_data = getPerMinDataset.getResult(matchId, frame, 2, tier)
+                    dic_data = getPerMinDataset.getResult(matchId, frame, 2, tier, idx)
             except KeyError:
                 continue
+        idx += 1
         if dic_data == 0:
             time.sleep(1.2)
             continue
+        print(f'{idx}번째 : {matchId}의 데이터 추가')
         time.sleep(1.2)
+
+
+def savePerMinDataset(dataset, fileName, idx):
+    with open(fileName, 'a', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames)
+        if idx == 0:
+            w.writeheader()
+        w.writerow(dataset)
+
 
 # 데이터 수집하다가 중간에 끊겼을 때 사용 (th에 최종 출력된 인덱스 번호 넣으면 됨)
 def append_saveDataSetToCSV(matchIdSet, fileName, frame, th, tier):
@@ -78,9 +89,3 @@ def append_saveDataSetToCSV(matchIdSet, fileName, frame, th, tier):
             w.writerow(dic_data)
             print(f'{i} : {matchId}의 데이터 추가')
             time.sleep(1.2)
-
-
-def tempSaveDataset(dataset, fileName):
-    with open(fileName, 'a', newline='') as f:
-        w = csv.DictWriter(f, fieldnames=fieldnames)
-        w.writerow(dataset)
