@@ -35,13 +35,28 @@ def getMasterMatchId():
     return masterMatchIdSet
 
 
-def getMatchIdByTierAndRank(tier, rank, start_page, end_page):
+def getMatchIdByTierAndRank(tier, rank, start_page, end_page, matchid_num=3000): #matchid_num은 몇개의 매치아이디를 가져올지 정하는 변수
     matchIdSet = set()
+    matchid_total = 0  # 가져온 matchid 수를 추적
 
     for page in range(start_page, end_page + 1):
         for entry in getAPI.getEntries(tier, rank, page):
-            matchIdSet.update(getAPI.getMatchId(getAPI.getUserPuuidBySummonerId(entry['summonerId']), 0, 20))
+            if matchid_total >= matchid_num:
+                break  # 원하는 matchid 수에 도달하면 루프 종료
+            matchids = getAPI.getMatchId(getAPI.getUserPuuidBySummonerId(entry['summonerId']), 0, 20)
+            matchid_count = len(matchids)
+            if matchid_total + matchid_count <= matchid_num:
+                matchIdSet.update(matchids)
+                matchid_total += matchid_count
+            else:
+                # matchid_num을 초과하지 않도록 일부 matchids만 추가
+                max_matchids = matchid_num - matchid_total # 현재 가져온 매치아이디에서 matchid_total빼서 즉 아직 가져와야 할 매치아이디를 개수를 넣어줌
+                matchIdSet.update(matchids[:max_matchids])
+                matchid_total = matchid_num
             time.sleep(0.7)
+
+        if matchid_total >= matchid_num:
+            break  # 지정한 match ID 갯수에 도달하면 종료~~
 
     return matchIdSet
 

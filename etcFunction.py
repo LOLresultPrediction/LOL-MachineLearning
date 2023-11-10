@@ -1,6 +1,7 @@
 import pprint
 import getAPI
 import pandas as pd
+import numpy as np
 pp = pprint.PrettyPrinter(indent=4)
 
 # 승리 팀, 패배 팀 participantId로 나누기
@@ -19,6 +20,14 @@ def teamClassfication(matchId):
     # elif wardCreatorId in loseTeamMember:
     #     loseTeamValue['wardCreatorId'].append(wardCreatorId)
     return winTeamMember, loseTeamMember
+
+# 게임 내의 participantId와 champion name 가져오기
+def getParticipantId_ChampionName(matchId):
+    gameInfo = getAPI.getGameInfo(matchId)['info']
+    for i in range(10):
+        print(gameInfo['participants'][i]['participantId'])
+        print(gameInfo['participants'][i]['summonerName'])
+        print(gameInfo['participants'][i]['championName'])
 
 # 처음 오브젝트 획득 한 팀
 def whoFirstGet(firstObjectInfo, object):
@@ -65,3 +74,120 @@ def Win_Lose_DataSet_Create(dataframe1, dataframe2, dataframe3, dataframe4, file
     losedata = windata.copy() # 승리팀 10000개 DataSet을 그대로 가져와서 거기에 -1만 곱해주면 끝.
     save_lose_dataframe_to_csv(losedata,"Dataset/lose/{filename}_lose.csv") #-1 곱해주고 저장해주는 함수
 
+
+    
+
+def tempLoadData(frameNum, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList, victimIdList):
+    # 레벨, 미니언 킬, 정글몹 킬 구하기
+    for i in range(1, 11):
+        participantFrames = gameTimelineInfo['frames'][frameNum]['participantFrames'][str(i)]
+        if i in winTeamMember:
+            if i == 1 or i == 6:
+                dataSet['WIN_LV_top'] = participantFrames['level']
+                dataSet['WIN_CS_top'] = participantFrames['minionsKilled']
+                dataSet['WIN_jglCS_top'] = participantFrames['jungleMinionsKilled']
+                dataSet['WIN_GOLD_top'] = participantFrames['totalGold']
+                dataSet['WIN_Kill_top'] = KillerIdList.count(i)
+                dataSet['WIN_Death_top'] = victimIdList.count(i)
+            if i == 2 or i == 7:
+                dataSet['WIN_LV_jgl'] = participantFrames['level']
+                dataSet['WIN_CS_jgl'] = participantFrames['minionsKilled']
+                dataSet['WIN_jglCS_jgl'] = participantFrames['jungleMinionsKilled']
+                dataSet['WIN_GOLD_jgl'] = participantFrames['totalGold']
+                dataSet['WIN_Kill_jgl'] = KillerIdList.count(i)
+                dataSet['WIN_Death_jgl'] = victimIdList.count(i)
+            if i == 3 or i == 8:
+                dataSet['WIN_LV_mid'] = participantFrames['level']
+                dataSet['WIN_CS_mid'] = participantFrames['minionsKilled']
+                dataSet['WIN_jglCS_mid'] = participantFrames['jungleMinionsKilled']
+                dataSet['WIN_GOLD_mid'] = participantFrames['totalGold']
+                dataSet['WIN_Kill_mid'] = KillerIdList.count(i)
+                dataSet['WIN_Death_mid'] = victimIdList.count(i)
+            if i == 4 or i == 9:
+                dataSet['WIN_LV_ad'] = participantFrames['level']
+                dataSet['WIN_CS_ad'] = participantFrames['minionsKilled']
+                dataSet['WIN_jglCS_ad'] = participantFrames['jungleMinionsKilled']
+                dataSet['WIN_GOLD_ad'] = participantFrames['totalGold']
+                dataSet['WIN_Kill_ad'] = KillerIdList.count(i)
+                dataSet['WIN_Death_ad'] = victimIdList.count(i)
+            if i == 5 or i == 10:
+                dataSet['WIN_LV_sup'] = participantFrames['level']
+                dataSet['WIN_CS_sup'] = participantFrames['minionsKilled']
+                dataSet['WIN_jglCS_sup'] = participantFrames['jungleMinionsKilled']
+                dataSet['WIN_GOLD_sup'] = participantFrames['totalGold']
+                dataSet['WIN_Kill_sup'] = KillerIdList.count(i)
+                dataSet['WIN_Death_sup'] = victimIdList.count(i)
+        elif i in loseTeamMember:
+            if i == 1 or i == 6:
+                dataSet['LOSE_LV_top'] = participantFrames['level']
+                dataSet['LOSE_CS_top'] = participantFrames['minionsKilled']
+                dataSet['LOSE_jglCS_top'] = participantFrames['jungleMinionsKilled']
+                dataSet['LOSE_GOLD_top'] = participantFrames['totalGold']
+                dataSet['LOSE_Kill_top'] = KillerIdList.count(i)
+                dataSet['LOSE_Death_top'] = victimIdList.count(i)
+            if i == 2 or i == 7:
+                dataSet['LOSE_LV_jgl'] = participantFrames['level']
+                dataSet['LOSE_CS_jgl'] = participantFrames['minionsKilled']
+                dataSet['LOSE_jglCS_jgl'] = participantFrames['jungleMinionsKilled']
+                dataSet['LOSE_GOLD_jgl'] = participantFrames['totalGold']
+                dataSet['LOSE_Kill_jgl'] = KillerIdList.count(i)
+                dataSet['LOSE_Death_jgl'] = victimIdList.count(i)
+            if i == 3 or i == 8:
+                dataSet['LOSE_LV_mid'] = participantFrames['level']
+                dataSet['LOSE_CS_mid'] = participantFrames['minionsKilled']
+                dataSet['LOSE_jglCS_mid'] = participantFrames['jungleMinionsKilled']
+                dataSet['LOSE_GOLD_mid'] = participantFrames['totalGold']
+                dataSet['LOSE_Kill_mid'] = KillerIdList.count(i)
+                dataSet['LOSE_Death_mid'] = victimIdList.count(i)
+            if i == 4 or i == 9:
+                dataSet['LOSE_LV_ad'] = participantFrames['level']
+                dataSet['LOSE_CS_ad'] = participantFrames['minionsKilled']
+                dataSet['LOSE_jglCS_ad'] = participantFrames['jungleMinionsKilled']
+                dataSet['LOSE_GOLD_ad'] = participantFrames['totalGold']
+                dataSet['LOSE_Kill_ad'] = KillerIdList.count(i)
+                dataSet['LOSE_Death_ad'] = victimIdList.count(i)
+            if i == 5 or i == 10:
+                dataSet['LOSE_LV_sup'] = participantFrames['level']
+                dataSet['LOSE_CS_sup'] = participantFrames['minionsKilled']
+                dataSet['LOSE_jglCS_sup'] = participantFrames['jungleMinionsKilled']
+                dataSet['LOSE_GOLD_sup'] = participantFrames['totalGold']
+                dataSet['LOSE_Kill_sup'] = KillerIdList.count(i)
+                dataSet['LOSE_Death_sup'] = victimIdList.count(i)
+
+    # 0번 인덱스의 diffKillScore에 관한 어시스트는 diffAssistScore의 0번 인덱스임
+    for i in winTeamValue['killInfo']['assistId']:
+        if i != None:
+            for j in i:
+                if j == 1 or j == 6:
+                    dataSet['WIN_Asisst_top'] += i.count(j)
+                if j == 2 or j == 7:
+                    dataSet['WIN_Asisst_jgl'] += i.count(j)
+                if j == 3 or j == 8:
+                    dataSet['WIN_Asisst_mid'] += i.count(j)
+                if j == 4 or j == 9:
+                    dataSet['WIN_Asisst_ad'] += i.count(j)
+                if j == 5 or j == 10:
+                    dataSet['WIN_Asisst_sup'] += i.count(j)
+    for i in loseTeamValue['killInfo']['assistId']:
+        if i != None:
+            for j in i:
+                if j == 1 or j == 6:
+                    dataSet['LOSE_Asisst_top'] += i.count(j)
+                if j == 2 or j == 7:
+                    dataSet['LOSE_Asisst_jgl'] += i.count(j)
+                if j == 3 or j == 8:
+                    dataSet['LOSE_Asisst_mid'] += i.count(j)
+                if j == 4 or j == 9:
+                    dataSet['LOSE_Asisst_ad'] += i.count(j)
+                if j == 5 or j == 10:
+                    dataSet['LOSE_Asisst_sup'] += i.count(j)
+    dataSet['WIN_WARDplaced'] = len(winTeamValue['wardCreatorId'])
+    dataSet['LOSE_WARDplaced'] = len(loseTeamValue['wardCreatorId'])
+    dataSet['WIN_WARDkill'] = len(winTeamValue['wardKillerId'])
+    dataSet['LOSE_WARDkill'] = len(loseTeamValue['wardKillerId'])
+    dataSet['WIN_Inhibitor'] = len(winTeamValue['inhibitorBreakerId'])
+    dataSet['LOSE_Inhibitor'] = len(loseTeamValue['inhibitorBreakerId'])
+    dataSet['WIN_TOWERkill'] = len(winTeamValue['towerBreakerId'])
+    dataSet['LOSE_TOWERkill'] = len(loseTeamValue['towerBreakerId'])
+
+    return dataSet

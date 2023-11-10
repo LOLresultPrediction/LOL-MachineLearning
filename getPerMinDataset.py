@@ -2,7 +2,8 @@ import pprint
 import numpy as np
 import getAPI
 import etcFunction as ef
-import saveDatasetTemp
+import csv
+import saveWinDataset
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -12,9 +13,10 @@ pp = pprint.PrettyPrinter(indent=4)
 'WIN' -> int형으로 바꾸기
 1분 30초 이전에 킬이 발생했는지 = bool
 
-''' 
+'''
+
 # 15분 후 게임 데이터 셋
-def getResult(matchId, frame, count, minute):
+def getResult(matchId, frame, count, tier, idx):
     print(f'{matchId}의 데이터 가져오는 중...')
     if count == 1:
         gameInfo = getAPI.getGameInfo(matchId)['info']
@@ -31,7 +33,7 @@ def getResult(matchId, frame, count, minute):
     winTeamMember = []
     loseTeamMember = []
     for i in range(1, 11):
-        if gameInfo['participants'][i-1]['win'] == True:
+        if gameInfo['participants'][i-1]['win'] == True: #participants은 참가자들. (player 10명 이니깐 for문으로 10번 진행)
             winTeamMember.append(gameInfo['participants'][i-1]['participantId'])
         elif gameInfo['participants'][i-1]['win'] == False:
             loseTeamMember.append(gameInfo['participants'][i-1]['participantId'])
@@ -63,21 +65,34 @@ def getResult(matchId, frame, count, minute):
     dataSet['Diff_FirstHERALD'] = 0
     dataSet['Diff_Firsttower'] = 0
     dataSet['dragonType'] = 0
-    dataSet['invadeKill'] = 0
+    dataSet['WIN_invadeKill'] = 0
+    dataSet['LOSE_invadeDeath'] = 0
+    dataSet['LOSE_invadeKill'] = 0
+    dataSet['WIN_invadeDeath'] = 0
     dataSet['WIN_controlWARDPlaced'] = 0
     dataSet['LOSE_controlWARDPlaced'] = 0
-    dataSet['Diff-ControlWARDplaced'] = 0
-    dataSet['K-WIN-top'] = 0
-    dataSet['K-WIN-jug'] = 0
-    dataSet['K-WIN-mid'] = 0
-    dataSet['K-WIN-ad'] = 0
-    dataSet['K-WIN-sup'] = 0
-    dataSet['K-LOSE-top'] = 0
-    dataSet['K-LOSE-jug'] = 0
-    dataSet['K-LOSE-mid'] = 0
-    dataSet['K-LOSE-ad'] = 0
-    dataSet['K-LOSE-sup'] = 0
-    KillerIdList = []
+    dataSet['WIN_Kill_top'] = 0
+    dataSet['WIN_Kill_jgl'] = 0
+    dataSet['WIN_Kill_mid'] = 0
+    dataSet['WIN_Kill_ad'] = 0
+    dataSet['WIN_Kill_sup'] = 0
+    dataSet['LOSE_Kill_top'] = 0
+    dataSet['LOSE_Kill_jgl'] = 0
+    dataSet['LOSE_Kill_mid'] = 0
+    dataSet['LOSE_Kill_ad'] = 0
+    dataSet['LOSE_Kill_sup'] = 0
+    dataSet['WIN_Asisst_top'] = 0
+    dataSet['WIN_Asisst_jgl'] = 0
+    dataSet['WIN_Asisst_mid'] = 0
+    dataSet['WIN_Asisst_ad'] = 0
+    dataSet['WIN_Asisst_sup'] = 0
+    dataSet['LOSE_Asisst_top'] = 0
+    dataSet['LOSE_Asisst_jgl'] = 0
+    dataSet['LOSE_Asisst_mid'] = 0
+    dataSet['LOSE_Asisst_ad'] = 0
+    dataSet['LOSE_Asisst_sup'] = 0
+    killerIdList = []
+    victimIdList = []
     # frame을 '분' 단위로 치환하기 위해 +1
     # 15분 이전 예외처리
     for i in range(frame+1):
@@ -86,13 +101,17 @@ def getResult(matchId, frame, count, minute):
             # 킬/어시
             if events[j]['type'] == 'CHAMPION_KILL':
                 killerId = events[j]['killerId']
+                victimId = events[j]['victimId']
                 assistId = None
-                KillerIdList.append(killerId)
+                killerIdList.append(killerId)
+                victimIdList.append(victimId)
                 if events[j]['timestamp'] < 125000:
                     if killerId in winTeamMember:
-                        dataSet['invadeKill'] += 1
+                        dataSet['WIN_invadeKill'] += 1
+                        dataSet['LOSE_invadeDeath'] += 1
                     elif killerId in loseTeamMember:
-                        dataSet['invadeKill'] += -1
+                        dataSet['LOSE_invadeKill'] += 1
+                        dataSet['WIN_invadeDeath'] += 1
                 if dataSet['Diff_FirstBLOOD'] == 0:
                     for k in range(2):
                         if gameInfo['teams'][k]['win']:
@@ -171,85 +190,9 @@ def getResult(matchId, frame, count, minute):
                     for k in range(2):
                         if gameInfo['teams'][k]['win']:
                             dataSet['Diff_FirstHERALD'] = 1 if gameInfo['teams'][k]['objectives']['riftHerald']['first'] else -1
-
-
-        # 여기부터 분 당 데이터 수집하는 코드도 함수 처리
-        if i == minute: # 9분 59초까지의 데이터
-                    # 레벨, 미니언 킬, 정글몹 킬 구하기
-                    for i in range(1, 11):
-                        participantFrames = gameTimelineInfo['frames'][frame]['participantFrames'][str(i)]
-                        if i in winTeamMember:
-                            winTeamValue['level'].append(participantFrames['level'])
-                            winTeamValue['minionsKilled'].append(participantFrames['minionsKilled'])
-                            winTeamValue['jungleMinionsKilled'].append(participantFrames['jungleMinionsKilled'])
-                        elif i in loseTeamMember:
-                            loseTeamValue['level'].append(participantFrames['level'])
-                            loseTeamValue['minionsKilled'].append(participantFrames['minionsKilled'])
-                            loseTeamValue['jungleMinionsKilled'].append(participantFrames['jungleMinionsKilled'])
-                    dataSet['Diff_LV'] = sum(np.array(winTeamValue['level']) - np.array(loseTeamValue['level']))
-                    dataSet['Diff_CS'] = sum(np.array(winTeamValue['minionsKilled']) - np.array(loseTeamValue['minionsKilled']))
-                    dataSet['Diff_jglCS'] = sum(np.array(winTeamValue['jungleMinionsKilled']) - np.array(loseTeamValue['jungleMinionsKilled']))
-                    # 0번 인덱스의 diffKillScore에 관한 어시스트는 diffAssistScore의 0번 인덱스임
-                    dataSet['Diff-K'] = len(winTeamValue['killInfo']['killerId']) - len(loseTeamValue['killInfo']['killerId'])
-                    dataSet['Diff-K-top'] = KillerIdList.count(1) - KillerIdList.count(6) 
-                    dataSet['Diff-K-jug'] = KillerIdList.count(2) - KillerIdList.count(7) 
-                    dataSet['Diff-K-mid'] = KillerIdList.count(3) - KillerIdList.count(8) 
-                    dataSet['Diff-K-ad'] = KillerIdList.count(4) - KillerIdList.count(9) 
-                    dataSet['Diff-K-sup'] = KillerIdList.count(5) - KillerIdList.count(10) 
-                    if 6 in winTeamMember:
-                        dataSet['Diff-K-top'] *= -1
-                        dataSet['Diff-K-jug'] *= -1
-                        dataSet['Diff-K-mid'] *= -1
-                        dataSet['Diff-K-ad'] *= -1
-                        dataSet['Diff-K-sup'] *= -1
-                    for i in range(1, 11):
-                        if i in winTeamMember:
-                            if i == 1 or i == 6:
-                                dataSet['K-WIN-top'] = KillerIdList.count(i)
-                            if i == 2 or i == 7:
-                                dataSet['K-WIN-jug'] = KillerIdList.count(i)
-                            if i == 3 or i == 8:
-                                dataSet['K-WIN-mid'] = KillerIdList.count(i)
-                            if i == 4 or i == 9:
-                                dataSet['K-WIN-ad'] = KillerIdList.count(i)
-                            if i == 5 or i == 10:
-                                dataSet['K-WIN-sup'] = KillerIdList.count(i)
-                        elif i in loseTeamMember:
-                            if i == 1 or i == 6:
-                                dataSet['K-LOSE-top'] = KillerIdList.count(i)
-                            if i == 2 or i == 7:
-                                dataSet['K-LOSE-jug'] = KillerIdList.count(i)
-                            if i == 3 or i == 8:
-                                dataSet['K-LOSE-mid'] = KillerIdList.count(i)
-                            if i == 4 or i == 9:
-                                dataSet['K-LOSE-ad'] = KillerIdList.count(i)
-                            if i == 5 or i == 10:
-                                dataSet['K-LOSE-sup'] = KillerIdList.count(i)
-                    dataSet['Diff-A'] = sum(len(i) for i in winTeamValue['killInfo']['assistId'] if i != None) - sum(len(i) for i in loseTeamValue['killInfo']['assistId'] if i != None)
-                    dataSet['Diff_WARDplaced'] = len(winTeamValue['wardCreatorId']) - len(loseTeamValue['wardCreatorId'])
-                    dataSet['Diff_WARDkill'] = len(winTeamValue['wardKillerId']) - len(loseTeamValue['wardKillerId'])
-                    dataSet['Diff_Inhibitor'] = len(winTeamValue['inhibitorBreakerId']) - len(loseTeamValue['inhibitorBreakerId'])
-                    dataSet['Diff_TOWERkill'] = len(winTeamValue['towerBreakerId']) - len(loseTeamValue['towerBreakerId'])
-                    dataSet['Diff-ControlWARDplaced'] = dataSet['WIN_controlWARDPlaced'] - dataSet['LOSE_controlWARDPlaced']
-                    dataSet['result'] = 1
-                    
-                    
-
-
-                    
-                   
-                    '''
-                    csv 파일로 저장하는 코드, 함수로 만들어서 한 줄로 하면 될 듯?
-                    5분 6분 7분 8분 9분
-                    10분 11분 12분 13분 14분 15분
-
-                    1. 데이터셋/티어/분당
-
-
-
-                    '''    
-    return dataSet                
-                      
-
-# pp.pprint(getResult('KR_6710383118', 15, 1))
-# pp.pprint(getResult('KR_6779185833', 15, 1, 5))
+        if i >= 5 and i <= 15: # 5 ~ 15분 데이터 저장
+            dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
+            fileName = f'Dataset/perMinuteDataset/{i}min/{tier}.csv'
+            saveWinDataset.savePerMinDataset(dataSet, fileName, idx)
+            # print(f'{i}분 : {matchId}의 데이터 추가')
+    return dataSet
