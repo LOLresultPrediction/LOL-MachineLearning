@@ -1,4 +1,4 @@
-import getDataset
+import getPerMinDataset
 import csv
 import time
 
@@ -26,37 +26,32 @@ fieldnames = [
     'WIN_TOWERkill', 'LOSE_TOWERkill',
     'WIN_WARDplaced', 'LOSE_WARDplaced'
     ]
-def saveDataSetToCSV(matchIdSet, fileName, frame):
-    with open(fileName, 'w', newline='') as f:
-        w = csv.DictWriter(f, fieldnames=fieldnames)
-        w.writeheader()
-        i = 0
-        for matchId in matchIdSet:
-            i += 1
+def saveDataSetToCSV(matchIdSet, frame, tier):
+    i = 0
+    for matchId in matchIdSet:
+        i += 1
+        try:
+            if i%2 == 0:
+                dic_data = getPerMinDataset.getResult(matchId, frame, 1, tier)
+            else:
+                dic_data = getPerMinDataset.getResult(matchId, frame, 2, tier)
+        except KeyError:
+            print("KeyError발생.. 20초 대기 후 재시도.. ")
+            time.sleep(20)
             try:
                 if i%2 == 0:
-                    dic_data = getDataset.getResult(matchId, frame, 1)
+                    dic_data = getPerMinDataset.getResult(matchId, frame, 1, tier)
                 else:
-                    dic_data = getDataset.getResult(matchId, frame, 2)
+                    dic_data = getPerMinDataset.getResult(matchId, frame, 2, tier)
             except KeyError:
-                print("KeyError발생.. 20초 대기 후 재시도.. ")
-                time.sleep(20)
-                try:
-                    if i%2 == 0:
-                        dic_data = getDataset.getResult(matchId, frame, 1)
-                    else:
-                        dic_data = getDataset.getResult(matchId, frame, 2)
-                except KeyError:
-                    continue
-            if dic_data == 0:
-                time.sleep(1.2)
                 continue
-            w.writerow(dic_data)
-            print(f'{i} : {matchId}의 데이터 추가')
+        if dic_data == 0:
             time.sleep(1.2)
+            continue
+        time.sleep(1.2)
 
 # 데이터 수집하다가 중간에 끊겼을 때 사용 (th에 최종 출력된 인덱스 번호 넣으면 됨)
-def append_saveDataSetToCSV(matchIdSet, fileName, frame, th):
+def append_saveDataSetToCSV(matchIdSet, fileName, frame, th, tier):
     with open(fileName, 'a', newline='') as f:
         w = csv.DictWriter(f, fieldnames=fieldnames)
         i = th
@@ -64,17 +59,17 @@ def append_saveDataSetToCSV(matchIdSet, fileName, frame, th):
             i += 1
             try:
                 if i%2 == 0:
-                    dic_data = getDataset.getResult(matchId, frame, 1)
+                    dic_data = getPerMinDataset.getResult(matchId, frame, 1, tier)
                 else:
-                    dic_data = getDataset.getResult(matchId, frame, 2)
+                    dic_data = getPerMinDataset.getResult(matchId, frame, 2, tier)
             except KeyError:
                 print("KeyError발생.. 20초 대기 후 재시도.. ")
                 time.sleep(20)
                 try:
                     if i%2 == 0:
-                        dic_data = getDataset.getResult(matchId, frame, 1)
+                        dic_data = getPerMinDataset.getResult(matchId, frame, 1, tier)
                     else:
-                        dic_data = getDataset.getResult(matchId, frame, 2)
+                        dic_data = getPerMinDataset.getResult(matchId, frame, 2, tier)
                 except KeyError:
                     continue
             if dic_data == 0:
@@ -86,7 +81,6 @@ def append_saveDataSetToCSV(matchIdSet, fileName, frame, th):
 
 
 def tempSaveDataset(dataset, fileName):
-        with open(fileName, 'w', newline='') as f:
-            w = csv.DictWriter(f, fieldnames=fieldnames)
-            w.writeheader()
-            w.writerow(dataset)
+    with open(fileName, 'a', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w.writerow(dataset)
