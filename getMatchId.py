@@ -51,7 +51,7 @@ def getMatchIdByTierAndRank(tier, rank, start_page, end_page, matchid_num=3000):
             else:
                 # matchid_num을 초과하지 않도록 일부 matchids만 추가
                 max_matchids = matchid_num - matchid_total # 현재 가져온 매치아이디에서 matchid_total빼서 즉 아직 가져와야 할 매치아이디를 개수를 넣어줌
-                matchIdSet.update(match_ids[:max_matchids])
+                matchIdSet.update(matchids[:max_matchids])
                 matchid_total = matchid_num
             time.sleep(0.7)
 
