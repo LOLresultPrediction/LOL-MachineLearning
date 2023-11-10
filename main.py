@@ -19,20 +19,20 @@ pp = pprint.PrettyPrinter(indent=4)
 
 if __name__ == "__main__":
     #1st. matchId csv로 저장 (주석 해제)
-    tier = "PLATINUM" # 대문자 풀네임으로 작성
-    ranks = ["I", "II", "III", "IV"]
-    # for rank in ranks:
-    #     matchId = getMatchId.getMatchIdByTierAndRank(tier, rank, 1, 2)
-    #     with open(f'MatchId/{tier}_{rank}.csv', 'w', newline='') as f:
-    #         w = csv.writer(f)
-    #         w.writerow(matchId)
+    tier = "GOLD" # 대문자 풀네임으로 작성
+    ranks = ["II"]
+    for rank in ranks:
+        matchId = getMatchId.getMatchIdByTierAndRank(tier, rank, 1, 1)
+        with open(f'MatchId/{tier}_{rank}.csv', 'w', newline='') as f:
+            w = csv.writer(f)
+            w.writerow(matchId)
     
     # 매치 아이디로 데이터셋 수집
-    for rank in ranks:
-        matchId = pd.read_csv(f'MatchId/{tier}_{rank}.csv')
-        stopIndex = 0 # 데이터 처음 수집할 때는 0으로 설정, 수집 중에 중단되면 콘솔에 찍힌 'a번째 : KR_6782605722의 데이터 추가'의 a를 stopIndex에 할당
-        matchId = matchId.iloc[:, stopIndex:]
-        saveWinDataset.saveDataSetToCSV(matchId, 15, tier, stopIndex)
+    # for rank in ranks:
+    #     matchId = pd.read_csv(f'MatchId/{tier}_{rank}.csv')
+    #     stopIndex = 0 # 데이터 처음 수집할 때는 0으로 설정, 수집 중에 중단되면 콘솔에 찍힌 'a번째 : KR_6782605722의 데이터 추가'의 a를 stopIndex에 할당
+    #     matchId = matchId.iloc[:, stopIndex:]
+    #     saveWinDataset.saveDataSetToCSV(matchId, 15, tier, stopIndex)
 
     # 1.1 챌린저, 그마, 마스터 매치아이디 저장
     #tier = "GRANDMASTER" # 대문자 풀네임으로 작성
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     # 챌린저, 그마, 마스터 저장
     # matchId = pd.read_csv(f'MatchId/{tier}_ver2.csv')
-    # stopIndex = 0 # 데이터 처음 수집할 때는 0으로 설정, 수집 중에 중단되면 콘솔에 찍힌 'a번째 : KR_6782605722의 데이터 추가'의 a를 stopIndex에 할당
+    # stopIndex = 5 # 데이터 처음 수집할 때는 0으로 설정, 수집 중에 중단되면 콘솔에 찍힌 'a번째 : KR_6782605722의 데이터 추가'의 a를 stopIndex에 할당
     # matchId = matchId.iloc[:, stopIndex:]
     # saveWinDataset.saveDataSetToCSV(matchId, 15, tier, stopIndex)
 
