@@ -5,12 +5,14 @@ import numpy as np
 
 
 #가져올 데이터셋 선택
-data = pd.read_csv('Dataset/win/Gold_I.csv')
-
+data1 = pd.read_csv('Dataset/win/Gold_I.csv')
+data2 = pd.read_csv('Dataset/lose/Gold_I_lose.csv')
+data = pd.concat([data1, data2], ignore_index=True)
 #버리는 데이터
 data= data.drop(['matchId'],axis=1)
 data= data.drop(['queueId'],axis=1)
 data= data.drop(['result'],axis=1)
+data= data.drop(['Diff_WARDplaced'],axis=1)
 data= data.drop(['K-WIN-top'],axis=1)
 data= data.drop(['K-LOSE-top'],axis=1)
 data= data.drop(['K-WIN-jug'],axis=1)

@@ -68,7 +68,7 @@ def Win_Lose_DataSet_Create(dataframe1, dataframe2, dataframe3, dataframe4, file
 
     
 
-def tempLoadData(i,frameNum, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList):
+def tempLoadData(frameNum, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, KillerIdList):
     # 레벨, 미니언 킬, 정글몹 킬 구하기
     print("check")
     for i in range(1, 11):

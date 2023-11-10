@@ -16,7 +16,7 @@ pp = pprint.PrettyPrinter(indent=4)
 '''
 
 # 15분 후 게임 데이터 셋
-def getResult(matchId, frame, count, tier):
+def getResult(matchId, frame, count, tier, idx):
     print(f'{matchId}의 데이터 가져오는 중...')
     if count == 1:
         gameInfo = getAPI.getGameInfo(matchId)['info']
@@ -27,9 +27,9 @@ def getResult(matchId, frame, count, tier):
     if gameInfo['queueId'] != 420 and gameInfo['queueId'] != 440:
         print('솔로랭크 또는 자유랭크가 아닙니다.')
         return 0
-    # elif (gameInfo['gameDuration']/60) < frame:
-    #     print(f'{int(gameInfo["gameDuration"]/60)}분 만에 끝난 게임이어서 데이터 셋에 추가되지 않음')
-    #     return 0
+    elif (gameInfo['gameDuration']/60) < frame:
+        print(f'{int(gameInfo["gameDuration"]/60)}분 만에 끝난 게임이어서 데이터 셋에 추가되지 않음')
+        return 0
     winTeamMember = []
     loseTeamMember = []
     for i in range(1, 11):
@@ -192,7 +192,7 @@ def getResult(matchId, frame, count, tier):
                             dataSet['Diff_FirstHERALD'] = 1 if gameInfo['teams'][k]['objectives']['riftHerald']['first'] else -1
         if i >= 5 and i <= 15: # 5 ~ 15분 데이터 저장
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = f'Dataset/{i}_min/{tier}_{i}_m.csv'
-            saveWinDataset.tempSaveDataset(dataSet, fileName)
-            print(f'{i}분 : {matchId}의 데이터 추가')
+            fileName = f'Dataset/perMinuteDataset/{i}min/{tier}.csv'
+            saveWinDataset.savePerMinDataset(dataSet, fileName, idx)
+            # print(f'{i}분 : {matchId}의 데이터 추가')
     return dataSet
