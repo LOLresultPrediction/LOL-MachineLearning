@@ -192,7 +192,7 @@ def getResult(matchId, frame, count, tier, idx):
                             dataSet['Diff_FirstHERALD'] = 1 if gameInfo['teams'][k]['objectives']['riftHerald']['first'] else -1
         if i >= 5 and i <= 15: # 5 ~ 15분 데이터 저장
             dataSet = ef.tempLoadData(i, gameTimelineInfo, winTeamMember, winTeamValue, loseTeamMember, loseTeamValue, dataSet, killerIdList, victimIdList)
-            fileName = f'Dataset/perMinuteDataset/{tier}/{tier}_{i}_m.csv'
+            fileName = f'Dataset/perMinuteDataset/{i}min/{tier}.csv'
             saveWinDataset.savePerMinDataset(dataSet, fileName, idx)
             # print(f'{i}분 : {matchId}의 데이터 추가')
     return dataSet
