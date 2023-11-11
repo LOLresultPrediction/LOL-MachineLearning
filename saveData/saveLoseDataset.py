@@ -1,7 +1,7 @@
-import getDataset
+from getData import getDataset
 import csv
 import time
-import getLoseDataset
+from getData import getLoseDataset
 import pandas as pd
 
 

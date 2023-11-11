@@ -1,4 +1,4 @@
-import getPerMinDataset
+from getData import getPerMinDataset
 import csv
 import time
 
