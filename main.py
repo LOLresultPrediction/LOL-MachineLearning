@@ -19,13 +19,13 @@ pp = pprint.PrettyPrinter(indent=4)
 
 if __name__ == "__main__":
     #1st. matchId csv로 저장 (주석 해제)
-    # tier = "PLATINUM" # 대문자 풀네임으로 작성
-    # ranks = ["I", "II", "III", "IV"]
-    # for rank in ranks:
-    #     matchId = getMatchId.getMatchIdByTierAndRank(tier, rank, 1, 2)
-    #     with open(f'MatchId/{tier}_{rank}.csv', 'w', newline='') as f:
-    #         w = csv.writer(f)
-    #         w.writerow(matchId)
+    tier = "SILVER" # 대문자 풀네임으로 작성
+    ranks = ["I", "II", "III", "IV"]
+    for rank in ranks:
+        matchId = getMatchId.getMatchIdByTierAndRank(tier, rank, 1, 2)
+        with open(f'MatchId/{tier}_{rank}.csv', 'w', newline='') as f:
+            w = csv.writer(f)
+            w.writerow(matchId)
     
     # 매치 아이디로 데이터셋 수집
     # for rank in ranks:
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     #     saveWinDataset.saveDataSetToCSV(matchId, 15, tier, stopIndex)
 
     # 1.1 챌린저, 그마, 마스터 매치아이디 저장
-    tier = "GRANDMASTER" # 대문자 풀네임으로 작성
+    #tier = "GRANDMASTER" # 대문자 풀네임으로 작성
     # matchId = getMatchId.getGrandmasterMatchId()
     # with open(f'MatchId/{tier}_ver2.csv', 'w', newline='') as f:
     #     w = csv.writer(f)
@@ -59,10 +59,14 @@ if __name__ == "__main__":
     # getDatasetConcat.Win_Lose_DataSet_Create(data1,data2,data3,data4,'Platinum')
 
     # 5분부터 15분까지의 데이터 저장
-    # getPerMinDataset.getResult('KR_6710383118', 15, 1, 'DIAMOND')
+    #getPerMinDataset.getResult('KR_6710383118', 15, 1, 'dia')
 
 
     # 게임 내의 participantId와 champion name 가져오기
     # id = 6709531155
     # gameTimelineInfo = getAPI.getGameInfoTimeline(f'KR_{id}')['info']
     # etcFunction.getParticipantId_ChampionName('KR_6709531155')
+    # for i in range(0, 30):
+    #     participantFrames = gameTimelineInfo['frames'][i]['participantFrames']['2']
+    #     print(i, ' ', participantFrames['minionsKilled'])
+    
