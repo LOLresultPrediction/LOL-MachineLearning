@@ -6,7 +6,7 @@ import numpy as np
 pp = pprint.PrettyPrinter(indent=4)
 
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-7f3e5361-c250-4f81-aa3a-0a794e09b697'
+api_key = 'RGAPI-6423b0ba-2e9c-4b0b-a429-f74de6ce2a8b'
 api_key2 = 'RGAPI-7f3e5361-c250-4f81-aa3a-0a794e09b697'
 
 request_header = {

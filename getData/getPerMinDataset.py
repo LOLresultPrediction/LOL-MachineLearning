@@ -1,9 +1,9 @@
 import pprint
 import numpy as np
-import getAPI
+from getData import getAPI
 import etcFunction as ef
 import csv
-import saveWinDataset
+from saveData import saveWinDataset
 
 pp = pprint.PrettyPrinter(indent=4)
 
