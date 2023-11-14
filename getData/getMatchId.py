@@ -1,5 +1,5 @@
 import time
-import getAPI
+from getData import getAPI
 
 # KeyError: 'puuid' 발생 시 time.sleep(n)값 증가
 

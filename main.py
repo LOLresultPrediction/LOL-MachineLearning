@@ -7,25 +7,25 @@ import csv
 #import saveDataset
 import pandas as pd
 #import secondSaveDataset
-from getData import saveLoseDataset
+from saveData import saveLoseDataset
 import pandas as pd
 from getData import getDatasetConcat
 from getData import getPerMinDataset
 import etcFunction
-from getData import saveWinDataset
+from saveData import saveWinDataset
 
 pp = pprint.PrettyPrinter(indent=4)
 
 
 if __name__ == "__main__":
     #1st. matchId csv로 저장 (주석 해제)
-    tier = "SILVER" # 대문자 풀네임으로 작성
-    ranks = ["I", "II", "III", "IV"]
-    for rank in ranks:
-        matchId = getMatchId.getMatchIdByTierAndRank(tier, rank, 1, 2)
-        with open(f'MatchId/{tier}_{rank}.csv', 'w', newline='') as f:
-            w = csv.writer(f)
-            w.writerow(matchId)
+    # tier = "SILVER" # 대문자 풀네임으로 작성
+    # ranks = ["I", "II", "III", "IV"]
+    # for rank in ranks:
+    #     matchId = getMatchId.getMatchIdByTierAndRank(tier, rank, 1, 2)
+    #     with open(f'MatchId/{tier}_{rank}.csv', 'w', newline='') as f:
+    #         w = csv.writer(f)
+    #         w.writerow(matchId)
     
     # 매치 아이디로 데이터셋 수집
     # for rank in ranks:
@@ -35,15 +35,15 @@ if __name__ == "__main__":
     #     saveWinDataset.saveDataSetToCSV(matchId, 15, tier, stopIndex)
 
     # 1.1 챌린저, 그마, 마스터 매치아이디 저장
-    #tier = "GRANDMASTER" # 대문자 풀네임으로 작성
-    # matchId = getMatchId.getGrandmasterMatchId()
-    # with open(f'MatchId/{tier}_ver2.csv', 'w', newline='') as f:
+    tier = "CHALLENGER" # 대문자 풀네임으로 작성
+    # matchId = getMatchId.getChallengerMatchId()
+    # with open(f'MatchId/{tier}_ver3.csv', 'w', newline='') as f:
     #     w = csv.writer(f)
     #     w.writerow(matchId)
 
     # 챌린저, 그마, 마스터 저장
-    matchId = pd.read_csv(f'MatchId/{tier}_ver2.csv')
-    stopIndex = 1319 # 데이터 처음 수집할 때는 0으로 설정, 수집 중에 중단되면 콘솔에 찍힌 'a번째 : KR_6782605722의 데이터 추가'의 a를 stopIndex에 할당
+    matchId = pd.read_csv(f'MatchId/ChanllengerMatchId.csv')
+    stopIndex = 959 # 데이터 처음 수집할 때는 0으로 설정, 수집 중에 중단되면 터미널에 마지막으로 출력된 'i번째 : KR_6782605722의 데이터 추가'의 i를 stopIndex에 할당
     matchId = matchId.iloc[:, stopIndex:]
     saveWinDataset.saveDataSetToCSV(matchId, 15, tier, stopIndex)
 
@@ -63,10 +63,7 @@ if __name__ == "__main__":
 
 
     # 게임 내의 participantId와 champion name 가져오기
-    # id = 6709531155
+    # id = 6787377435
     # gameTimelineInfo = getAPI.getGameInfoTimeline(f'KR_{id}')['info']
-    # etcFunction.getParticipantId_ChampionName('KR_6709531155')
-    # for i in range(0, 30):
-    #     participantFrames = gameTimelineInfo['frames'][i]['participantFrames']['2']
-    #     print(i, ' ', participantFrames['minionsKilled'])
+    # etcFunction.getParticipantId_ChampionName(f'KR_{id}')
     

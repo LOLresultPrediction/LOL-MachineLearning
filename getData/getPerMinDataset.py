@@ -1,6 +1,6 @@
 import pprint
 import numpy as np
-import getAPI
+from getData import getAPI
 import etcFunction as ef
 import csv
 from saveData import saveWinDataset
