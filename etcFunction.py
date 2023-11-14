@@ -1,5 +1,5 @@
 import pprint
-import getAPI
+from getData import getAPI
 import pandas as pd
 import numpy as np
 pp = pprint.PrettyPrinter(indent=4)

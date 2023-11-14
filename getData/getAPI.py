@@ -6,6 +6,7 @@ import numpy as np
 pp = pprint.PrettyPrinter(indent=4)
 
 # 24시간마다 변경해야 함
+<<<<<<< HEAD
 <<<<<<< HEAD:getAPI.py
 api_key = 'RGAPI-a387bf23-ca43-4a49-8edc-cc803d96688e'
 api_key2 = 'RGAPI-a3440cc3-fc89-45c5-97d0-01c2e878f78e'
@@ -13,6 +14,15 @@ api_key2 = 'RGAPI-a3440cc3-fc89-45c5-97d0-01c2e878f78e'
 api_key = 'RGAPI-6423b0ba-2e9c-4b0b-a429-f74de6ce2a8b'
 api_key2 = 'RGAPI-7f3e5361-c250-4f81-aa3a-0a794e09b697'
 >>>>>>> f58b7a252cb0ddef0b40b159a465787210deafcb:getData/getAPI.py
+=======
+<<<<<<<< HEAD:getAPI.py
+api_key = 'RGAPI-a387bf23-ca43-4a49-8edc-cc803d96688e'
+api_key2 = 'RGAPI-a3440cc3-fc89-45c5-97d0-01c2e878f78e'
+========
+api_key = 'RGAPI-6423b0ba-2e9c-4b0b-a429-f74de6ce2a8b'
+api_key2 = 'RGAPI-7f3e5361-c250-4f81-aa3a-0a794e09b697'
+>>>>>>>> 2b1f691a14e99d13907a12486a2f273674e647ae:getData/getAPI.py
+>>>>>>> 2b1f691a14e99d13907a12486a2f273674e647ae
 
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
