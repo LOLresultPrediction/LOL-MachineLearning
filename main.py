@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     # 챌린저, 그마, 마스터 저장
     matchId = pd.read_csv(f'MatchId/ChanllengerMatchId.csv')
-    stopIndex = 1708 # 데이터 처음 수집할 때는 0으로 설정, 수집 중에 중단되면 콘솔에 찍힌 'a번째 : KR_6782605722의 데이터 추가'의 a를 stopIndex에 할당
+    stopIndex = 6816 # 데이터 처음 수집할 때는 0으로 설정, 수집 중에 중단되면 콘솔에 찍힌 'a번째 : KR_6782605722의 데이터 추가'의 a를 stopIndex에 할당
     matchId = matchId.iloc[:, stopIndex:]
     saveWinDataset.saveDataSetToCSV(matchId, 15, tier, stopIndex)
 

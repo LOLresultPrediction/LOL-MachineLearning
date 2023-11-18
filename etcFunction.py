@@ -189,5 +189,11 @@ def tempLoadData(frameNum, gameTimelineInfo, winTeamMember, winTeamValue, loseTe
     dataSet['LOSE_Inhibitor'] = len(loseTeamValue['inhibitorBreakerId'])
     dataSet['WIN_TOWERkill'] = len(winTeamValue['towerBreakerId'])
     dataSet['LOSE_TOWERkill'] = len(loseTeamValue['towerBreakerId'])
-
     return dataSet
+
+
+
+if __name__ == "__main__":
+    for i in range(5, 16):
+        data = pd.read_csv(f'Dataset/perMinuteDataset/{i}min/CHALLENGER.csv', skiprows=[0])
+        data.to_csv(f'Dataset/perMinuteDataset/{i}min/CHALLENGER.csv', index=False)
