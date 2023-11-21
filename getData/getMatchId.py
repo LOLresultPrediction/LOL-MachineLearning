@@ -35,7 +35,7 @@ def getMasterMatchId():
     return masterMatchIdSet
 
 
-def getMatchIdByTierAndRank(tier, rank, start_page, end_page, matchid_num=4000): #matchid_num은 몇개의 매치아이디를 가져올지 정하는 변수
+def getMatchIdByTierAndRank(tier, rank, start_page, end_page, matchid_num=5000): #matchid_num은 몇개의 매치아이디를 가져올지 정하는 변수
     matchIdSet = set()
     matchid_total = 0  # 가져온 matchid 수를 추적
 
