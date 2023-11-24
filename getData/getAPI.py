@@ -6,8 +6,8 @@ import numpy as np
 pp = pprint.PrettyPrinter(indent=4)
 
 # 24시간마다 변경해야 함
-api_key = 'RGAPI-2be36ab2-af74-4e3a-b293-dcc35b9c95bf'
-api_key2 = 'RGAPI-addb9972-ce1b-4e73-a909-70afb1e58e39'
+api_key = 'RGAPI-121655e6-31d1-4ac4-83bc-2dd93c651f5f'
+api_key2 = 'RGAPI-3d65cbd2-e052-4ee1-834d-a4fcec74ee88'
 
 request_header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
@@ -97,3 +97,31 @@ def getEntries(tier="PLATINUM", rank="IV", page=1):
 # #BRO Morgan
 # print(getMatchId('SAHqMCotWN0cg7n7pCDt4O7fLSnZAAttaN9CFhdSLvQoRk4aCCBGdC2fI2ON2WnMnMBtprwkj6mULQ',0,15))
 
+
+if __name__=="__main__":
+    import pandas as pd
+    import csv
+    import time
+    
+    # 분당 이벤트 갯수 가져오기
+    gameData = pd.read_csv('Dataset/perMinuteDataset/10min/CHALLENGER.csv')
+    matchId = gameData['matchId']
+    matchId = matchId.iloc[0:1000]
+    header = ['MatchId', '5min', '6min', '7min', '8min', '9min', '10min', '11min', '12min', '13min', '14min', '15min']
+    for i in range(len(matchId)):
+        result = {}
+        result['MatchId'] = matchId[i]
+        try:
+            gameTimelineInfo = getGameInfoTimeline(matchId[i])['info']
+        except KeyError:
+            print("KeyError 발생 .. 10초 대기")
+            time.sleep(10)
+        for j in range(11):
+            result[header[j+1]] = len(gameTimelineInfo['frames'][j+5]['events'])
+        with open(f'event.csv', 'a', newline='') as f:
+            w = csv.DictWriter(f, fieldnames=header)
+            if i == 0:
+                w.writeheader()
+            w.writerow(result)
+        print(f'{i}번째{result}: 추가')
+        time.sleep(0.5)

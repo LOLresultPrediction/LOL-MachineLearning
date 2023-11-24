@@ -17,11 +17,11 @@ from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
 
 rf = RandomForestClassifier(n_estimators=100, max_depth=10, max_leaf_nodes=100, random_state = 10)
-lgbm = LGBMClassifier(n_estimators=100, max_depth=10, verbosity=0, min_data_in_leaf=30)
-cat = CatBoostClassifier(iterations=100, depth=10, learning_rate=1)
+lgbm = LGBMClassifier(n_estimators=100, max_depth=10, verbosity=0, min_data_in_leaf=30, random_state=10)
+cat = CatBoostClassifier(iterations=100, depth=10, learning_rate=1, random_state=10)
 et = ExtraTreesClassifier(n_estimators=100, random_state = 10)
 
-tier = 'MASTER'
+tier = 'IRON'
 result = {}
 for min in range(5, 16):
     resultFilePath = f'Dataset/perMinuteDataset/result/{tier}.csv'

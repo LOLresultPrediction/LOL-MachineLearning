@@ -1,8 +1,12 @@
+import sys
+sys.path.append('.')
 import pprint
 import numpy as np
-from getData import getAPI
-import etcFunction as ef
+import getAPI
 import csv
+import pandas as pd
+import time
+import etcFunction as ef
 from saveData import saveWinDataset
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -196,3 +200,34 @@ def getResult(matchId, frame, count, tier, idx):
             saveWinDataset.savePerMinDataset(dataSet, fileName, idx)
             # print(f'{i}분 : {matchId}의 데이터 추가')
     return dataSet
+
+
+def getLengthEvent(tier):
+    # 분당 이벤트 갯수 가져오기
+    data = pd.read_csv(f'Dataset/perMinuteDataset/10min/{tier}.csv')
+    matchId = data['matchId']
+    matchId = matchId.iloc[0:1000]
+    header = ['MatchId', '5min', '6min', '7min', '8min', '9min', '10min', '11min', '12min', '13min', '14min', '15min']
+    for i in range(len(matchId)):
+        result = {}
+        result['MatchId'] = matchId[i]
+        try:
+            if i%2 == 0:
+                gameTimelineInfo = getAPI.secondGetGameInfoTimeline(matchId[i])['info']
+            else:
+                gameTimelineInfo = getAPI.getGameInfoTimeline(matchId[i])['info']
+        except KeyError:
+            print("KeyError 발생 .. 20초 대기")
+            time.sleep(20)
+        for j in range(11):
+            result[header[j+1]] = len(gameTimelineInfo['frames'][j+5]['events'])
+        with open(f'Dataset/perMinuteDataset/result/event/{tier}.csv', 'a', newline='') as f:
+            w = csv.DictWriter(f, fieldnames=header)
+            if i == 0:
+                w.writeheader()
+            w.writerow(result)
+        print(f'{i}번째{result}: 추가')
+        time.sleep(0.2)
+
+if __name__=="__main__":
+    getLengthEvent("IRON")
