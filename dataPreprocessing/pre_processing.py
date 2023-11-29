@@ -99,4 +99,4 @@ for rank in rankList:
     data = pd.concat([win_prep, lose_prep], axis=0)
     
     print('Total data size of ' + rank + ' =', data.shape[0])
-    data.to_csv(f'./Dataset/preProcessing/{rank}.csv', index = False)
+    data.to_csv(f'./Dataset/preProcessed/{rank}.csv', index = False)

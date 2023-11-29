@@ -35,7 +35,7 @@ idxList = [
 scoreList = np.empty((0,3))
 
 for rank in rankList:
-    data = pd.read_csv(f'./Dataset/preProcessing/{rank}.csv')
+    data = pd.read_csv(f'./Dataset/preProcessed/{rank}.csv')
 
     # 랜덤 포레스트
     rf = RandomForestClassifier(max_features='sqrt', max_leaf_nodes=100)
