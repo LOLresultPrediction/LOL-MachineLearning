@@ -25,7 +25,3 @@ def Win_Lose_DataSet_Create(dataframe, filename):
     print(windata)
     print(compare['matchId'])
 
-
-
-   
-

@@ -35,16 +35,16 @@ if __name__ == "__main__":
     #      saveWinDataset.saveDataSetToCSV(matchId, 15, tier, stopIndex)
 
     # 1.1 챌린저, 그마, 마스터 매치아이디 저장
-    tier = "GRANDMASTER" # 대문자 풀네임으로 작성
+    tier = "CHALLENGER" # 대문자 풀네임으로 작성
     # matchId = getMatchId.getChallengerMatchId()
-    # with open(f'MatchId/{tier}_ver3.csv', 'w', newline='') as f:
+    # with open(f'MatchId/{tier}_ver2.csv', 'w', newline='') as f:
     #     w = csv.writer(f)
     #     w.writerow(matchId)
     # print(getAPI.getMatchId('RqtD69lbQZFMNfo-P_i7bBnhkiy9aXdqNY5Q29Ms0ru4PyNVAB3byLycRZfjnNhHH63MLUOLgZncsw', 0, 10))
 
     # 챌린저, 그마, 마스터 저장
-    matchId = pd.read_csv(f'MatchId/GrandmasterMatchId.csv')
-    stopIndex = 14709 # 데이터 처음 수집할 때는 0으로 설정, 수집 중에 중단되면 콘솔에 찍힌 'a번째 : KR_6782605722의 데이터 추가'의 a를 stopIndex에 할당
+    matchId = pd.read_csv(f'MatchId/CHALLENGER.csv')
+    stopIndex = 0 # 데이터 처음 수집할 때는 0으로 설정, 수집 중에 중단되면 콘솔에 찍힌 'a번째 : KR_6782605722의 데이터 추가'의 a를 stopIndex에 할당
     matchId = matchId.iloc[:, stopIndex:]
     saveWinDataset.saveDataSetToCSV(matchId, 15, tier, stopIndex)
 

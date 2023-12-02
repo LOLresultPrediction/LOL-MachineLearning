@@ -215,5 +215,24 @@ def delete_or_add_header(tier):
             df= df.drop(j, axis=0)
         df.to_csv(dfPath, index=False)
 
-# if __name__ == "__main__":
-#     delete_or_add_header('IRON')
+# 매치 아이디 중복 제거
+def remove_duplicates_matchId(tier):
+    df = pd.read_csv(f"/MatchId/{tier}.csv", header=None)
+    df_transposed = df.transpose()
+    print(df_transposed.shape)
+    df_transposed_dup = df_transposed.drop_duplicates()
+    print(df_transposed_dup.shape)
+    result = df_transposed_dup.transpose()
+    result.to_csv(f'/MatchId/{tier}.csv', index=False, header=False)
+
+
+if __name__ == "__main__":
+    dfA = pd.read_csv(f"MatchId/CHALLENGER.csv", header=None)
+    dfB = pd.read_csv(f"MatchId/ChanllengerMatchId.csv", header=None)
+    df = pd.concat([dfA, dfB], ignore_index=True, axis=1)
+    df_transposed = df.transpose()
+    print(df_transposed.shape)
+    df_transposed_dup = df_transposed.drop_duplicates(keep=False)
+    print(df_transposed_dup.shape)
+    result = df_transposed_dup.transpose()
+    result.to_csv(f"MatchId/CHALLENGER.csv", index=False, header=False)
