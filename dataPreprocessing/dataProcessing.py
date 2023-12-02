@@ -35,16 +35,16 @@ idxList = [
 scoreList = np.empty((0,3))
 
 for rank in rankList:
-    data = pd.read_csv(f'./Dataset/preProcessed/{rank}.csv')
+    data = pd.read_csv(f'../Dataset/preProcessed/{rank}.csv')
 
     # 랜덤 포레스트
-    rf = RandomForestClassifier(max_features='sqrt', max_leaf_nodes=100)
+    rf = RandomForestClassifier(max_features='sqrt', max_leaf_nodes=100, random_state=10)
     # 라이트지비엠
-    lgbm = LGBMClassifier(n_estimators=100, max_depth=12, num_leaves=25, verbosity=0, min_child_samples=30)
+    lgbm = LGBMClassifier(n_estimators=100, max_depth=12, num_leaves=25, verbosity=0, min_child_samples=30, random_state=10)
     # 캣부스트
-    cat = CatBoostClassifier(iterations=200, depth=7, learning_rate=0.1, l2_leaf_reg=40, verbose=0)
+    cat = CatBoostClassifier(iterations=200, depth=7, learning_rate=0.1, l2_leaf_reg=40, verbose=0, random_state=10)
     # 엑스트라트리
-    et = ExtraTreesClassifier(max_depth=7, max_features=None)
+    et = ExtraTreesClassifier(max_depth=7, max_features=None, random_state=10)
 
     x = data[data.columns.difference(['result'])]
     y = data['result']

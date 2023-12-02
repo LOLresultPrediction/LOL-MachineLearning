@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 rankList = ["IRON", "BRONZE", "SILVER", "GOLD", "PLATINUM", "EMERALD", "DIAMOND", "MASTER", "GRANDMASTER", "CHALLENGER"]
 
@@ -9,8 +10,15 @@ def mergeCol(win_df, lose_df, colName):
     lose_df= lose_df.drop([f'{colName}_ad', f'{colName}_top', f'{colName}_jgl', f'{colName}_mid', f'{colName}_sup'],axis=1)
     return win_df, lose_df
 
+def mulMinus1(win_df, lose_df, colName):
+        win_df[f'Diff_{colName}'] = win_df[colName]-lose_df[colName]
+        lose_df[f'Diff_{colName}'] = win_df[f'Diff_{colName}'] * -1
+        win_df = win_df.drop([colName], axis=1)
+        lose_df = lose_df.drop([colName], axis=1)
+        return win_df, lose_df
+
 for rank in rankList:
-    df = pd.read_csv(f'./Dataset/perMinuteDataset/10min/{rank}.csv')
+    df = pd.read_csv(f'../Dataset/perMinuteDataset/10min/{rank}.csv')
 
     win_df = df[['Diff_FirstBLOOD', 'Diff_FirstDRAGON',
         'dragonType', 'WIN_controlWARDPlaced', 'WIN_WARDplaced',
@@ -57,27 +65,16 @@ for rank in rankList:
     win_df, lose_df = mergeCol(win_df, lose_df, 'CS')
     win_df, lose_df = mergeCol(win_df, lose_df, 'Death')
 
-    win_df['Kill'] = win_df['Kill'] - lose_df['Kill'] 
-    lose_df['Kill'] = win_df['Kill']*-1
-    win_df['Asisst'] = win_df['Asisst'] - lose_df['Asisst'] 
-    lose_df['Asisst'] = win_df['Asisst']*-1
-    win_df['LV'] = win_df['LV']-lose_df['LV']
-    lose_df['LV'] = win_df['LV']*-1
-    win_df['CS'] = win_df['CS'] - lose_df['CS'] 
-    lose_df['CS'] = win_df['CS']*-1
-    win_df['Death'] = win_df['Death'] - lose_df['Death'] 
-    lose_df['Death'] = win_df['Death']*-1
-    win_df['WARDplaced'] = win_df['WARDplaced'] - lose_df['WARDplaced'] 
-    lose_df['WARDplaced'] = win_df['WARDplaced']*-1
-    win_df['WARDkill'] = win_df['WARDkill'] - lose_df['WARDkill'] 
-    lose_df['WARDkill'] = win_df['WARDkill']*-1
-    lose_df['Diff_FirstBLOOD'] = win_df['Diff_FirstBLOOD']*-1
-    lose_df['Diff_FirstDRAGON'] = win_df['Diff_FirstDRAGON']*-1
+    win_df, lose_df = mulMinus1(win_df, lose_df, 'Kill')
+    win_df, lose_df = mulMinus1(win_df, lose_df, 'Asisst')
+    win_df, lose_df = mulMinus1(win_df, lose_df, 'LV')
+    win_df, lose_df = mulMinus1(win_df, lose_df, 'CS')
+    win_df, lose_df = mulMinus1(win_df, lose_df, 'Death')
+    win_df, lose_df = mulMinus1(win_df, lose_df, 'WARDplaced')
+    win_df, lose_df = mulMinus1(win_df, lose_df, 'WARDkill')
 
-    for i in win_df[win_df['Diff_FirstDRAGON'] == -1].index:
-        win_df.loc[i, 'dragonType'] = win_df.loc[i, 'dragonType'] * -1
-    for i in lose_df[lose_df['Diff_FirstDRAGON'] == -1].index:
-        lose_df.loc[i, 'dragonType'] = lose_df.loc[i, 'dragonType'] * -1
+    lose_df['Diff_FirstBLOOD'] = win_df['Diff_FirstBLOOD']*-1
+
 
     # 이상치 제거
     def remove_outlier(input_data):
@@ -99,4 +96,15 @@ for rank in rankList:
     data = pd.concat([win_prep, lose_prep], axis=0)
     
     print('Total data size of ' + rank + ' =', data.shape[0])
-    data.to_csv(f'./Dataset/preProcessed/{rank}.csv', index = False)
+    # 드래곤 타입 리스트
+    data['AIR_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 1), 1, 0)
+    data['EARTH_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 2), 1, 0)
+    data['FIRE_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 3), 1, 0)
+    data['WATER_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 4), 1, 0)
+    data['HEXTECH_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 5), 1, 0)
+    data['CHEMTECH_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 6), 1, 0)
+
+    # 불필요한 기존 칼럼 삭제
+    data = data.drop(['dragonType'], axis=1)
+
+    data.to_csv(f'../Dataset/preProcessed/{rank}.csv', index = False)
