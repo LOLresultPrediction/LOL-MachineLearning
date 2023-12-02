@@ -72,9 +72,16 @@ for rank in rankList:
     win_df, lose_df = mulMinus1(win_df, lose_df, 'Death')
     win_df, lose_df = mulMinus1(win_df, lose_df, 'WARDplaced')
     win_df, lose_df = mulMinus1(win_df, lose_df, 'WARDkill')
+    win_df, lose_df = mulMinus1(win_df, lose_df, 'controlWARDPlaced')
+    win_df, lose_df = mulMinus1(win_df, lose_df, 'jglCS_jgl')
 
     lose_df['Diff_FirstBLOOD'] = win_df['Diff_FirstBLOOD']*-1
+    lose_df['Diff_FirstDRAGON'] = win_df['Diff_FirstDRAGON']*-1
 
+    for i in win_df[win_df['Diff_FirstDRAGON'] == -1].index:
+        win_df.loc[i, 'dragonType'] = win_df.loc[i, 'dragonType'] * -1
+    for i in lose_df[lose_df['Diff_FirstDRAGON'] == -1].index:
+        lose_df.loc[i, 'dragonType'] = lose_df.loc[i, 'dragonType'] * -1
 
     # 이상치 제거
     def remove_outlier(input_data):
@@ -96,15 +103,4 @@ for rank in rankList:
     data = pd.concat([win_prep, lose_prep], axis=0)
     
     print('Total data size of ' + rank + ' =', data.shape[0])
-    # 드래곤 타입 리스트
-    data['AIR_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 1), 1, 0)
-    data['EARTH_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 2), 1, 0)
-    data['FIRE_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 3), 1, 0)
-    data['WATER_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 4), 1, 0)
-    data['HEXTECH_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 5), 1, 0)
-    data['CHEMTECH_DRAGON_Type'] = np.where((data['Diff_FirstDRAGON'] == 1) & (data['dragonType'] == 6), 1, 0)
-
-    # 불필요한 기존 칼럼 삭제
-    data = data.drop(['dragonType'], axis=1)
-
     data.to_csv(f'../Dataset/preProcessed/{rank}.csv', index = False)
