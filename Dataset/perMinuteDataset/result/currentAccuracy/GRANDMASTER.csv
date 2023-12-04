@@ -395,3 +395,43 @@ GRANDMASTER,10,2023-12-02 12:26:09,RandomForestClassifier(max_leaf_nodes=100),74
 GRANDMASTER,10,2023-12-02 12:26:09,"LGBMClassifier(max_depth=12, min_child_samples=30, num_leaves=25, verbosity=0)",76.24,72.22,71.98,72.22,1686,617,665,1647,solve ExtraTrees overfittng
 GRANDMASTER,10,2023-12-02 12:26:10,"CatBoost{'iterations': 200, 'learning_rate': 0.2, 'depth': 5, 'l2_leaf_reg': 50, 'verbose': 0}",75.36,72.55,72.4,72.55,1686,617,650,1662,solve ExtraTrees overfittng
 GRANDMASTER,10,2023-12-02 12:26:12,"ExtraTreesClassifier(max_depth=7, max_features=None)",73.23,71.98,71.89,71.98,1669,634,659,1653,solve ExtraTrees overfittng
+Tier,Min,TIME,Model,Train_Accuracy,Test_Accuracy,F1_score,ROC_AUC,TN,FP,FN,TP,Note
+GRANDMASTER,10,2023-12-04 23:23:59,RandomForestClassifier(),100.0,71.68,71.54,71.68,1665,638,669,1643,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:24:00,LGBMClassifier(),77.2,72.03,71.84,72.03,1677,626,665,1647,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:24:10,CatBoost{},77.73,72.13,72.04,72.14,1672,631,655,1657,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:24:14,ExtraTreesClassifier(),100.0,70.6,70.35,70.6,1648,655,702,1610,solve ExtraTrees overfittng
+Tier,Min,TIME,Model,Train_Accuracy,Test_Accuracy,F1_score,ROC_AUC,TN,FP,FN,TP,Note
+GRANDMASTER,10,2023-12-04 23:24:31,RandomForestClassifier(),99.99,71.48,71.08,71.49,1682,621,695,1617,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:24:31,LGBMClassifier(verbosity=0),77.2,72.03,71.84,72.03,1677,626,665,1647,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:24:38,CatBoost{'verbose': 0},77.73,72.13,72.04,72.14,1672,631,655,1657,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:24:42,ExtraTreesClassifier(),100.0,70.51,70.34,70.51,1640,663,698,1614,solve ExtraTrees overfittng
+Tier,Min,TIME,Model,Train_Accuracy,Test_Accuracy,F1_score,ROC_AUC,TN,FP,FN,TP,Note
+GRANDMASTER,10,2023-12-04 23:25:18,RandomForestClassifier(max_leaf_nodes=100),74.8,72.37,72.37,72.37,1670,633,642,1670,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:25:19,"LGBMClassifier(max_depth=12, min_child_samples=30, num_leaves=25, verbosity=0)",76.24,72.22,71.98,72.22,1686,617,665,1647,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:25:20,"CatBoost{'iterations': 200, 'learning_rate': 0.2, 'depth': 5, 'l2_leaf_reg': 50, 'verbose': 0}",75.36,72.55,72.4,72.55,1686,617,650,1662,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:25:22,"ExtraTreesClassifier(max_depth=7, max_features=None)",73.26,71.77,71.63,71.77,1667,636,667,1645,solve ExtraTrees overfittng
+Tier,Min,TIME,Model,Train_Accuracy,Test_Accuracy,F1_score,ROC_AUC,TN,FP,FN,TP,Note
+GRANDMASTER,10,2023-12-04 23:29:45,"RandomForestClassifier(max_leaf_nodes=200, random_state=10)",79.71,74.38,74.36,74.38,1297,436,457,1295,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:29:45,"LGBMClassifier(max_depth=12, min_child_samples=30, num_leaves=25,
+               random_state=10, verbosity=0)",78.68,74.06,74.07,74.06,1290,443,461,1291,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:29:47,"CatBoost{'iterations': 200, 'learning_rate': 0.1, 'depth': 7, 'l2_leaf_reg': 40, 'verbose': 0, 'random_state': 10}",77.28,74.18,74.15,74.18,1294,439,461,1291,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:29:48,"ExtraTreesClassifier(max_depth=7, max_features=None, random_state=10)",74.66,73.74,73.97,73.74,1270,463,452,1300,solve ExtraTrees overfittng
+Tier,Min,TIME,Model,Train_Accuracy,Test_Accuracy,F1_score,ROC_AUC,TN,FP,FN,TP,Note
+GRANDMASTER,10,2023-12-04 23:30:00,RandomForestClassifier(),100.0,73.8,73.79,73.8,1287,446,467,1285,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:30:00,LGBMClassifier(verbosity=0),80.05,74.18,74.34,74.17,1281,452,448,1304,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:30:06,CatBoost{'verbose': 0},81.57,73.95,73.92,73.95,1290,443,465,1287,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:30:09,ExtraTreesClassifier(),100.0,72.31,72.13,72.32,1271,462,503,1249,solve ExtraTrees overfittng
+Tier,Min,TIME,Model,Train_Accuracy,Test_Accuracy,F1_score,ROC_AUC,TN,FP,FN,TP,Note
+GRANDMASTER,10,2023-12-04 23:30:27,RandomForestClassifier(),100.0,74.23,74.12,74.24,1301,432,466,1286,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:30:27,LGBMClassifier(verbosity=0),80.05,74.18,74.34,74.17,1281,452,448,1304,solve ExtraTrees overfittng
+Tier,Min,TIME,Model,Train_Accuracy,Test_Accuracy,F1_score,ROC_AUC,TN,FP,FN,TP,Note
+GRANDMASTER,10,2023-12-04 23:30:38,RandomForestClassifier(),100.0,73.6,73.49,73.61,1290,443,477,1275,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:30:38,LGBMClassifier(verbosity=0),80.05,74.18,74.34,74.17,1281,452,448,1304,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:30:44,CatBoost{'verbose': 0},81.57,73.95,73.92,73.95,1290,443,465,1287,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:30:47,ExtraTreesClassifier(),100.0,72.71,72.7,72.71,1268,465,486,1266,solve ExtraTrees overfittng
+Tier,Min,TIME,Model,Train_Accuracy,Test_Accuracy,F1_score,ROC_AUC,TN,FP,FN,TP,Note
+GRANDMASTER,10,2023-12-04 23:31:26,"RandomForestClassifier(max_leaf_nodes=200, random_state=10)",79.71,74.38,74.36,74.38,1297,436,457,1295,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:31:26,"LGBMClassifier(max_depth=12, min_child_samples=30, num_leaves=25,
+               random_state=10, verbosity=0)",78.68,74.06,74.07,74.06,1290,443,461,1291,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:31:28,"CatBoost{'iterations': 200, 'learning_rate': 0.1, 'depth': 7, 'l2_leaf_reg': 40, 'verbose': 0, 'random_state': 10}",77.28,74.18,74.15,74.18,1294,439,461,1291,solve ExtraTrees overfittng
+GRANDMASTER,10,2023-12-04 23:31:29,"ExtraTreesClassifier(max_depth=7, max_features=None, random_state=10)",74.66,73.74,73.97,73.74,1270,463,452,1300,solve ExtraTrees overfittng

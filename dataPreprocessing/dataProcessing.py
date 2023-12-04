@@ -38,7 +38,7 @@ for rank in rankList:
     data = pd.read_csv(f'../Dataset/preProcessed/{rank}.csv')
 
     # 랜덤 포레스트
-    rf = RandomForestClassifier(max_features='sqrt', max_leaf_nodes=100, random_state=10)
+    rf = RandomForestClassifier(max_features='sqrt', max_leaf_nodes=200, random_state=10)
     # 라이트지비엠
     lgbm = LGBMClassifier(n_estimators=100, max_depth=12, num_leaves=25, verbosity=0, min_child_samples=30, random_state=10)
     # 캣부스트

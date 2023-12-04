@@ -43,7 +43,7 @@ for rank in rankList:
            'Diff_FirstBLOOD', 'FirstDragon_AIR_DRAGON', 'FirstDragon_EARTH_DRAGON', 'FirstDragon_FIRE_DRAGON',
            'FirstDragon_WATER_DRAGON', 'FirstDragon_HEXTECH_DRAGON', 'FirstDragon_CHEMTECH_DRAGON', 'result']]
     
-
+    print()
     print('Total data size of ' + rank + ' =', df.shape[0])
 
     # 랜덤 포레스트
@@ -92,4 +92,5 @@ for rank in rankList:
         scoreList = np.append(scoreList, np.array([scores]), axis=0)
 
 output = pd.DataFrame(scoreList, columns=colList, index=idxList)
+output.to_csv('minMaxresult.csv', index=False)
 print(output)
