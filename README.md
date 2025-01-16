@@ -1,4 +1,5 @@
-<img width="1201" alt="image" src="https://github.com/user-attachments/assets/22c95850-b5a8-4e48-ab38-a223f74e649b" /># 머신러닝 기반 League of Legend 승리 요인 예측
+# 머신러닝 기반 League of Legend 승리 요인 예측
+<img width="1201" alt="image" src="https://github.com/user-attachments/assets/22c95850-b5a8-4e48-ab38-a223f74e649b" />
 <img width="1205" alt="image" src="https://github.com/user-attachments/assets/ea14671b-9b03-4480-a024-400f780a8180" />
 <img width="1202" alt="image" src="https://github.com/user-attachments/assets/9d6f22b4-870f-404d-83ff-01ff99da814e" />
 <img width="1200" alt="image" src="https://github.com/user-attachments/assets/a07aa6dd-7ea6-4b58-8c8e-04dba118e9e6" />
